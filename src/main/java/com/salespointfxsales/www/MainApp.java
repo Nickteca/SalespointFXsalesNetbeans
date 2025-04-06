@@ -91,5 +91,4 @@ public class MainApp extends Application {
             return true; // Ya está corriendo porque el puerto está ocupado
         }
     }
-
 }

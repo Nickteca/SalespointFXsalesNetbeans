@@ -48,6 +48,14 @@ public class MovimientoCaja implements Serializable {
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = false)
 	private Sucursal sucursal;
+
+    public MovimientoCaja(Integer idMovimientoCaja, TipoMovimiento tipoMovimientoCaja, float saldoAnterior, float saldoFinal, LocalDateTime createdAt) {
+        this.idMovimientoCaja = idMovimientoCaja;
+        this.tipoMovimientoCaja = tipoMovimientoCaja;
+        this.saldoAnterior = saldoAnterior;
+        this.saldoFinal = saldoFinal;
+        this.createdAt = createdAt;
+    }
 	
 	
 

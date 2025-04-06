@@ -104,7 +104,6 @@
                     <mainClass>com.salespointfxsales.www.SalespointFXsalesNetbeansApplication</mainClass>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

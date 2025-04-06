@@ -3,6 +3,8 @@ com\salespointfxsales\www\model\SucursalRecoleccion.class
 com\salespointfxsales\www\model\MovimientoInventarioDetalle.class
 com\salespointfxsales\www\model\Sucursal.class
 com\salespointfxsales\www\model\Gasto.class
+com\salespointfxsales\www\controller\StarterController.class
+com\salespointfxsales\www\config\SpringFXMLLoader.class
 com\salespointfxsales\www\service\SucursalService.class
 com\salespointfxsales\www\model\Folio.class
 com\salespointfxsales\www\repo\MovimientoCajaRepo.class
