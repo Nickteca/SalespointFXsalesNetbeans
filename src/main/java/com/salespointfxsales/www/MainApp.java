@@ -41,7 +41,15 @@ public class MainApp extends Application {
                 MovimientoCaja mc = mcs.findlastmovimientoCajasucursalActiva();
                 if (mc != null) {
                     if (mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
-                        /* PAGINA PRINCIPAL*/
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource( "/fxml/starter.fxml"));
+                        loader.setControllerFactory(context::getBean); // Inyectar Spring Beans
+                        Parent root = loader.load();
+                        Stage newStage = new Stage();
+                        newStage.setTitle("Nickteca Solutions");
+                        newStage.setScene(new Scene(root));
+                        newStage.setMinHeight(768);
+                        newStage.setMinWidth(1024);
+                        newStage.show();
                     }
                     if (mc.getIdMovimientoCaja().equals(TipoMovimiento.CIERRE)) {
                         /*ABRIR CAJA CPON EL SALDO ANTERIOR DEL CORTE*/

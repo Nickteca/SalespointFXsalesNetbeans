@@ -1,0 +1,17 @@
+.button{
+    -fx-background-color: coral;
+    -fx-font-weight: bold;
+}
+.button:hover{
+    -fx-background-color: coral;
+}
+#labelCerarCaja{
+    -fx-background-color: coral;
+    -fx-text-fill:#000000;
+    -fx-font-weight: bold;
+}
+#anchorFondo{
+    -fx-background-image: url('@img/fondoLadrillo.jpg');
+    -fx-background-size: cover;
+      /*-fx-background-color:  #212121;*/
+}

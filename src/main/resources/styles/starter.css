@@ -1,0 +1,42 @@
+/*.button{
+    -fx-background-color: coral;
+    -fx-font-weight: bold;
+}
+.button:hover{
+    -fx-background-color: coral;
+}
+#labelCerarCaja{
+    -fx-background-color: coral;
+    -fx-text-fill:#000000;
+    -fx-font-weight: bold;
+}
+#anchorFondo{
+    -fx-background-image: url('@img/fondoLadrillo.jpg');
+    -fx-background-size: cover;
+    -fx-background-color: #8B4513;
+}*/
+.label-button {
+    /*-fx-background-color: #3498db;*/
+    /*-fx-text-fill: white;*/
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    /*-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);*/
+}
+
+.label-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+    -fx-padding: 10 20;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+}
+
+.label-button:pressed {
+    -fx-background-color: #1c5980;
+}

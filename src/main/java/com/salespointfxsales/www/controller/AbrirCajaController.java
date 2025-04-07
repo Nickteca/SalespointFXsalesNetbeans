@@ -66,6 +66,7 @@ public class AbrirCajaController implements Initializable {
                 newStage.setMinHeight(768);
                 newStage.setMinWidth(1024);
                 newStage.show();
+                buttonCancelar.fire();
             }
 
         } catch (NumberFormatException e) {
