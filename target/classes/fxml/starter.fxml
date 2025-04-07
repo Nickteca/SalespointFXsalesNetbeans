@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
@@ -20,9 +20,9 @@
          <children>
             <BorderPane fx:id="bPanePrincipal" layoutX="403.0" layoutY="317.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <left>
-                  <AnchorPane fx:id="anchorFondo" BorderPane.alignment="CENTER">
+                  <AnchorPane styleClass="anchorPane" BorderPane.alignment="CENTER">
                      <children>
-                        <VBox alignment="CENTER" layoutX="50.0" layoutY="111.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="CENTER" layoutX="50.0" layoutY="111.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane>
                                  <children>
@@ -33,7 +33,7 @@
                                     </ImageView>
                                  </children>
                               </AnchorPane>
-                              <Label alignment="CENTER" contentDisplay="CENTER" text="APATZINGAN">
+                              <Label fx:id="labelSucursal" alignment="CENTER" contentDisplay="TOP" text="APATZINGAN">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -63,7 +63,7 @@
                                  <children>
                                     <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Button fx:id="buttonVenta" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#venta" prefWidth="175.0" text="VENTA">
+                                          <Button fx:id="buttonVenta" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#venta" prefWidth="175.0" styleClass="botonesMenu" text="VENTA">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -75,7 +75,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonInvetario" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#inventario" prefWidth="175.0" text="INVENTARIO">
+                                          <Button fx:id="buttonInvetario" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#inventario" prefWidth="175.0" styleClass="botonesMenu" text="INVENTARIO">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -87,7 +87,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonVentas" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#ventas" prefWidth="175.0" text="VENTAS">
+                                          <Button fx:id="buttonVentas" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#ventas" prefWidth="175.0" styleClass="botonesMenu" text="VENTAS">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -99,7 +99,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonRecoleccion" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#recoleccion" prefWidth="175.0" text="RECOLECCION">
+                                          <Button fx:id="buttonRecoleccion" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#recoleccion" prefWidth="175.0" styleClass="botonesMenu" text="RECOLECCION">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -111,7 +111,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonGastos" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#gastos" prefWidth="175.0" text="GASTOS">
+                                          <Button fx:id="buttonGastos" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#gastos" prefWidth="175.0" styleClass="botonesMenu" text="GASTOS">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -123,7 +123,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonMovimientos" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#movimientos" prefWidth="175.0" text="MOVIMIENTOS">
+                                          <Button fx:id="buttonMovimientos" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#movimientos" prefWidth="175.0" styleClass="botonesMenu" text="MOVIMIENTOS">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -135,7 +135,7 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button fx:id="buttonAbrirCajon" alignment="TOP_LEFT" layoutX="29.0" layoutY="427.0" mnemonicParsing="false" onAction="#abrirCajon" prefWidth="175.0" text="ABRIR CAJON">
+                                          <Button fx:id="buttonAbrirCajon" alignment="TOP_LEFT" layoutX="29.0" layoutY="427.0" mnemonicParsing="false" onAction="#abrirCajon" prefWidth="175.0" styleClass="botonesMenu" text="ABRIR CAJON">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
@@ -154,40 +154,16 @@
                            </children>
                         </VBox>
                      </children>
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
                   </AnchorPane>
                </left>
-               <center>
-                  <AnchorPane fx:id="anchorfondo2" BorderPane.alignment="CENTER">
-                     <children>
-                        <VBox layoutX="446.0" layoutY="275.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <AnchorPane>
-                                 <children>
-                                    <HBox alignment="CENTER_RIGHT" layoutX="306.0" layoutY="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <Label fx:id="labelCerarCaja" onMouseClicked="#cerrarCaja" styleClass="label-button" text="CERRAR CAJA">
-                                             <graphic>
-                                                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
-                                                   <image>
-                                                      <Image url="@../img/CloseSign.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                             <font>
-                                                <Font size="14.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </AnchorPane>
-                              <AnchorPane fx:id="aPanePrincipal" VBox.vgrow="ALWAYS" />
-                           </children>
-                        </VBox>
-                     </children></AnchorPane>
-               </center>
             </BorderPane>
          </children>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
       </AnchorPane>
    </children>
 </StackPane>

@@ -34,6 +34,8 @@ public class VentaController implements Initializable {
     private AnchorPane aPaneContenidoProducto;
     @FXML
     private AnchorPane aPaneCategorias;
+    @FXML
+    private HBox hBoxCategorias;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -42,18 +44,17 @@ public class VentaController implements Initializable {
     }
 
     private void cargarCategrias() {
-        HBox hbox = new HBox(10);
-        hbox.setAlignment(Pos.CENTER_LEFT);
-        hbox.getStyleClass().add("item-hbox");
-        
-        for(Categoria c: cs.findAll()){
+
+        for (Categoria c : cs.findAll()) {
             Button bc = new Button(c.getNombreCategoria());
-            bc.setId(c.getIdCategoria()+"");
+            bc.setId(c.getIdCategoria() + "");
             bc.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            bc.getStyleClass().add("botonesCategorias");
             bc.setWrapText(true);
             bc.setOnAction(e -> cargarProductosPorCategoria(c));
-            hbox.getChildren().add(bc);
-        }aPaneCategorias.getChildren().add(hbox);
+            hBoxCategorias.getChildren().add(bc);
+        }
+        //aPaneCategorias.getChildren().add(hBoxCategorias);
     }
 
     private void cargarProdutos() {
@@ -86,6 +87,7 @@ public class VentaController implements Initializable {
             Button btn = new Button(producto);
             btn.setId(lsp.get(i).getIdSucursalProducto() + "");
             btn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); // Ajustar al tamaño máximo de la celda
+            //btn.getStyleClass().add("botonesProductos");
             /* agregamos eventos a los botones com oescuchadoes */
             btn.setOnAction(event -> {
                 //cantidadSatge("/fxml/cantidad.fxml", Integer.parseInt(btn.getId()));
@@ -114,58 +116,59 @@ public class VentaController implements Initializable {
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
     }
+
     private void cargarProductosPorCategoria(Categoria categoria) {
-    List<SucursalProducto> lsp = sps.findByCategoriaAndSucursalEstatusSucursalTrueAndVendibleTrue(categoria);
-    // Este método lo debes tener en tu service/repository.
+        List<SucursalProducto> lsp = sps.findByCategoriaAndSucursalEstatusSucursalTrueAndVendibleTrue(categoria);
+        // Este método lo debes tener en tu service/repository.
 
-    GridPane gp = new GridPane();
-    gp.setPadding(new Insets(10));
-    gp.setHgap(5);
-    gp.setVgap(5);
-    gp.setAlignment(Pos.CENTER);
+        GridPane gp = new GridPane();
+        gp.setPadding(new Insets(10));
+        gp.setHgap(5);
+        gp.setVgap(5);
+        gp.setAlignment(Pos.CENTER);
 
-    ColumnConstraints columnConstraints = new ColumnConstraints();
-    columnConstraints.setHgrow(Priority.ALWAYS);
-    columnConstraints.setFillWidth(true);
+        ColumnConstraints columnConstraints = new ColumnConstraints();
+        columnConstraints.setHgrow(Priority.ALWAYS);
+        columnConstraints.setFillWidth(true);
 
-    RowConstraints rowConstraints = new RowConstraints();
-    rowConstraints.setVgrow(Priority.ALWAYS);
-    rowConstraints.setFillHeight(true);
+        RowConstraints rowConstraints = new RowConstraints();
+        rowConstraints.setVgrow(Priority.ALWAYS);
+        rowConstraints.setFillHeight(true);
 
-    int numColumns = 3;
-    for (int j = 0; j < numColumns; j++) {
-        gp.getColumnConstraints().add(columnConstraints);
+        int numColumns = 3;
+        for (int j = 0; j < numColumns; j++) {
+            gp.getColumnConstraints().add(columnConstraints);
+        }
+
+        for (int j = 0; j <= lsp.size() / numColumns; j++) {
+            gp.getRowConstraints().add(rowConstraints);
+        }
+
+        for (int i = 0; i < lsp.size(); i++) {
+            SucursalProducto sp = lsp.get(i);
+            Button btn = new Button(sp.getProducto().getNombreProducto());
+            btn.setId(sp.getIdSucursalProducto() + "");
+            btn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+            btn.setWrapText(true);
+            btn.getStyleClass().add("botonesProductos");
+            btn.setOnAction(event -> {
+                //cantidadSatge("/fxml/cantidad.fxml", Integer.parseInt(btn.getId()));
+            });
+            Tooltip tooltip = new Tooltip("Precio: " + sp.getPrecio());
+            Tooltip.install(btn, tooltip);
+
+            int row = i / numColumns;
+            int col = i % numColumns;
+            gp.add(btn, col, row);
+        }
+
+        ScrollPane scrollPane = new ScrollPane(gp);
+        scrollPane.setFitToWidth(true);
+        aPaneContenidoProducto.getChildren().clear();
+        aPaneContenidoProducto.getChildren().add(scrollPane);
+        AnchorPane.setTopAnchor(scrollPane, 0.0);
+        AnchorPane.setRightAnchor(scrollPane, 0.0);
+        AnchorPane.setBottomAnchor(scrollPane, 0.0);
+        AnchorPane.setLeftAnchor(scrollPane, 0.0);
     }
-
-    for (int j = 0; j <= lsp.size() / numColumns; j++) {
-        gp.getRowConstraints().add(rowConstraints);
-    }
-
-    for (int i = 0; i < lsp.size(); i++) {
-        SucursalProducto sp = lsp.get(i);
-        Button btn = new Button(sp.getProducto().getNombreProducto());
-        btn.setId(sp.getIdSucursalProducto() + "");
-        btn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        btn.setWrapText(true);
-        btn.getStyleClass().add("botonesProductos");
-        btn.setOnAction(event -> {
-            //cantidadSatge("/fxml/cantidad.fxml", Integer.parseInt(btn.getId()));
-        });
-        Tooltip tooltip = new Tooltip("Precio: " + sp.getPrecio());
-        Tooltip.install(btn, tooltip);
-
-        int row = i / numColumns;
-        int col = i % numColumns;
-        gp.add(btn, col, row);
-    }
-
-    ScrollPane scrollPane = new ScrollPane(gp);
-    scrollPane.setFitToWidth(true);
-    aPaneContenidoProducto.getChildren().clear();
-    aPaneContenidoProducto.getChildren().add(scrollPane);
-    AnchorPane.setTopAnchor(scrollPane, 0.0);
-    AnchorPane.setRightAnchor(scrollPane, 0.0);
-    AnchorPane.setBottomAnchor(scrollPane, 0.0);
-    AnchorPane.setLeftAnchor(scrollPane, 0.0);
-}
 }

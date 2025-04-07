@@ -1,6 +1,7 @@
 package com.salespointfxsales.www.controller;
 
 import com.salespointfxsales.www.config.SpringFXMLLoader;
+import com.salespointfxsales.www.service.SucursalService;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class StarterController implements Initializable {
+    private final SucursalService ss;
 
     private final SpringFXMLLoader springFXMLLoader;
 
@@ -57,8 +59,9 @@ public class StarterController implements Initializable {
     @FXML
     private Button buttonVentas;
 
+    
     @FXML
-    private Label labelCerarCaja;
+    private Label labelSucursal;
 
     @FXML
     void abrirCajon(ActionEvent event) {
@@ -102,16 +105,15 @@ public class StarterController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+        labelSucursal.setText(ss.findByEstatusSucursalTrue().getNombreSucursal());
     }
 
     private void cargarVista(String fxmlPath) {
         try {
             FXMLLoader fxml = springFXMLLoader.load(fxmlPath);
             AnchorPane view = fxml.load();
-            // BorderPane borderPane = (BorderPane) currentStage.getScene().getRoot();
             bPanePrincipal.setCenter(view);
-
+            
         } catch (IOException e) {
             Alert error = new Alert(AlertType.ERROR);
             error.setTitle("StarterController Error!!!");
