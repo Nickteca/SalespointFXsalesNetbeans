@@ -10,25 +10,25 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<StackPane minHeight="768.0" minWidth="1024.0" stylesheets="@../styles/starter.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane minHeight="768.0" minWidth="1024.0" stylesheets="@../styles/starter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.StarterController">
    <children>
       <AnchorPane>
          <children>
-            <BorderPane layoutX="403.0" layoutY="317.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane fx:id="bPanePrincipal" layoutX="403.0" layoutY="317.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <left>
-                  <AnchorPane fx:id="anchorFondo" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <AnchorPane fx:id="anchorFondo" BorderPane.alignment="CENTER">
                      <children>
                         <VBox alignment="CENTER" layoutX="50.0" layoutY="111.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <AnchorPane>
                                  <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutY="25.0" pickOnBounds="true" smooth="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <ImageView fitHeight="100.0" fitWidth="200.0" layoutY="25.0" pickOnBounds="true" smooth="false" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <image>
-                                          <Image url="@../img/reydelpollo.png" />
+                                          <Image url="@../img/41346118-designstyle-cookies-l.png" />
                                        </image>
                                     </ImageView>
                                  </children>
@@ -38,29 +38,34 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                                  <textFill>
-                                    <LinearGradient endX="1.0" endY="1.0">
+                                    <RadialGradient centerX="0.5" centerY="0.5" focusAngle="-43.15" radius="0.5">
                                        <stops>
                                           <Stop>
                                              <color>
-                                                <Color red="1.0" green="0.018518518656492233" blue="0.018518518656492233" />
+                                                <Color red="1.0" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="0.006711409395973154">
+                                             <color>
+                                                <Color red="1.0" />
                                              </color>
                                           </Stop>
                                           <Stop offset="1.0">
                                              <color>
-                                                <Color red="0.6842105388641357" green="0.17105263471603394" blue="0.17105263471603394" />
+                                                <Color />
                                              </color>
                                           </Stop>
                                        </stops>
-                                    </LinearGradient>
+                                    </RadialGradient>
                                  </textFill>
                               </Label>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                              <AnchorPane VBox.vgrow="ALWAYS">
                                  <children>
-                                    <VBox alignment="CENTER" prefHeight="591.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <VBox alignment="CENTER" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Button alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="162.0" text="VENTA">
+                                          <Button fx:id="buttonVenta" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#venta" prefWidth="175.0" text="VENTA">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font size="16.0" />
                                              </font>
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" style="-fx-background-color: #ffffff;">
@@ -70,9 +75,9 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="162.0" text="INVENTARIO">
+                                          <Button fx:id="buttonInvetario" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#inventario" prefWidth="175.0" text="INVENTARIO">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font size="16.0" />
                                              </font>
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
@@ -82,9 +87,9 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="162.0" text="VENTAS">
+                                          <Button fx:id="buttonVentas" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#ventas" prefWidth="175.0" text="VENTAS">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font size="16.0" />
                                              </font>
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -94,9 +99,9 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="162.0" text="RECOLECCION">
+                                          <Button fx:id="buttonRecoleccion" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#recoleccion" prefWidth="175.0" text="RECOLECCION">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font size="16.0" />
                                              </font>
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
@@ -106,9 +111,9 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="162.0" text="GASTOS">
+                                          <Button fx:id="buttonGastos" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#gastos" prefWidth="175.0" text="GASTOS">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font size="16.0" />
                                              </font>
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
@@ -118,9 +123,9 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button alignment="TOP_LEFT" mnemonicParsing="false" prefWidth="162.0" text="MOVIMIENTOS">
+                                          <Button fx:id="buttonMovimientos" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#movimientos" prefWidth="175.0" text="MOVIMIENTOS">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font size="16.0" />
                                              </font>
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -130,9 +135,9 @@
                                                 </ImageView>
                                              </graphic>
                                           </Button>
-                                          <Button alignment="TOP_LEFT" layoutX="29.0" layoutY="427.0" mnemonicParsing="false" prefWidth="162.0" text="ABRIR CAJA">
+                                          <Button fx:id="buttonAbrirCajon" alignment="TOP_LEFT" layoutX="29.0" layoutY="427.0" mnemonicParsing="false" onAction="#abrirCajon" prefWidth="175.0" text="ABRIR CAJON">
                                              <font>
-                                                <Font size="14.0" />
+                                                <Font size="16.0" />
                                              </font>
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -152,15 +157,15 @@
                   </AnchorPane>
                </left>
                <center>
-                  <AnchorPane fx:id="anchorfondo2" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <AnchorPane fx:id="anchorfondo2" BorderPane.alignment="CENTER">
                      <children>
-                        <VBox layoutX="446.0" layoutY="275.0" prefHeight="768.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox layoutX="446.0" layoutY="275.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane style="-fx-background-color: #212121;">
+                              <AnchorPane>
                                  <children>
                                     <HBox alignment="CENTER_RIGHT" layoutX="306.0" layoutY="25.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Label fx:id="labelCerarCaja" text="CERRAR CAJA" textFill="WHITE">
+                                          <Label fx:id="labelCerarCaja" onMouseClicked="#cerrarCaja" styleClass="label-button" text="CERRAR CAJA">
                                              <graphic>
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true">
                                                    <image>
@@ -168,12 +173,15 @@
                                                    </image>
                                                 </ImageView>
                                              </graphic>
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
                                           </Label>
                                        </children>
                                     </HBox>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                              <AnchorPane fx:id="aPanePrincipal" VBox.vgrow="ALWAYS" />
                            </children>
                         </VBox>
                      </children></AnchorPane>

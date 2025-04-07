@@ -9,5 +9,4 @@ public class SalespointFXsalesNetbeansApplication {
     public static void main(String[] args) {
         Application.launch(MainApp.class, args); // Lanzamos JavaFX
     }
-
 }
