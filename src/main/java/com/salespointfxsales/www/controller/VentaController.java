@@ -1,29 +1,45 @@
 package com.salespointfxsales.www.controller;
 
+import com.salespointfxsales.www.controller.modal.CantidadController;
 import com.salespointfxsales.www.model.Categoria;
 import com.salespointfxsales.www.model.SucursalProducto;
+import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.service.CategoriaService;
 import com.salespointfxsales.www.service.SucursalProductoService;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -50,19 +66,19 @@ public class VentaController implements Initializable {
     private Button buttonEliminar;
 
     @FXML
-    private TableColumn<?, ?> columnId;
+    private TableColumn<VentaDetalle, Integer> columnId;
 
     @FXML
-    private TableColumn<?, ?> columnPrecio;
+    private TableColumn<VentaDetalle, Float> columnPrecio;
 
     @FXML
-    private TableColumn<?, ?> columnProducto;
+    private TableColumn<VentaDetalle, SucursalProducto> columnProducto;
 
     @FXML
-    private TableColumn<?, ?> columnSubtotal;
+    private TableColumn<VentaDetalle, Float> columnSubtotal;
 
     @FXML
-    private TableColumn<?, ?> columnUnidades;
+    private TableColumn<VentaDetalle, Short> columnUnidades;
 
     @FXML
     private HBox hBoxCategorias;
@@ -74,7 +90,8 @@ public class VentaController implements Initializable {
     private Label labelTotal;
 
     @FXML
-    private TableView<> tviewVentaDetalle;
+    private TableView<VentaDetalle> tviewVentaDetalle;
+    private ObservableList<VentaDetalle> olvd;
 
     @FXML
     void cancelar(ActionEvent event) {
@@ -95,6 +112,41 @@ public class VentaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         cargarCategrias();
         cargarProdutos();
+        iniciarTabla();
+    }
+
+    private void iniciarTabla() {
+        columnId.setCellValueFactory(new PropertyValueFactory<>("idVentaDetalle"));
+        columnId.prefWidthProperty().bind(tviewVentaDetalle.widthProperty().multiply(0.1));
+
+        columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        columnPrecio.prefWidthProperty().bind(tviewVentaDetalle.widthProperty().multiply(0.2));
+
+        columnProducto.setCellValueFactory(new PropertyValueFactory<>("sucursalProducto"));
+        columnProducto.prefWidthProperty().bind(tviewVentaDetalle.widthProperty().multiply(0.4));
+
+        columnSubtotal.setCellValueFactory(new PropertyValueFactory<>("subTotal"));
+        columnSubtotal.prefWidthProperty().bind(tviewVentaDetalle.widthProperty().multiply(0.2));
+
+        columnUnidades.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        columnUnidades.prefWidthProperty().bind(tviewVentaDetalle.widthProperty().multiply(0.1));
+        // Agregar el formato para mostrar el precio como moneda
+        columnPrecio.setCellFactory(col -> {
+            return new TableCell<VentaDetalle, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null && !empty) {
+                        // Formatear el precio como moneda
+                        DecimalFormat df = new DecimalFormat("#.##");
+                        setText("$" + df.format(item));
+                    } else {
+                        setText(null);
+                    }
+                }
+            };
+        });
+
     }
 
     private void cargarCategrias() {
@@ -143,7 +195,7 @@ public class VentaController implements Initializable {
             //btn.getStyleClass().add("botonesProductos");
             /* agregamos eventos a los botones com oescuchadoes */
             btn.setOnAction(event -> {
-                //cantidadSatge("/fxml/cantidad.fxml", Integer.parseInt(btn.getId()));
+                cantidadSatge("/fxml/modal/cantidad.fxml", Integer.parseInt(btn.getId()));
 
             });
             Tooltip tooltip = new Tooltip("Precio: " + lsp.get(i).getPrecio());
@@ -224,4 +276,34 @@ public class VentaController implements Initializable {
         AnchorPane.setBottomAnchor(scrollPane, 0.0);
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
     }
+
+    public void cantidadSatge(String fxmlPath, int idProducto) {
+        try {
+            FXMLLoader fxml = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent view = fxml.load();
+
+            CantidadController cc = fxml.getController();
+            //cc.addPropertyChangeListener(this);
+            cc.setProductoId(idProducto);
+
+            Stage modal = new Stage();
+            modal.initModality(Modality.APPLICATION_MODAL);
+            modal.setScene(new Scene(view));
+
+            modal.showAndWait(); // Bloquea hasta que la ventana se cierre
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorDialog("Error al cargar la vista", e.getMessage());
+        }
+    }
+
+    private void showErrorDialog(String title, String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+
+    
 }

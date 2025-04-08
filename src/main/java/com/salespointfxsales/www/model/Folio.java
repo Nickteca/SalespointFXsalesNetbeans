@@ -3,7 +3,7 @@ package com.salespointfxsales.www.model;
 import java.io.Serializable;
 import java.util.List;
 
-import com.salespointfxadmin.www.enums.Naturaleza;
+import com.salespointfxadmin.www.model.enums.Naturaleza;
 import com.salespointfxadmin.www.enums.NombreFolio;
 
 import jakarta.persistence.Basic;
