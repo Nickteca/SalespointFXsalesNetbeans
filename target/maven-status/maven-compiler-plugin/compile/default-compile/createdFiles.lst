@@ -9,6 +9,7 @@ com\salespointfxsales\www\repo\MovimientoCajaRepo.class
 com\salespointfxsales\www\repo\SucursalRepo.class
 com\salespointfxsales\www\controller\VentaController$1.class
 com\salespointfxsales\www\model\Categoria.class
+com\salespointfxsales\www\controller\modal\CantidadController.class
 com\salespointfxsales\www\SalespointFXsalesNetbeansApplication.class
 com\salespointfxsales\www\repo\VentaDetalleRepo.class
 com\salespointfxsales\www\model\enums\BilleteValor.class

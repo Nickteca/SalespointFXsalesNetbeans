@@ -23,66 +23,71 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SucursalProducto implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Short idSucursalProducto;
 
-	@Column(nullable = false)
-	private float inventario;
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Short idSucursalProducto;
 
-	@Column(nullable = false)
-	private float precio;
+    @Column(nullable = false)
+    private float inventario;
 
-	@Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
-	private boolean vendible;
+    @Column(nullable = false)
+    private float precio;
 
-	@JoinColumn(name = "producto", referencedColumnName = "idProducto")
-	@ManyToOne(optional = false)
-	private Producto producto;
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
+    private boolean vendible;
 
-	@JoinColumn(name = "categoria", referencedColumnName = "idCategoria")
-	@ManyToOne(optional = false)
-	private Categoria categoria;
+    @JoinColumn(name = "producto", referencedColumnName = "idProducto")
+    @ManyToOne(optional = false)
+    private Producto producto;
 
-	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
-	@ManyToOne(optional = false)
-	private Sucursal sucursal;
+    @JoinColumn(name = "categoria", referencedColumnName = "idCategoria")
+    @ManyToOne(optional = false)
+    private Categoria categoria;
 
-	@OneToMany(mappedBy = "sucursalProducto", cascade = CascadeType.ALL)
-	private List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle;
+    @JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
+    @ManyToOne(optional = false)
+    private Sucursal sucursal;
 
-	public SucursalProducto(float inventario, float precio, boolean vendible, Producto producto, Categoria categoria, Sucursal sucursal) {
-		super();
-		this.inventario = inventario;
-		this.precio = precio;
-		this.vendible = vendible;
-		this.producto = producto;
-		this.categoria = categoria;
-		this.sucursal = sucursal;
-	}
+    @OneToMany(mappedBy = "sucursalProducto", cascade = CascadeType.ALL)
+    private List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle;
 
-	@Override
-	public String toString() {
-		return idSucursalProducto + " " + producto.getNombreProducto();
-	}
+    public SucursalProducto(float inventario, float precio, boolean vendible, Producto producto, Categoria categoria, Sucursal sucursal) {
+        super();
+        this.inventario = inventario;
+        this.precio = precio;
+        this.vendible = vendible;
+        this.producto = producto;
+        this.categoria = categoria;
+        this.sucursal = sucursal;
+    }
 
-	public SucursalProducto(Short idSucursalProducto, float inventario, float precio, boolean vendible, Producto producto, Categoria categoria, Sucursal sucursal) {
-		super();
-		this.idSucursalProducto = idSucursalProducto;
-		this.inventario = inventario;
-		this.precio = precio;
-		this.vendible = vendible;
-		this.producto = producto;
-		this.categoria = categoria;
-		this.sucursal = sucursal;
-	}
+    @Override
+    public String toString() {
+        return idSucursalProducto + " " + producto.getNombreProducto();
+    }
 
-	public SucursalProducto(Short idSucursalProducto, float inventario, Producto producto) {
-		super();
-		this.idSucursalProducto = idSucursalProducto;
-		this.inventario = inventario;
-		this.producto = producto;
-	}
+    public SucursalProducto(Short idSucursalProducto, float inventario, float precio, boolean vendible, Producto producto, Categoria categoria, Sucursal sucursal) {
+        super();
+        this.idSucursalProducto = idSucursalProducto;
+        this.inventario = inventario;
+        this.precio = precio;
+        this.vendible = vendible;
+        this.producto = producto;
+        this.categoria = categoria;
+        this.sucursal = sucursal;
+    }
+
+    public SucursalProducto(Short idSucursalProducto, float inventario, Producto producto) {
+        super();
+        this.idSucursalProducto = idSucursalProducto;
+        this.inventario = inventario;
+        this.producto = producto;
+    }
+
+    public SucursalProducto(Short idSucursalProducto) {
+        this.idSucursalProducto = idSucursalProducto;
+    }
 
 }

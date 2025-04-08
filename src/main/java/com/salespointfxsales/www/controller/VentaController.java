@@ -195,7 +195,7 @@ public class VentaController implements Initializable {
             //btn.getStyleClass().add("botonesProductos");
             /* agregamos eventos a los botones com oescuchadoes */
             btn.setOnAction(event -> {
-                cantidadSatge("/fxml/modal/cantidad.fxml", Integer.parseInt(btn.getId()));
+                cantidadSatge("/fxml/modal/cantidad.fxml", sps.findByIdSucursalProducto(Short.parseShort(btn.getId())));
 
             });
             Tooltip tooltip = new Tooltip("Precio: " + lsp.get(i).getPrecio());
@@ -277,24 +277,27 @@ public class VentaController implements Initializable {
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
     }
 
-    public void cantidadSatge(String fxmlPath, int idProducto) {
+    public void cantidadSatge(String fxmlPath, SucursalProducto sp) {
         try {
-            FXMLLoader fxml = new FXMLLoader(getClass().getResource(fxmlPath));
-            Parent view = fxml.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cantidad.fxml"));
+            Parent root = loader.load();
 
-            CantidadController cc = fxml.getController();
-            //cc.addPropertyChangeListener(this);
-            cc.setProductoId(idProducto);
+            CantidadController controller = loader.getController();
+            controller.setOnCantidadConfirmada(cantidad -> {
+                // Aquí recibes la cantidad y haces lo que necesites
+                System.out.println("Cantidad elegida: " + cantidad);
+                //agregarProductoATabla(sp, cantidad);
+            });
 
-            Stage modal = new Stage();
-            modal.initModality(Modality.APPLICATION_MODAL);
-            modal.setScene(new Scene(view));
-
-            modal.showAndWait(); // Bloquea hasta que la ventana se cierre
+            Stage stage = new Stage();
+            stage.setTitle("Ingresar cantidad");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
-            showErrorDialog("Error al cargar la vista", e.getMessage());
         }
     }
 
@@ -305,5 +308,4 @@ public class VentaController implements Initializable {
         alert.showAndWait();
     }
 
-    
 }

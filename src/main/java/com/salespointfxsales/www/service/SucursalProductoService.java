@@ -19,4 +19,8 @@ public class SucursalProductoService {
     public List<SucursalProducto> findByCategoriaAndSucursalEstatusSucursalTrueAndVendibleTrue(Categoria categoria){
         return spr.findByCategoriaAndSucursalEstatusSucursalTrueAndVendibleTrue(categoria);
     }
+    
+    public SucursalProducto findByIdSucursalProducto(short id){
+        return spr.findByIdSucursalProducto(id);
+    }
 }
