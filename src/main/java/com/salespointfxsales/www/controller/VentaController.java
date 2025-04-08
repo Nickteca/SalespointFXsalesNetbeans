@@ -7,12 +7,16 @@ import com.salespointfxsales.www.service.SucursalProductoService;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -31,11 +35,61 @@ public class VentaController implements Initializable {
     private final CategoriaService cs;
 
     @FXML
-    private AnchorPane aPaneContenidoProducto;
-    @FXML
     private AnchorPane aPaneCategorias;
+
+    @FXML
+    private AnchorPane aPaneContenidoProducto;
+
+    @FXML
+    private Button buttonCancelar;
+
+    @FXML
+    private Button buttonCobrar;
+
+    @FXML
+    private Button buttonEliminar;
+
+    @FXML
+    private TableColumn<?, ?> columnId;
+
+    @FXML
+    private TableColumn<?, ?> columnPrecio;
+
+    @FXML
+    private TableColumn<?, ?> columnProducto;
+
+    @FXML
+    private TableColumn<?, ?> columnSubtotal;
+
+    @FXML
+    private TableColumn<?, ?> columnUnidades;
+
     @FXML
     private HBox hBoxCategorias;
+
+    @FXML
+    private Label labelFolio;
+
+    @FXML
+    private Label labelTotal;
+
+    @FXML
+    private TableView<> tviewVentaDetalle;
+
+    @FXML
+    void cancelar(ActionEvent event) {
+
+    }
+
+    @FXML
+    void cobrar(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminar(ActionEvent event) {
+
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -49,12 +103,11 @@ public class VentaController implements Initializable {
             Button bc = new Button(c.getNombreCategoria());
             bc.setId(c.getIdCategoria() + "");
             bc.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-            bc.getStyleClass().add("botonesCategorias");
+            bc.getStyleClass().add("botonCategoria");
             bc.setWrapText(true);
             bc.setOnAction(e -> cargarProductosPorCategoria(c));
             hBoxCategorias.getChildren().add(bc);
         }
-        //aPaneCategorias.getChildren().add(hBoxCategorias);
     }
 
     private void cargarProdutos() {
