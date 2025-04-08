@@ -1,6 +1,7 @@
 package com.salespointfxsales.www.controller;
 
 import com.salespointfxsales.www.controller.modal.CantidadController;
+import com.salespointfxsales.www.controller.modal.CobrarController;
 import com.salespointfxsales.www.model.Categoria;
 import com.salespointfxsales.www.model.SucursalProducto;
 import com.salespointfxsales.www.model.VentaDetalle;
@@ -11,8 +12,11 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -32,6 +36,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -40,6 +45,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.ShortStringConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -91,21 +98,65 @@ public class VentaController implements Initializable {
 
     @FXML
     private TableView<VentaDetalle> tviewVentaDetalle;
-    private ObservableList<VentaDetalle> olvd;
+    private ObservableList<VentaDetalle> olvd = FXCollections.observableArrayList();
+
+    ;
 
     @FXML
     void cancelar(ActionEvent event) {
-
+        try {
+            if (!olvd.isEmpty()) {
+                olvd.clear();
+                labelTotal.setText("0");
+            }
+        } catch (Exception e) {
+            showErrorDialog("Erro al limpiar la tabla!!", e.getMessage() + "\n" + e.getCause());
+        }
     }
 
     @FXML
     void cobrar(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cobrar.fxml"));
+            Parent root = loader.load();
 
+            // Obtener el controlador del modal
+            CobrarController cobrarController = loader.getController();
+            //CobrarController.setVentaDetalle(vd);  // Pasar el VentaDetalle para que se edite
+
+            Stage stage = new Stage();
+            stage.setTitle("Cobrer");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.showAndWait();
+
+            // Ahora verificar si el cobro fue exitoso
+            if (cobrarController.isCobroExitoso()) {
+                // Si el cobro fue exitoso, limpiar la tabla
+                olvd.clear(); // Aquí puedes limpiar la tabla o hacer otras acciones
+                tviewVentaDetalle.refresh();
+                labelTotal.setText("0"); // Actualiza el total
+            } else {
+                // Si el cobro no fue exitoso, manejar el error
+                showErrorDialog("ERROR AL COBRAR", "NO SE COBRO");
+            }
+        } catch (IOException e) {
+            showErrorDialog("ERROR EN COBRO!!!", e.getMessage()+"\n"+e.getCause());
+        }
     }
 
     @FXML
     void eliminar(ActionEvent event) {
-
+        try {
+            VentaDetalle vd = tviewVentaDetalle.getSelectionModel().getSelectedItem();
+            if (vd != null) {
+                olvd.remove(vd);
+                labelTotal.setText("$" + calcularTotal());
+            }
+        } catch (Exception e) {
+            showErrorDialog("Erro al eliminar", e.getMessage() + "\n" + e.getCause());
+        }
     }
 
     @Override
@@ -113,6 +164,7 @@ public class VentaController implements Initializable {
         cargarCategrias();
         cargarProdutos();
         iniciarTabla();
+        olvd.clear();
     }
 
     private void iniciarTabla() {
@@ -130,6 +182,28 @@ public class VentaController implements Initializable {
 
         columnUnidades.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         columnUnidades.prefWidthProperty().bind(tviewVentaDetalle.widthProperty().multiply(0.1));
+
+        // Detectamos un clic en la celda de cantidad y abrimos el modal
+        columnUnidades.setCellFactory(param -> {
+            TableCell<VentaDetalle, Short> cell = new TableCell<VentaDetalle, Short>() { // Asegúrate de usar Short aquí
+                @Override
+                public void updateItem(Short item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (!empty) {
+                        setText(item != null ? item.toString() : "");
+                        setOnMouseClicked(event -> {
+                            if (!isEmpty()) {
+                                VentaDetalle ventaDetalle = getTableRow().getItem();
+                                cantidadSatge(ventaDetalle);  // Abre el modal para editar la cantidad
+                            }
+                        });
+                    } else {
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        });
         // Agregar el formato para mostrar el precio como moneda
         columnPrecio.setCellFactory(col -> {
             return new TableCell<VentaDetalle, Float>() {
@@ -146,7 +220,23 @@ public class VentaController implements Initializable {
                 }
             };
         });
-
+        // Agregar el formato para mostrar el subtotal como moneda
+        columnSubtotal.setCellFactory(col -> {
+            return new TableCell<VentaDetalle, Float>() {
+                @Override
+                protected void updateItem(Float item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null && !empty) {
+                        // Formatear el precio como moneda
+                        DecimalFormat df = new DecimalFormat("#.##");
+                        setText("$" + df.format(item));
+                    } else {
+                        setText(null);
+                    }
+                }
+            };
+        });
+        tviewVentaDetalle.setItems(olvd);
     }
 
     private void cargarCategrias() {
@@ -195,8 +285,8 @@ public class VentaController implements Initializable {
             //btn.getStyleClass().add("botonesProductos");
             /* agregamos eventos a los botones com oescuchadoes */
             btn.setOnAction(event -> {
-                cantidadSatge("/fxml/modal/cantidad.fxml", sps.findByIdSucursalProducto(Short.parseShort(btn.getId())));
-
+                //cantidadSatge("/fxml/modal/cantidad.fxml", sps.findByIdSucursalProducto(Short.parseShort(btn.getId())));
+                agregarProducto(sps.findByIdSucursalProducto(Short.parseShort(btn.getId())));
             });
             Tooltip tooltip = new Tooltip("Precio: " + lsp.get(i).getPrecio());
             Tooltip.install(btn, tooltip); // Asociar el tooltip al botón
@@ -258,6 +348,7 @@ public class VentaController implements Initializable {
             btn.getStyleClass().add("botonesProductos");
             btn.setOnAction(event -> {
                 //cantidadSatge("/fxml/cantidad.fxml", Integer.parseInt(btn.getId()));
+                agregarProducto(sps.findByIdSucursalProducto(Short.parseShort(btn.getId())));
             });
             Tooltip tooltip = new Tooltip("Precio: " + sp.getPrecio());
             Tooltip.install(btn, tooltip);
@@ -277,17 +368,38 @@ public class VentaController implements Initializable {
         AnchorPane.setLeftAnchor(scrollPane, 0.0);
     }
 
-    public void cantidadSatge(String fxmlPath, SucursalProducto sp) {
+    public void agregarProducto(SucursalProducto producto) {
+        for (VentaDetalle vd : olvd) {
+            if (vd.getSucursalProducto().getIdSucursalProducto().equals(producto.getIdSucursalProducto())) {
+                vd.setCantidad((short) (vd.getCantidad() + 1));
+                vd.setSubTotal(vd.getCantidad() * vd.getPrecio());
+                tviewVentaDetalle.refresh();
+                labelTotal.setText("$" + calcularTotal());
+                return;
+            }
+        }
+
+        VentaDetalle nuevo = new VentaDetalle();
+        nuevo.setSucursalProducto(producto);
+        nuevo.setCantidad((short) 1);
+        nuevo.setPrecio(producto.getPrecio());
+        nuevo.setSubTotal(producto.getPrecio());
+
+        olvd.add(nuevo);
+        labelTotal.setText("$" + calcularTotal());
+        tviewVentaDetalle.scrollTo(nuevo);
+        tviewVentaDetalle.getSelectionModel().select(nuevo);
+
+    }
+
+    public void cantidadSatge(VentaDetalle vd) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cantidad.fxml"));
             Parent root = loader.load();
 
-            CantidadController controller = loader.getController();
-            controller.setOnCantidadConfirmada(cantidad -> {
-                // Aquí recibes la cantidad y haces lo que necesites
-                System.out.println("Cantidad elegida: " + cantidad);
-                //agregarProductoATabla(sp, cantidad);
-            });
+            // Obtener el controlador del modal
+            CantidadController cantidadController = loader.getController();
+            cantidadController.setVentaDetalle(vd);  // Pasar el VentaDetalle para que se edite
 
             Stage stage = new Stage();
             stage.setTitle("Ingresar cantidad");
@@ -296,9 +408,19 @@ public class VentaController implements Initializable {
             stage.setResizable(false);
             stage.showAndWait();
 
+            tviewVentaDetalle.refresh();
+            labelTotal.setText("$" + calcularTotal());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private float calcularTotal() {
+        float total = 0;
+        for (VentaDetalle vd : olvd) {
+            total += vd.getSubTotal();
+        }
+        return total;
     }
 
     private void showErrorDialog(String title, String message) {

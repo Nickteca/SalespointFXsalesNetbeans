@@ -65,7 +65,7 @@ public class SucursalProducto implements Serializable {
 
     @Override
     public String toString() {
-        return idSucursalProducto + " " + producto.getNombreProducto();
+        return  producto.getNombreProducto();
     }
 
     public SucursalProducto(Short idSucursalProducto, float inventario, float precio, boolean vendible, Producto producto, Categoria categoria, Sucursal sucursal) {

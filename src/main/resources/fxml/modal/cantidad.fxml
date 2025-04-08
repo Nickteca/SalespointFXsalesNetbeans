@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.modal.CantidadController">
+<VBox alignment="CENTER" prefHeight="289.0" prefWidth="235.0" spacing="10" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.modal.CantidadController">
     <TextField fx:id="txtCantidad" alignment="CENTER_RIGHT" editable="false" maxWidth="200" style="-fx-font-size: 24px;" text="1" />
 
     <GridPane alignment="CENTER" hgap="5" vgap="5">

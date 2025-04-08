@@ -6,6 +6,7 @@ com\salespointfxsales\www\service\SucursalService.class
 com\salespointfxsales\www\controller\VentaController.class
 com\salespointfxsales\www\model\Folio.class
 com\salespointfxsales\www\repo\MovimientoCajaRepo.class
+com\salespointfxsales\www\controller\modal\CobrarController.class
 com\salespointfxsales\www\repo\SucursalRepo.class
 com\salespointfxsales\www\controller\VentaController$1.class
 com\salespointfxsales\www\model\Categoria.class
@@ -15,6 +16,7 @@ com\salespointfxsales\www\repo\VentaDetalleRepo.class
 com\salespointfxsales\www\model\enums\BilleteValor.class
 com\salespointfxsales\www\repo\SucursalProductoRepo.class
 com\salespointfxsales\www\model\SucursalProducto.class
+com\salespointfxsales\www\controller\VentaController$2.class
 com\salespointfxsales\www\service\MovimientoCajaService.class
 com\salespointfxsales\www\model\UsuarioRol.class
 com\salespointfxsales\www\model\VentaDetalle.class
@@ -28,6 +30,7 @@ com\salespointfxsales\www\service\CategoriaService.class
 com\salespointfxsales\www\model\SucursalGasto.class
 com\salespointfxsales\www\model\SucursalPedido.class
 com\salespointfxsales\www\model\SucursalPedidoDetalle.class
+com\salespointfxsales\www\controller\VentaController$3.class
 com\salespointfxsales\www\model\ProductoPaquete.class
 com\salespointfxsales\www\model\Producto.class
 com\salespointfxsales\www\model\Venta.class

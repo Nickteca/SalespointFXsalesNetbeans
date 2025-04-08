@@ -1,5 +1,6 @@
 package com.salespointfxsales.www.controller.modal;
 
+import com.salespointfxsales.www.model.VentaDetalle;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.net.URL;
@@ -27,11 +28,14 @@ public class CantidadController implements Initializable {
     private TextField txtCantidad;
 
     private final StringBuilder input = new StringBuilder();
+    private VentaDetalle ventaDetalle;
 
     private Consumer<Integer> onCantidadConfirmada;
 
-    public void setOnCantidadConfirmada(Consumer<Integer> callback) {
-        this.onCantidadConfirmada = callback;
+    public void setVentaDetalle(VentaDetalle ventaDetalle) {
+        this.ventaDetalle = ventaDetalle;
+        // Establecer la cantidad actual en el campo de texto
+        txtCantidad.setText(String.valueOf(ventaDetalle.getCantidad()));
     }
 
     @FXML
@@ -65,26 +69,22 @@ public class CantidadController implements Initializable {
     @FXML
     private void onAceptar() {
         String texto = txtCantidad.getText();
-
-        if (texto == null || texto.isBlank()) {
+        if (texto != null && !texto.isEmpty()) {
+            try {
+                int nuevaCantidad = Integer.parseInt(texto);
+                if (nuevaCantidad <= 0) {
+                    mostrarAlerta("La cantidad debe ser mayor que cero.");
+                } else {
+                    // Actualizar la cantidad en el VentaDetalle
+                    ventaDetalle.setCantidad((short) nuevaCantidad);
+                    ventaDetalle.setSubTotal(nuevaCantidad * ventaDetalle.getPrecio());
+                    cerrarVentana();
+                }
+            } catch (NumberFormatException e) {
+                mostrarAlerta("Cantidad no válida.");
+            }
+        } else {
             mostrarAlerta("Debe ingresar una cantidad.");
-            return;
-        }
-
-        try {
-            int cantidad = Integer.parseInt(texto);
-            if (cantidad <= 0) {
-                mostrarAlerta("La cantidad debe ser mayor a cero.");
-                return;
-            }
-
-            if (onCantidadConfirmada != null) {
-                onCantidadConfirmada.accept(cantidad);
-            }
-
-            cerrarVentana();
-        } catch (NumberFormatException e) {
-            mostrarAlerta("Cantidad no válida.");
         }
     }
 
