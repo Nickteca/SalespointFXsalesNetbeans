@@ -3,16 +3,21 @@ package com.salespointfxsales.www.controller;
 import com.salespointfxsales.www.controller.modal.CantidadController;
 import com.salespointfxsales.www.controller.modal.CobrarController;
 import com.salespointfxsales.www.model.Categoria;
-import com.salespointfxsales.www.model.ResultadoCobro;
+import com.salespointfxsales.www.model.Folio;
+import com.salespointfxsales.www.model.dto.ResultadoCobro;
 import com.salespointfxsales.www.model.SucursalProducto;
+import com.salespointfxsales.www.model.Venta;
 import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.service.CategoriaService;
+import com.salespointfxsales.www.service.FolioService;
 import com.salespointfxsales.www.service.SucursalProductoService;
+import com.salespointfxsales.www.service.VentaService;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -54,6 +59,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class VentaController implements Initializable {
+
+    private final FolioService fs;
+    private final VentaService vs;
 
     private static final DecimalFormat formatoMoneda = new DecimalFormat("#");
 
@@ -123,32 +131,66 @@ public class VentaController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cobrar.fxml"));
             Parent root = loader.load();
 
-            // Obtener el controlador del modal
             CobrarController cobrarController = loader.getController();
-            //CobrarController.setVentaDetalle(vd);  // Pasar el VentaDetalle para que se edite
 
             Stage stage = new Stage();
-            stage.setTitle("Cobrer");
+            stage.setTitle("Cobrar");
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
-            cobrarController.totalVenta(Float.parseFloat(labelTotal.getText().replace("$", "")));
+
+            float totalVenta;
+            try {
+                totalVenta = Float.parseFloat(labelTotal.getText().replace("$", ""));
+            } catch (NumberFormatException ex) {
+                showErrorDialog("Error al convertir total", "El total no es un número válido.");
+                return;
+            }
+
+            cobrarController.totalVenta(totalVenta);
             stage.showAndWait();
 
-            // Obtener resultado
             ResultadoCobro resultado = cobrarController.getResultadoCobro();
-            // Ahora verificar si el cobro fue exitoso
             if (resultado != null && resultado.isExito()) {
-                // Si el cobro fue exitoso, limpiar la tabla
-                olvd.clear(); // Aquí puedes limpiar la tabla o hacer otras acciones
-                tviewVentaDetalle.refresh();
-                labelTotal.setText("0"); // Actualiza el total
+                Venta v = new Venta();
+                v.setFolio(labelFolio.getText());
+                v.setTotalVenta(totalVenta);
+
+                List<VentaDetalle> lvd = new ArrayList<>();
+                for (VentaDetalle vd : olvd) {
+                    VentaDetalle ventadetalle = new VentaDetalle(
+                            vd.getIdVentaDetalle(), vd.getCantidad(), vd.getPrecio(),
+                            vd.getSubTotal(), vd.getSucursalProducto(), v
+                    );
+                    lvd.add(ventadetalle);
+                }
+                v.setListVentaDetalle(lvd);
+
+                try {
+                    Venta guardada = vs.save(v, resultado);
+                    if (guardada != null) {
+                        olvd.clear();
+                        tviewVentaDetalle.refresh();
+                        labelTotal.setText("0");
+
+                        fs.updateFolioVenta((Folio) labelFolio.getUserData());
+                        actualizarFolio();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace(); // útil para desarrollo
+                    showErrorDialog("Error al guardar la venta", ex.getMessage());
+                }
+
             } else {
-                // Si el cobro no fue exitoso, manejar el error
-                showErrorDialog("ERROR AL COBRAR", "NO SE COBRO");
+                showErrorDialog("Error al cobrar", "No se completó el cobro.");
             }
-        } catch (IOException e) {
-            showErrorDialog("ERROR EN COBRO!!!", e.getMessage() + "\n" + e.getCause());
+
+        } catch (IOException ex) {
+            ex.printStackTrace(); // útil para desarrollo
+            showErrorDialog("Error al abrir la ventana de cobro", ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            showErrorDialog("Error inesperado", ex.getMessage());
         }
     }
 
@@ -171,6 +213,22 @@ public class VentaController implements Initializable {
         cargarProdutos();
         iniciarTabla();
         olvd.clear();
+        actualizarFolio();
+    }
+
+    public void actualizarFolio() {
+        // Supón que fs.getFolioVenta() retorna un objeto Folio con la información actual.
+        Folio folioActual = fs.getFolioVenta();
+        // Formatea el folio según el formato deseado, por ejemplo: "VEN-11-1"
+        labelFolio.setText(folioActual.toString());
+        labelFolio.setUserData(folioActual);
+        /*String folioFormateado = String.format("%s-%d-%d",
+                folioActual.getAcronimoFolio().replace("-", ""),
+                folioActual.getSucursalIdSucursal().getIdSucursal(),
+                folioActual.getNumeroFolio());
+        // Actualiza la propiedad en el ViewModel
+        vvm.setFolio(folioFormateado);
+        lblFoliio.setUserData(folioActual);*/
     }
 
     private void iniciarTabla() {

@@ -1,6 +1,7 @@
 com\salespointfxadmin\www\model\enums\Naturaleza.class
 com\salespointfxsales\www\model\MovimientoInventario.class
 com\salespointfxsales\www\repo\CategoriaRepo.class
+com\salespointfxsales\www\model\dto\ResultadoCobro.class
 com\salespointfxsales\www\controller\StarterController.class
 com\salespointfxsales\www\service\SucursalService.class
 com\salespointfxsales\www\controller\VentaController.class
@@ -23,6 +24,7 @@ com\salespointfxsales\www\model\VentaDetalle.class
 com\salespointfxsales\www\model\SucursalRecoleccion.class
 com\salespointfxsales\www\model\MovimientoInventarioDetalle.class
 com\salespointfxsales\www\model\Sucursal.class
+com\salespointfxsales\www\service\FolioService.class
 com\salespointfxsales\www\model\Gasto.class
 com\salespointfxsales\www\repo\VentaRepo.class
 com\salespointfxsales\www\config\SpringFXMLLoader.class
@@ -39,6 +41,7 @@ com\salespointfxsales\www\model\MovimientoCaja.class
 com\salespointfxsales\www\model\Usuario.class
 com\salespointfxsales\www\service\VentaService.class
 com\salespointfxsales\www\controller\AbrirCajaController.class
+com\salespointfxsales\www\repo\FolioRepo.class
 com\salespointfxsales\www\service\SucursalProductoService.class
 com\salespointfxsales\www\model\Empresa.class
 com\salespointfxsales\www\model\enums\TipoMovimiento.class

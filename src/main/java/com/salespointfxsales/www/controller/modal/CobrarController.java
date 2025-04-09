@@ -1,6 +1,6 @@
 package com.salespointfxsales.www.controller.modal;
 
-import com.salespointfxsales.www.model.ResultadoCobro;
+import com.salespointfxsales.www.model.dto.ResultadoCobro;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

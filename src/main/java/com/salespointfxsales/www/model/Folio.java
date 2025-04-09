@@ -78,7 +78,7 @@ public class Folio implements Serializable {
 
 	@Override
 	public String toString() {
-		return idFolio + " " + nombreFolio;
+		return folioCompuesto();
 	}
 
 }

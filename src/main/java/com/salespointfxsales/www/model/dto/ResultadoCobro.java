@@ -1,4 +1,4 @@
-package com.salespointfxsales.www.model;
+package com.salespointfxsales.www.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
