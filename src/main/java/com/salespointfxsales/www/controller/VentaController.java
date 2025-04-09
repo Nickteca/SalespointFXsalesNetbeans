@@ -3,6 +3,7 @@ package com.salespointfxsales.www.controller;
 import com.salespointfxsales.www.controller.modal.CantidadController;
 import com.salespointfxsales.www.controller.modal.CobrarController;
 import com.salespointfxsales.www.model.Categoria;
+import com.salespointfxsales.www.model.ResultadoCobro;
 import com.salespointfxsales.www.model.SucursalProducto;
 import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.service.CategoriaService;
@@ -53,6 +54,8 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class VentaController implements Initializable {
+
+    private static final DecimalFormat formatoMoneda = new DecimalFormat("#");
 
     private final SucursalProductoService sps;
     private final CategoriaService cs;
@@ -129,10 +132,13 @@ public class VentaController implements Initializable {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
+            cobrarController.totalVenta(Float.parseFloat(labelTotal.getText().replace("$", "")));
             stage.showAndWait();
 
+            // Obtener resultado
+            ResultadoCobro resultado = cobrarController.getResultadoCobro();
             // Ahora verificar si el cobro fue exitoso
-            if (cobrarController.isCobroExitoso()) {
+            if (resultado != null && resultado.isExito()) {
                 // Si el cobro fue exitoso, limpiar la tabla
                 olvd.clear(); // Aquí puedes limpiar la tabla o hacer otras acciones
                 tviewVentaDetalle.refresh();
@@ -142,7 +148,7 @@ public class VentaController implements Initializable {
                 showErrorDialog("ERROR AL COBRAR", "NO SE COBRO");
             }
         } catch (IOException e) {
-            showErrorDialog("ERROR EN COBRO!!!", e.getMessage()+"\n"+e.getCause());
+            showErrorDialog("ERROR EN COBRO!!!", e.getMessage() + "\n" + e.getCause());
         }
     }
 
@@ -152,7 +158,7 @@ public class VentaController implements Initializable {
             VentaDetalle vd = tviewVentaDetalle.getSelectionModel().getSelectedItem();
             if (vd != null) {
                 olvd.remove(vd);
-                labelTotal.setText("$" + calcularTotal());
+                labelTotal.setText(formatoMoneda.format(calcularTotal()));
             }
         } catch (Exception e) {
             showErrorDialog("Erro al eliminar", e.getMessage() + "\n" + e.getCause());
@@ -374,7 +380,8 @@ public class VentaController implements Initializable {
                 vd.setCantidad((short) (vd.getCantidad() + 1));
                 vd.setSubTotal(vd.getCantidad() * vd.getPrecio());
                 tviewVentaDetalle.refresh();
-                labelTotal.setText("$" + calcularTotal());
+                labelTotal.setText(formatoMoneda.format(calcularTotal()));
+                //labelTotal.setText("$" + calcularTotal());
                 return;
             }
         }
@@ -386,7 +393,8 @@ public class VentaController implements Initializable {
         nuevo.setSubTotal(producto.getPrecio());
 
         olvd.add(nuevo);
-        labelTotal.setText("$" + calcularTotal());
+        labelTotal.setText(formatoMoneda.format(calcularTotal()));
+        //labelTotal.setText("$" + calcularTotal());
         tviewVentaDetalle.scrollTo(nuevo);
         tviewVentaDetalle.getSelectionModel().select(nuevo);
 
