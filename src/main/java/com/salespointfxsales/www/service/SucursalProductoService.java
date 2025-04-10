@@ -23,4 +23,8 @@ public class SucursalProductoService {
     public SucursalProducto findByIdSucursalProducto(short id){
         return spr.findByIdSucursalProducto(id);
     }
+    
+    public List<SucursalProducto> findByInventariable(){
+        return spr.findByInventariableTrue();
+    }
 }

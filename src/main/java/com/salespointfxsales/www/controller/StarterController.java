@@ -80,7 +80,7 @@ public class StarterController implements Initializable {
 
     @FXML
     void inventario(ActionEvent event) {
-
+        cargarVista("/fxml/inventario.fxml");
     }
 
     @FXML

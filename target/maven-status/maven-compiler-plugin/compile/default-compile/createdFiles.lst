@@ -4,6 +4,7 @@ com\salespointfxsales\www\repo\CategoriaRepo.class
 com\salespointfxsales\www\model\dto\ResultadoCobro.class
 com\salespointfxsales\www\controller\StarterController.class
 com\salespointfxsales\www\service\SucursalService.class
+com\salespointfxsales\www\service\printer\PrinterTicketService.class
 com\salespointfxsales\www\controller\VentaController.class
 com\salespointfxsales\www\model\Folio.class
 com\salespointfxsales\www\repo\MovimientoCajaRepo.class
@@ -11,6 +12,7 @@ com\salespointfxsales\www\controller\modal\CobrarController.class
 com\salespointfxsales\www\repo\SucursalRepo.class
 com\salespointfxsales\www\controller\VentaController$1.class
 com\salespointfxsales\www\model\Categoria.class
+com\salespointfxsales\www\controller\InventarioController.class
 com\salespointfxsales\www\controller\modal\CantidadController.class
 com\salespointfxsales\www\SalespointFXsalesNetbeansApplication.class
 com\salespointfxsales\www\repo\VentaDetalleRepo.class
@@ -18,7 +20,9 @@ com\salespointfxsales\www\model\enums\BilleteValor.class
 com\salespointfxsales\www\repo\SucursalProductoRepo.class
 com\salespointfxsales\www\model\SucursalProducto.class
 com\salespointfxsales\www\controller\VentaController$2.class
+com\salespointfxsales\www\controller\InventarioController$1.class
 com\salespointfxsales\www\service\MovimientoCajaService.class
+com\salespointfxsales\www\service\printer\Printer.class
 com\salespointfxsales\www\model\UsuarioRol.class
 com\salespointfxsales\www\model\VentaDetalle.class
 com\salespointfxsales\www\model\SucursalRecoleccion.class
@@ -29,6 +33,7 @@ com\salespointfxsales\www\model\Gasto.class
 com\salespointfxsales\www\repo\VentaRepo.class
 com\salespointfxsales\www\config\SpringFXMLLoader.class
 com\salespointfxsales\www\service\CategoriaService.class
+com\salespointfxsales\www\controller\InventarioController$2.class
 com\salespointfxsales\www\model\SucursalGasto.class
 com\salespointfxsales\www\model\SucursalPedido.class
 com\salespointfxsales\www\model\SucursalPedidoDetalle.class

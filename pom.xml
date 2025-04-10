@@ -73,6 +73,12 @@
             <artifactId>javafx-fxml</artifactId>
             <version>23.0.2</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.github.anastaciocintra/escpos-coffee -->
+        <dependency>
+            <groupId>com.github.anastaciocintra</groupId>
+            <artifactId>escpos-coffee</artifactId>
+            <version>4.1.0</version>
+        </dependency>
     </dependencies>
 
     <build>

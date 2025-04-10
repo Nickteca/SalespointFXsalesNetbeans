@@ -37,6 +37,9 @@ public class SucursalProducto implements Serializable {
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT true")
     private boolean vendible;
+    
+    @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT false")
+    private boolean inventariable;
 
     @JoinColumn(name = "producto", referencedColumnName = "idProducto")
     @ManyToOne(optional = false)
