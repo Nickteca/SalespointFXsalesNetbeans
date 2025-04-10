@@ -4,6 +4,8 @@ import com.salespointfxadmin.www.model.enums.Naturaleza;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,6 +36,7 @@ public class Venta{
 	@Column(nullable = false)
 	private boolean status;
 
+        @Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Naturaleza naturalezaVenta;
 

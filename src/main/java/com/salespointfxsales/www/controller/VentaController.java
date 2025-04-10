@@ -167,13 +167,11 @@ public class VentaController implements Initializable {
                 v.setListVentaDetalle(lvd);
 
                 try {
-                    Venta guardada = vs.save(v, resultado);
+                    Venta guardada = vs.save(v, resultado,(Folio) labelFolio.getUserData());
                     if (guardada != null) {
                         olvd.clear();
                         tviewVentaDetalle.refresh();
                         labelTotal.setText("0");
-
-                        fs.updateFolioVenta((Folio) labelFolio.getUserData());
                         actualizarFolio();
                     }
                 } catch (Exception ex) {
