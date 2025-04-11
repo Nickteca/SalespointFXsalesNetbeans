@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="728.0" prefWidth="804.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.VentasController">
+<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.VentasController">
     <stylesheets>
         <URL value="@/styles/ventas.css" />
     </stylesheets>
@@ -29,9 +29,8 @@
          <center>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                  <TableView fx:id="tvVentaDetalle" layoutX="314.0" layoutY="183.0" prefHeight="693.0" prefWidth="804.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tvVentaDetalle" layoutX="314.0" layoutY="183.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn fx:id="columnId" prefWidth="75.0" text="ID" />
                       <TableColumn fx:id="columnProducto" prefWidth="75.0" text="PRODUCTO" />
                         <TableColumn fx:id="columnUnidades" prefWidth="75.0" text="UNIADES" />
                         <TableColumn fx:id="columnPrecio" prefWidth="75.0" text="PRECIO" />

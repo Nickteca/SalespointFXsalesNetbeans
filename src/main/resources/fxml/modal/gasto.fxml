@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="810.0" stylesheets="@../../styles/gasto.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.modal.GastoController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <BorderPane layoutX="168.0" layoutY="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <top>
+                  <Label text="GASTOS X DIA Y CORTE" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </top>
+               <left>
+                  <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="DATOS DEL GASTO">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label prefWidth="111.0" text="NOMBRE GSATO:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <ChoiceBox fx:id="cBoxGasto" prefWidth="150.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label prefWidth="111.0" text="MONTO $:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tFieldMonto" promptText="0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label prefWidth="111.0" text="# CONTRATO:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="tFieldContrato" promptText="0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Label text="OBSERVACIONES:">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <TextArea fx:id="tAreaObsevaciones" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#registrar" text="Registrar" />
+                              <Button mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </left>
+               <center>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                     <top>
+                        <VBox BorderPane.alignment="CENTER">
+                           <children>
+                              <HBox>
+                                 <children>
+                                    <Label text="FECHA INICIO:" />
+                                    <DatePicker fx:id="dPickerInicio" />
+                                    <Label text="FECHA FIN:" />
+                                    <DatePicker fx:id="dPicketFin" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="TOP_RIGHT">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#buscar" text="BUSCAR" />
+                                    <Button mnemonicParsing="false" onAction="#reimprimir" text="REIMPRIMIR" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </top>
+                     <center>
+                        <TableView fx:id="tViewSucursalGastos" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn fx:id="columnId" prefWidth="75.0" text="ID" />
+                            <TableColumn fx:id="columnGasto" prefWidth="75.0" text="GASTO" />
+                              <TableColumn fx:id="columnMonto" prefWidth="75.0" text="MONTO" />
+                              <TableColumn fx:id="columnContrato" prefWidth="75.0" text="CONTRATO" />
+                              <TableColumn fx:id="columnObservaciones" prefWidth="75.0" text="OBSERVACION" />
+                              <TableColumn fx:id="columnFecha" prefWidth="75.0" text="FECHA" />
+                          </columns>
+                        </TableView>
+                     </center>
+                  </BorderPane>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>

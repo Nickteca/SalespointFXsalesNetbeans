@@ -67,26 +67,6 @@ public class VentaService {
         }
     }
 
-    /*public List<Venta> findResumenVentasPorSucursalProducto() {
-        try {
-            MovimientoCaja mc = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
-            if (mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
-                return vr.findResumenVentasPorSucursalProducto(mc.getCreatedAt(), LocalDateTime.now());
-            } else {
-                throw new IllegalStateException("La caja no está abierta.");
-            }
-        } catch (IllegalStateException e) {
-            // Aquí capturamos el caso cuando no hay sucursal activa o la caja no está abierta
-            System.err.println("Error: " + e.getMessage());
-            throw e;  // Lanzamos la excepción para que el controller lo maneje
-        } catch (Exception e) {
-            // Captura cualquier otra excepción
-            System.err.println("Error desconocido al guardar la venta: " + e.getMessage());
-            throw e;
-        }
-
-    }*/
-
     private void actualizarInventario(Venta v) {
         try {
             List<VentaDetalle> lvd = v.getListVentaDetalle();

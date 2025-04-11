@@ -1,6 +1,7 @@
 package com.salespointfxsales.www.controller;
 
 import com.salespointfxsales.www.config.SpringFXMLLoader;
+import com.salespointfxsales.www.controller.modal.CobrarController;
 import com.salespointfxsales.www.service.SucursalService;
 import java.io.IOException;
 import java.net.URL;
@@ -14,9 +15,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import lombok.RequiredArgsConstructor;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -70,12 +75,12 @@ public class StarterController implements Initializable {
 
     @FXML
     void cerrarCaja(MouseEvent event) {
-
+        cargarVista("/fxml/inventario.fxml");
     }
 
     @FXML
     void gastos(ActionEvent event) {
-
+        cargarModal("/fxml/modal/gasto.fxml","Gatos");
     }
 
     @FXML
@@ -113,6 +118,29 @@ public class StarterController implements Initializable {
             FXMLLoader fxml = springFXMLLoader.load(fxmlPath);
             AnchorPane view = fxml.load();
             bPanePrincipal.setCenter(view);
+            
+        } catch (IOException e) {
+            Alert error = new Alert(AlertType.ERROR);
+            error.setTitle("StarterController Error!!!");
+            error.setHeaderText("Error al cargar la vista");
+            error.setContentText(e.getMessage() + "\n" + e.getCause());
+            error.show();
+            e.printStackTrace();
+        }
+    }
+    private void cargarModal(String fxmlPath, String titulo){
+        try {
+            FXMLLoader fxml = springFXMLLoader.load(fxmlPath);
+            Parent root = fxml.load();
+
+            //CobrarController cobrarController = loader.getController();
+
+            Stage stage = new Stage();
+            stage.setTitle(titulo);
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setResizable(false);
+            stage.show();
             
         } catch (IOException e) {
             Alert error = new Alert(AlertType.ERROR);

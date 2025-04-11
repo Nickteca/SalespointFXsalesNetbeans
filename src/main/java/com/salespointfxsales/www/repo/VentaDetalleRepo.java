@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface VentaDetalleRepo extends JpaRepository<VentaDetalle, Integer> {
 
-    @Query("SELECT vd.sucursalProducto AS sucursalProducto, SUM(vd.cantidad) AS totalUnidades, SUM(vd.subTotal) AS totalSubtotal FROM VentaDetalle vd WHERE vd.venta.sucursal.estatusSucursal = true AND vd.venta.createdAt BETWEEN :fechaApertura AND :fechaVenta GROUP BY vd.sucursalProducto")
+    @Query("SELECT vd FROM VentaDetalle vd WHERE vd.venta.sucursal.estatusSucursal = true AND vd.venta.createdAt BETWEEN :fechaApertura AND :fechaVenta")
     List<VentaDetalle> findResumenVentasPorSucursalProducto(
             @Param("fechaApertura") LocalDateTime fechaApertura,
             @Param("fechaVenta") LocalDateTime fechaVenta
