@@ -100,7 +100,7 @@ public class StarterController implements Initializable {
 
     @FXML
     void ventas(ActionEvent event) {
-
+         cargarVista("/fxml/ventas.fxml");
     }
 
     @Override

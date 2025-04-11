@@ -67,11 +67,11 @@ public class VentaService {
         }
     }
 
-    public List<Venta> findBySucursalEstatusSucursalTrueAndCreatedAtBetween() {
+    /*public List<Venta> findResumenVentasPorSucursalProducto() {
         try {
             MovimientoCaja mc = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
             if (mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
-                return vr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
+                return vr.findResumenVentasPorSucursalProducto(mc.getCreatedAt(), LocalDateTime.now());
             } else {
                 throw new IllegalStateException("La caja no está abierta.");
             }
@@ -85,7 +85,7 @@ public class VentaService {
             throw e;
         }
 
-    }
+    }*/
 
     private void actualizarInventario(Venta v) {
         try {
@@ -109,4 +109,6 @@ public class VentaService {
             throw e;
         }
     }
+    
+   
 }
