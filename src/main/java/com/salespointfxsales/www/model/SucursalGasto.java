@@ -29,10 +29,10 @@ public class SucursalGasto implements Serializable {
 	@Column(nullable = false)
 	private float montoGasto;
 
-	@Column(nullable = false, length = 20)
+	@Column(nullable = true, length = 20)
 	private String contrato;
 
-	@Column(nullable = false, length = 60)
+	@Column(nullable = true, length = 60)
 	private String observaciones;
 
 	@Column(nullable = false)

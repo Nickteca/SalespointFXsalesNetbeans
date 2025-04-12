@@ -3,6 +3,7 @@ package com.salespointfxsales.www.controller.modal;
 import com.salespointfxsales.www.model.Gasto;
 import com.salespointfxsales.www.model.SucursalGasto;
 import com.salespointfxsales.www.model.SucursalProducto;
+import com.salespointfxsales.www.service.GastoService;
 import com.salespointfxsales.www.service.SucursalGastoService;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -15,6 +16,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
@@ -29,10 +31,13 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class GastoController implements Initializable {
+
     private final SucursalGastoService sgs;
+    private final GastoService gs;
 
     @FXML
     private ChoiceBox<Gasto> cBoxGasto;
+    private ObservableList<Gasto> olg = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<SucursalGasto, String> columnContrato;
@@ -73,7 +78,23 @@ public class GastoController implements Initializable {
 
     @FXML
     void buscar(ActionEvent event) {
+        try {
+            LocalDate inicio = dPickerInicio.getValue();
+            LocalDate fin = dPicketFin.getValue();
+            if (inicio == null || fin == null) {
+                showErrorDialog("Fechas vacias", "Debes seleccionar am bas fechas");
+                return;
+            }
 
+            if (fin.isBefore(inicio)) {
+                 showErrorDialog("Rango incorrecto", "La fecha fin no pyuede ser menor a la de inicio");
+                return;
+            }
+            sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(inicio, fin);
+            tViewSucursalGastos.setItems(olsg);
+
+        } catch (Exception e) {
+        }
     }
 
     @FXML
@@ -83,7 +104,26 @@ public class GastoController implements Initializable {
 
     @FXML
     void registrar(ActionEvent event) {
-
+        try {
+            if (tFieldMonto.getText().isEmpty()) {
+                showErrorDialog("Campo vacio", "La cantidad no debe estar vacia");
+                return;
+            }
+            float montoGasto = Float.parseFloat(tFieldMonto.getText());
+            SucursalGasto sg = new SucursalGasto();
+            sg.setMontoGasto(montoGasto);
+            sg.setContrato(tFieldContrato.getText());
+            sg.setGasto(cBoxGasto.getSelectionModel().getSelectedItem());
+            sg.setObservaciones(tAreaObsevaciones.getText());
+            sg = sgs.save(sg);
+            olsg.add(sg);
+        } catch (NumberFormatException e) {
+            showErrorDialog("Error Numerico", e.getMessage());
+        } catch (IllegalArgumentException e) {
+            showErrorDialog("Error de negocio", e.getMessage());
+        } catch (Exception e) {
+            showErrorDialog("Error desconocido", e.getMessage());
+        }
     }
 
     @FXML
@@ -95,6 +135,7 @@ public class GastoController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         iniciardPickers();
         iniciarTablaSucursalGasto();
+        cargarGastoschoiceBox();
     }
 
     private void iniciarTablaSucursalGasto() {
@@ -161,4 +202,17 @@ public class GastoController implements Initializable {
         }
     }
 
+    private void cargarGastoschoiceBox() {
+        olg.addAll(gs.findAll());
+        cBoxGasto.setItems(olg);
+        cBoxGasto.getSelectionModel().selectFirst();
+    }
+
+    private void showErrorDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(title);
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
 }
