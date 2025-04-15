@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -15,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="810.0" stylesheets="@../../styles/gasto.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.modal.GastoController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="810.0" stylesheets="@../../styles/gasto.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.modal.GastoController">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -75,10 +77,24 @@
                               <TextArea fx:id="tAreaObsevaciones" prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#registrar" text="Registrar" />
-                              <Button mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+                              <Button mnemonicParsing="false" onAction="#registrar" text="Registrar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                       <image>
+                                          <Image url="@../../img/CheckedCheckbox.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button mnemonicParsing="false" onAction="#cancelar" text="Cancelar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                       <image>
+                                          <Image url="@../../img/Cancel.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                         </HBox>
                      </children>
@@ -97,10 +113,24 @@
                                     <DatePicker fx:id="dPicketFin" />
                                  </children>
                               </HBox>
-                              <HBox alignment="TOP_RIGHT">
+                              <HBox alignment="TOP_RIGHT" spacing="10.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onAction="#buscar" text="BUSCAR" />
-                                    <Button mnemonicParsing="false" onAction="#reimprimir" text="REIMPRIMIR" />
+                                    <Button mnemonicParsing="false" onAction="#buscar" text="BUSCAR">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../../img/Search.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
+                                    <Button mnemonicParsing="false" onAction="#reimprimir" text="REIMPRIMIR">
+                                       <graphic>
+                                          <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                             <image>
+                                                <Image url="@../../img/Print.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic></Button>
                                  </children>
                               </HBox>
                            </children>
@@ -123,5 +153,6 @@
             </BorderPane>
          </children>
       </AnchorPane>
+      <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </StackPane>

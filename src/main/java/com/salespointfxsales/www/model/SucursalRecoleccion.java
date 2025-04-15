@@ -29,15 +29,17 @@ public class SucursalRecoleccion implements Serializable {
 	private Integer idSucursalRecoleccion;
 
 	@Column(nullable = false)
-	private float TotalRecoleccion;
+	private float totalRecoleccion;
 
 	@Column(nullable = false)
 	private LocalDateTime createdAt;
+        
+        @OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalRecoleccion")
+	private List<SucursalRecoleccionDetalle> listSucursalRecoleccionDetalle;
 
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = false)
 	private Sucursal sucursal;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sucursalRecoleccion")
-	private List<Billete> listBillete;
+	
 }

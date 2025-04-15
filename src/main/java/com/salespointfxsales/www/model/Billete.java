@@ -1,6 +1,7 @@
 package com.salespointfxsales.www.model;
 
 import com.salespointfxsales.www.model.enums.BilleteValor;
+import jakarta.persistence.CascadeType;
 import java.io.Serializable;
 
 
@@ -13,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,24 +33,9 @@ public class Billete implements Serializable {
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private BilleteValor billete;
+	private BilleteValor billeteValor;
 
-	@Column(nullable = false)
-	private int cantidad;
 
-	@Column(nullable = false)
-	private int subtotal;
-
-	@JoinColumn(name = "sucursalRecoleccion", referencedColumnName = "idSucursalRecoleccion")
-	@ManyToOne(optional = false)
-	private SucursalRecoleccion sucursalRecoleccion;
-
-	public Billete(Integer idBillete, BilleteValor billete, int cantidad, int subtotal) {
-		super();
-		this.idBillete = idBillete;
-		this.billete = billete;
-		this.cantidad = cantidad;
-		this.subtotal = subtotal;
-	}
-
+	@OneToMany(mappedBy = "billete", cascade = CascadeType.ALL)
+	private List<SucursalRecoleccionDetalle> listSucursalRecoleccionDetalle;
 }

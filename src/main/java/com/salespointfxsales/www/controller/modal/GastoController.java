@@ -37,7 +37,7 @@ public class GastoController implements Initializable {
 
     @FXML
     private ChoiceBox<Gasto> cBoxGasto;
-    private ObservableList<Gasto> olg = FXCollections.observableArrayList();
+    private ObservableList<Gasto> olg;
 
     @FXML
     private TableColumn<SucursalGasto, String> columnContrato;
@@ -74,7 +74,7 @@ public class GastoController implements Initializable {
 
     @FXML
     private TableView<SucursalGasto> tViewSucursalGastos;
-    private ObservableList<SucursalGasto> olsg = FXCollections.observableArrayList();
+    private ObservableList<SucursalGasto> olsg;
 
     @FXML
     void buscar(ActionEvent event) {
@@ -190,7 +190,8 @@ public class GastoController implements Initializable {
                 }
             };
         });
-        olsg.setAll(sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPicketFin.getValue()));
+        olsg = FXCollections.observableArrayList(sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPicketFin.getValue()));
+        //olsg.setAll(sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(dPickerInicio.getValue(), dPicketFin.getValue()));
         tViewSucursalGastos.setItems(olsg);
     }
 
@@ -203,7 +204,7 @@ public class GastoController implements Initializable {
     }
 
     private void cargarGastoschoiceBox() {
-        olg.addAll(gs.findAll());
+        olg = FXCollections.observableArrayList(gs.findAll());
         cBoxGasto.setItems(olg);
         cBoxGasto.getSelectionModel().selectFirst();
     }

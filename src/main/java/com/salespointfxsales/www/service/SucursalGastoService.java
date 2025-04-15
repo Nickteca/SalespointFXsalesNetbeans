@@ -35,6 +35,6 @@ public class SucursalGastoService {
     }
 
     public List<SucursalGasto> findBySucursalEstatusSucursalTrueAndCreatedAtBetween(LocalDate inicio, LocalDate fin) {
-        return sgr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(inicio.atStartOfDay(), fin.atTime(11, 59, 59));
+        return sgr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(inicio.atStartOfDay(), fin.atTime(23, 59, 59));
     }
 }

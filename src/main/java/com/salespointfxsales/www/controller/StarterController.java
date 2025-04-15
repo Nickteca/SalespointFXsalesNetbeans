@@ -95,7 +95,7 @@ public class StarterController implements Initializable {
 
     @FXML
     void recoleccion(ActionEvent event) {
-
+        cargarModal("/fxml/modal/recoleccion.fxml","recoleccion");
     }
 
     @FXML
