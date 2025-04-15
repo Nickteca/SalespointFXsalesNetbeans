@@ -17,6 +17,7 @@ com\salespointfxsales\www\model\MovimientoInventarioDetalle.class
 com\salespointfxsales\www\model\Sucursal.class
 com\salespointfxsales\www\service\FolioService.class
 com\salespointfxsales\www\model\Gasto.class
+com\salespointfxsales\www\model\Corte.class
 com\salespointfxsales\www\repo\GastoRepo.class
 com\salespointfxsales\www\service\SucursalRecoleccionDetalleService.class
 com\salespointfxsales\www\model\SucursalGasto.class

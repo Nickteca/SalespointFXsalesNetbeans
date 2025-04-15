@@ -82,6 +82,9 @@ public class Sucursal implements Serializable {
 
 	@OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
 	private List<SucursalPedido> listSucursalPedido;
+        
+        @OneToMany(mappedBy = "sucursal", cascade = CascadeType.ALL)
+	private List<Corte> listCorte;
 
 	public Sucursal(Integer idSucursal, String nombreSucursal, String calleSucursal, String ciudadSucursal, String estadoSucursal, String telefonoSucursal, boolean estatusSucursal, Empresa empresa) {
 		super();

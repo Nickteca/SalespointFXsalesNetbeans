@@ -2,6 +2,7 @@ package com.salespointfxsales.www.controller;
 
 import com.salespointfxsales.www.config.SpringFXMLLoader;
 import com.salespointfxsales.www.controller.modal.CobrarController;
+import com.salespointfxsales.www.service.MovimientoCajaService;
 import com.salespointfxsales.www.service.SucursalService;
 import java.io.IOException;
 import java.net.URL;
@@ -27,7 +28,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class StarterController implements Initializable {
+
     private final SucursalService ss;
+    private final MovimientoCajaService mcs;
 
     private final SpringFXMLLoader springFXMLLoader;
 
@@ -45,6 +48,8 @@ public class StarterController implements Initializable {
 
     @FXML
     private Button buttonAbrirCajon;
+    @FXML
+    private Button buttonCerrarCaja;
 
     @FXML
     private Button buttonGastos;
@@ -64,7 +69,6 @@ public class StarterController implements Initializable {
     @FXML
     private Button buttonVentas;
 
-    
     @FXML
     private Label labelSucursal;
 
@@ -74,13 +78,18 @@ public class StarterController implements Initializable {
     }
 
     @FXML
-    void cerrarCaja(MouseEvent event) {
-        cargarVista("/fxml/inventario.fxml");
+    void cerrarCaja(ActionEvent event) {
+        try {
+            mcs.cerrarCaja();
+        } catch (IllegalArgumentException e) {
+            showMensages("Error Cerrar Caja", "Hubo error al cerrar caja", e.getMessage()+"\n"+e.getCause());
+        }
+
     }
 
     @FXML
     void gastos(ActionEvent event) {
-        cargarModal("/fxml/modal/gasto.fxml","Gatos");
+        cargarModal("/fxml/modal/gasto.fxml", "Gatos");
     }
 
     @FXML
@@ -95,7 +104,7 @@ public class StarterController implements Initializable {
 
     @FXML
     void recoleccion(ActionEvent event) {
-        cargarModal("/fxml/modal/recoleccion.fxml","recoleccion");
+        cargarModal("/fxml/modal/recoleccion.fxml", "recoleccion");
     }
 
     @FXML
@@ -105,7 +114,7 @@ public class StarterController implements Initializable {
 
     @FXML
     void ventas(ActionEvent event) {
-         cargarVista("/fxml/ventas.fxml");
+        cargarVista("/fxml/ventas.fxml");
     }
 
     @Override
@@ -118,7 +127,7 @@ public class StarterController implements Initializable {
             FXMLLoader fxml = springFXMLLoader.load(fxmlPath);
             AnchorPane view = fxml.load();
             bPanePrincipal.setCenter(view);
-            
+
         } catch (IOException e) {
             Alert error = new Alert(AlertType.ERROR);
             error.setTitle("StarterController Error!!!");
@@ -128,20 +137,20 @@ public class StarterController implements Initializable {
             e.printStackTrace();
         }
     }
-    private void cargarModal(String fxmlPath, String titulo){
+
+    private void cargarModal(String fxmlPath, String titulo) {
         try {
             FXMLLoader fxml = springFXMLLoader.load(fxmlPath);
             Parent root = fxml.load();
 
             //CobrarController cobrarController = loader.getController();
-
             Stage stage = new Stage();
             stage.setTitle(titulo);
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setResizable(false);
             stage.show();
-            
+
         } catch (IOException e) {
             Alert error = new Alert(AlertType.ERROR);
             error.setTitle("StarterController Error!!!");
@@ -150,5 +159,13 @@ public class StarterController implements Initializable {
             error.show();
             e.printStackTrace();
         }
+    }
+
+    private void showMensages(String titile, String mensage, String errors) {
+        Alert error = new Alert(AlertType.ERROR);
+        error.setTitle(titile);
+        error.setHeaderText(mensage);
+        error.setContentText(errors);
+        error.show();
     }
 }

@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<StackPane minHeight="768.0" minWidth="1024.0" stylesheets="@../styles/starter.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.StarterController">
+<StackPane minHeight="768.0" minWidth="1024.0" stylesheets="@../styles/starter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.StarterController">
    <children>
       <AnchorPane>
          <children>
@@ -143,6 +143,18 @@
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@../img/Drawer.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonCerrarCaja" alignment="TOP_LEFT" layoutX="23.0" layoutY="462.0" mnemonicParsing="false" onAction="#cerrarCaja" prefWidth="175.0" styleClass="botonesMenu" text="CERRAR CAJA">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../img/CloseSign.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
