@@ -10,6 +10,8 @@ import jakarta.persistence.Basic;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,9 +46,11 @@ public class Folio implements Serializable {
 	@Column(nullable = false)
 	private int numeroFolio;
 
+        @Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Naturaleza naturalezaFolio;
 
+        @Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private NombreFolio nombreFolio;
 	

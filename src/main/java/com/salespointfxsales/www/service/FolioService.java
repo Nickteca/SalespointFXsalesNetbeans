@@ -3,6 +3,7 @@ package com.salespointfxsales.www.service;
 import com.salespointfxadmin.www.enums.NombreFolio;
 import com.salespointfxsales.www.model.Folio;
 import com.salespointfxsales.www.repo.FolioRepo;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class FolioService {
 
     private final FolioRepo fr;
+    
+    public List<Folio> findBySucursalEstatusSucursalTrue(){
+        return fr.findBySucursalEstatusSucursalTrue();
+    }
 
     public Folio getFolioVenta() {
         return fr.findByNombreFolio(NombreFolio.Venta);

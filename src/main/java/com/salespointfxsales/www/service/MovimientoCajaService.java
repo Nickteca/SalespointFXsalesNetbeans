@@ -69,7 +69,7 @@ public class MovimientoCajaService {
             float gasto = totalGasto(lsg);
             float recoleccion = totalRecoleccion(lsr);
             
-            
+            System.out.println("Venta: "+total+"\n Saldo anterior: "+saldoanterior+"\n Gasto: "+gasto+"\n Recoleccion:"+recoleccion);
 
             return mc;
         } catch (IllegalArgumentException e) {
@@ -99,7 +99,7 @@ public class MovimientoCajaService {
     private float totalGasto(List<SucursalGasto> lsg) {
         try {
             if (lsg.isEmpty()) {
-                throw new IllegalArgumentException("al prece no hay ventas");
+                return 0;
             }
             float total = 0f;
             for (SucursalGasto sg : lsg) {
@@ -116,7 +116,7 @@ public class MovimientoCajaService {
     private float totalRecoleccion(List<SucursalRecoleccion> lsr) {
         try {
             if (lsr.isEmpty()) {
-                throw new IllegalArgumentException("al prece no hay ventas");
+                return 0;
             }
             float total = 0f;
             for (SucursalRecoleccion sr : lsr) {

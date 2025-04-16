@@ -8,6 +8,7 @@ com\salespointfxsales\www\service\SucursalGastoService.class
 com\salespointfxsales\www\controller\VentaController.class
 com\salespointfxsales\www\repo\SucursalRepo.class
 com\salespointfxsales\www\controller\VentaController$1.class
+com\salespointfxsales\www\repo\MovimientoInventarioRepo.class
 com\salespointfxsales\www\model\Categoria.class
 com\salespointfxsales\www\model\SucursalProducto.class
 com\salespointfxsales\www\controller\modal\GastoController$2.class
@@ -17,6 +18,7 @@ com\salespointfxsales\www\model\MovimientoInventarioDetalle.class
 com\salespointfxsales\www\model\Sucursal.class
 com\salespointfxsales\www\service\FolioService.class
 com\salespointfxsales\www\model\Gasto.class
+com\salespointfxsales\www\controller\MovimientoController.class
 com\salespointfxsales\www\model\Corte.class
 com\salespointfxsales\www\repo\GastoRepo.class
 com\salespointfxsales\www\service\SucursalRecoleccionDetalleService.class
@@ -42,6 +44,7 @@ com\salespointfxsales\www\controller\modal\CobrarController.class
 com\salespointfxsales\www\controller\modal\GastoController$1.class
 com\salespointfxsales\www\controller\InventarioController.class
 com\salespointfxsales\www\controller\modal\CantidadController.class
+com\salespointfxsales\www\service\MovimientoInventarioService.class
 com\salespointfxsales\www\service\VentaDetalleService.class
 com\salespointfxsales\www\SalespointFXsalesNetbeansApplication.class
 com\salespointfxsales\www\repo\VentaDetalleRepo.class

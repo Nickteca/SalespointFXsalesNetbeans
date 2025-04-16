@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="708.0" prefWidth="824.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.salespointfxsales.www.controller.MovimientoController">
+    <stylesheets>
+        <URL value="@/styles/movimiento.css" />
+    </stylesheets>
+   <children>
+      <BorderPane layoutX="356.0" layoutY="221.0" prefHeight="708.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <AnchorPane>
+                     <children>
+                        <Label alignment="CENTER" layoutX="398.0" layoutY="42.0" text="MOVIMIENTOS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane>
+                     <children>
+                        <HBox alignment="CENTER_LEFT" layoutX="250.0" layoutY="51.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label text="Fecha incio:" />
+                              <DatePicker fx:id="dPickerInicio" />
+                              <Label text="Fecha Fin:" />
+                              <DatePicker fx:id="dPicketFin" />
+                              <ChoiceBox fx:id="cBoxFolio" prefWidth="150.0" />
+                              <Button fx:id="buttonBuscar" mnemonicParsing="false" onAction="#buscar" text="Buscar">
+                                 <graphic>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                       <image>
+                                          <Image url="@../img/Search.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="tViewMovimiento" prefHeight="623.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columns>
+                        <TableColumn fx:id="columnId" editable="false" prefWidth="75.0" sortable="false" text="ID" />
+                        <TableColumn fx:id="columnFolio" editable="false" prefWidth="75.0" sortable="false" text="FOLIO" />
+                        <TableColumn fx:id="columnNMaturaleza" editable="false" prefWidth="178.0" sortable="false" text="NATURALEZA" />
+                        <TableColumn fx:id="columnFecha" editable="false" prefWidth="75.0" sortable="false" text="FECHA" />
+                        <TableColumn fx:id="columnSucursalDestino" prefWidth="165.0" text="SUCURSAL DESTINO" />
+                        <TableColumn fx:id="columnDescripcion" prefWidth="209.0" text="DESCRIPCION" />
+                     </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>
