@@ -99,7 +99,7 @@ public class StarterController implements Initializable {
 
     @FXML
     void movimientos(ActionEvent event) {
-
+        cargarVista("/fxml/movimiento.fxml");
     }
 
     @FXML
