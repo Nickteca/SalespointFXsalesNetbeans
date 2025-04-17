@@ -1,11 +1,14 @@
 package com.salespointfxsales.www.controller;
 
 import com.salespointfxadmin.www.model.enums.Naturaleza;
+import com.salespointfxsales.www.config.SpringFXMLLoader;
+import com.salespointfxsales.www.controller.modal.MovimientoDetalleController;
 import com.salespointfxsales.www.model.Folio;
 import com.salespointfxsales.www.model.MovimientoInventario;
 import com.salespointfxsales.www.model.Sucursal;
 import com.salespointfxsales.www.service.FolioService;
 import com.salespointfxsales.www.service.MovimientoInventarioService;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,7 +18,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -23,6 +28,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +38,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MovimientoController implements Initializable {
 
+    private final SpringFXMLLoader springFXMLLoader;
     private final FolioService fs;
     private final MovimientoInventarioService mis;
 
@@ -74,12 +83,12 @@ public class MovimientoController implements Initializable {
             LocalDate inicio = dPickerInicio.getValue();
             LocalDate fin = dPicketFin.getValue();
             if (inicio == null || fin == null) {
-                showMensages("Fechas vacias", "Debes seleccionar am bas fechas","");
+                showMensages("Fechas vacias", "Debes seleccionar am bas fechas", "");
                 return;
             }
 
             if (fin.isBefore(inicio)) {
-                 showMensages("Rango incorrecto", "La fecha fin no pyuede ser menor a la de inicio","");
+                showMensages("Rango incorrecto", "La fecha fin no pyuede ser menor a la de inicio", "");
                 return;
             }
             Folio f = cBoxFolio.getSelectionModel().getSelectedItem();
@@ -92,7 +101,7 @@ public class MovimientoController implements Initializable {
             tViewMovimiento.setItems(olmi);
 
         } catch (Exception e) {
-            showMensages("Error en buscar movimientos", "Hay un erro en el movimiento", e.getMessage()+"\n"+e.getCause());
+            showMensages("Error en buscar movimientos", "Hay un erro en el movimiento", e.getMessage() + "\n" + e.getCause());
         }
     }
 
@@ -128,7 +137,7 @@ public class MovimientoController implements Initializable {
             if (event.getClickCount() == 2) { // Doble clic
                 MovimientoInventario mis = tViewMovimiento.getSelectionModel().getSelectedItem();
                 if (mis != null) {
-                    //mostrarMovimiento(mis);
+                    mostrarMovimiento(mis);
                 }
             }
         });
@@ -148,5 +157,28 @@ public class MovimientoController implements Initializable {
         error.setHeaderText(mensage);
         error.setContentText(errors);
         error.show();
+    }
+
+    private void mostrarMovimiento(MovimientoInventario mi) {
+        try {
+            FXMLLoader fxml = springFXMLLoader.load("/fxml/modal/movimientodetalle.fxml");
+            AnchorPane root = fxml.load();
+            MovimientoDetalleController midc = fxml.getController();
+            midc.cargarProductosMovimiento(mi);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            // stage.initStyle(StageStyle.UNDECORATED); // Ventana sin bordes
+            stage.setTitle("Nuevo Movimiento de Inventario");
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            stage.showAndWait();
+
+            // Recargar la tabla después de que se cierre la ventana
+            // iniciarTablaMovimientoInventario();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

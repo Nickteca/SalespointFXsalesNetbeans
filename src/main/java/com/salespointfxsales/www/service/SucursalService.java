@@ -2,6 +2,7 @@ package com.salespointfxsales.www.service;
 
 import com.salespointfxsales.www.model.Sucursal;
 import com.salespointfxsales.www.repo.SucursalRepo;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,5 +13,9 @@ public class SucursalService {
     
     public Sucursal findByEstatusSucursalTrue(){
         return sr.findByEstatusSucursalTrue().orElse(null);
+    }
+    
+    public List<Sucursal> findAll(){
+        return sr.findAll();
     }
 }

@@ -218,7 +218,7 @@ public class VentaController implements Initializable {
         // Supón que fs.getFolioVenta() retorna un objeto Folio con la información actual.
         Folio folioActual = fs.getFolioVenta();
         // Formatea el folio según el formato deseado, por ejemplo: "VEN-11-1"
-        labelFolio.setText(folioActual.toString());
+        labelFolio.setText(folioActual.folioCompuesto());
         labelFolio.setUserData(folioActual);
         /*String folioFormateado = String.format("%s-%d-%d",
                 folioActual.getAcronimoFolio().replace("-", ""),
