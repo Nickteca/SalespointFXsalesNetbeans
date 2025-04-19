@@ -19,7 +19,9 @@ import com.salespointfxsales.www.repo.VentaDetalleRepo;
 import com.salespointfxsales.www.repo.VentaRepo;
 import com.salespointfxsales.www.service.printer.PrinterTicketService;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,8 +56,9 @@ public class VentaService {
             fr.incrementarNumeroFolio(f.getIdFolio());
             actualizarInventario(v);
             pts.imprimirTicket(v, rc);
-            return vr.save(v);
-
+            v = vr.save(v);
+            System.err.println("Venta guardada con ID: " + v.getIdVenta());
+            return v;
         } catch (IllegalStateException e) {
             // Aquí capturamos el caso cuando no hay sucursal activa o la caja no está abierta
             System.err.println("Error: " + e.getMessage());
@@ -69,26 +72,40 @@ public class VentaService {
 
     private void actualizarInventario(Venta v) {
         try {
-            List<VentaDetalle> lvd = v.getListVentaDetalle();
-            for (VentaDetalle vd : lvd) {
+            // Acumular los descuentos por cada producto-sucursal
+            Map<Short, Float> descuentos = new HashMap<>();
+
+            for (VentaDetalle vd : v.getListVentaDetalle()) {
                 SucursalProducto sp = vd.getSucursalProducto();
                 if (sp.getProducto().isEsPaquete()) {
                     List<ProductoPaquete> lpp = ppr.findByPaquete(sp.getProducto());
+
                     for (ProductoPaquete pp : lpp) {
-                        SucursalProducto spa = spr.findByIdSucursalProducto(pp.getProductoPaquete().getIdProducto());
-                        spa.setInventario(spa.getInventario() - (pp.getCantidad() * vd.getCantidad()));
-                        spr.save(spa);
+                        SucursalProducto spa = spr.findByProductoAndSucursal(pp.getProductoPaquete(), v.getSucursal())
+                                .orElseThrow(() -> new RuntimeException("No se encontró producto en sucursal"));
+
+                        short idSp = spa.getIdSucursalProducto();
+                        float cantidadADescontar =  (pp.getCantidad() * vd.getCantidad());
+
+                        descuentos.merge(idSp, cantidadADescontar, Float::sum);
                     }
                 } else {
-                    sp.setInventario(sp.getInventario() - vd.getCantidad());
-                    spr.save(sp);
+                    short idSp = sp.getIdSucursalProducto();
+                    descuentos.merge(idSp, (float)vd.getCantidad(), Float::sum);
                 }
             }
+
+            // Aplicar descuentos ya acumulados
+            for (Map.Entry<Short, Float> entry : descuentos.entrySet()) {
+                SucursalProducto sp = spr.findById(entry.getKey()).orElseThrow();
+                sp.setInventario(sp.getInventario() - entry.getValue());
+                spr.save(sp);
+            }
+
         } catch (Exception e) {
-            System.err.println("Error Actuañlizar el inventario: " + e.getMessage());
+            System.err.println("Error al actualizar inventario: " + e.getMessage());
             throw e;
         }
     }
-    
-   
+
 }

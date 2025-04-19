@@ -119,7 +119,7 @@ public class RecoleccionController implements Initializable {
                     short cantidad = Short.parseShort(textFields[i].getText());
                     int subtotal = cantidad * valores[i];
                     total += subtotal;
-                    SucursalRecoleccionDetalle srd = new SucursalRecoleccionDetalle(null, cantidad, bs.findByBillete(BilleteValor.valueOf(denominacion[i])), sr);
+                    SucursalRecoleccionDetalle srd = new SucursalRecoleccionDetalle(null, cantidad, subtotal ,bs.findByBillete(BilleteValor.valueOf(denominacion[i])), sr);
                     lsrd.add(srd);
                 }
             }

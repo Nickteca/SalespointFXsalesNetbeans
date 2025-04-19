@@ -1,5 +1,6 @@
 package com.salespointfxsales.www.model;
 
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,9 @@ public class SucursalRecoleccionDetalle {
 
     @Column(nullable = false)
     private short cantidad;
+    
+    @Column(nullable = false)
+    private float subTotal;
 
     @JoinColumn(name = "billete", referencedColumnName = "idBillete")
     @ManyToOne(optional = false)

@@ -14,6 +14,7 @@ com\salespointfxsales\www\controller\modal\MovimientoDetalleController.class
 com\salespointfxsales\www\model\SucursalProducto.class
 com\salespointfxsales\www\controller\modal\GastoController$2.class
 com\salespointfxsales\www\controller\InventarioController$1.class
+com\salespointfxsales\www\service\printer\PrinterGasto.class
 com\salespointfxsales\www\model\UsuarioRol.class
 com\salespointfxsales\www\model\MovimientoInventarioDetalle.class
 com\salespointfxsales\www\model\Sucursal.class
@@ -51,6 +52,7 @@ com\salespointfxsales\www\service\VentaDetalleService.class
 com\salespointfxsales\www\SalespointFXsalesNetbeansApplication.class
 com\salespointfxsales\www\repo\VentaDetalleRepo.class
 com\salespointfxsales\www\model\SucursalRecoleccionDetalle.class
+com\salespointfxsales\www\service\printer\PrinterRecoleccion.class
 com\salespointfxsales\www\controller\VentasController$1.class
 com\salespointfxsales\www\model\enums\BilleteValor.class
 com\salespointfxsales\www\repo\SucursalProductoRepo.class

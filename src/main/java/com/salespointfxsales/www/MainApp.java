@@ -35,7 +35,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        if (!isApplicationAlreadyRunning(9999)) {
+        if (!isApplicationAlreadyRunning(9998)) {
             Sucursal s = ss.findByEstatusSucursalTrue();
             if (s != null) {
                 MovimientoCaja mc = mcs.findlastmovimientoCajasucursalActiva();
