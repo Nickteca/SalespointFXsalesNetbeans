@@ -120,6 +120,7 @@ public class RecoleccionController implements Initializable {
                     int subtotal = cantidad * valores[i];
                     total += subtotal;
                     SucursalRecoleccionDetalle srd = new SucursalRecoleccionDetalle(null, cantidad, subtotal ,bs.findByBillete(BilleteValor.valueOf(denominacion[i])), sr);
+                   
                     lsrd.add(srd);
                 }
             }

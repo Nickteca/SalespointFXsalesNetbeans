@@ -37,7 +37,7 @@ public class SucursalRecoleccionService {
             throw e;  // Lanzamos la excepción para que el controller lo maneje
         } catch (Exception e) {
             // Captura cualquier otra excepción
-            System.err.println("Error desconocido al guardar la venta: " + e.getMessage());
+            System.err.println("Error desconocido al guardar Recoleccion: " + e.getMessage());
             throw e;
         }
     }
