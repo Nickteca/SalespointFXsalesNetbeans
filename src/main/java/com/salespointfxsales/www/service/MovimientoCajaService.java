@@ -1,17 +1,24 @@
 package com.salespointfxsales.www.service;
 
+import com.salespointfxsales.www.model.Corte;
 import com.salespointfxsales.www.model.MovimientoCaja;
+import com.salespointfxsales.www.model.MovimientoInventario;
 import com.salespointfxsales.www.model.SucursalGasto;
 import com.salespointfxsales.www.model.SucursalRecoleccion;
 import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.model.enums.TipoMovimiento;
+import com.salespointfxsales.www.repo.CorteRepo;
 import com.salespointfxsales.www.repo.MovimientoCajaRepo;
+import com.salespointfxsales.www.repo.MovimientoInventarioRepo;
 import com.salespointfxsales.www.repo.SucursalGastoRepo;
 import com.salespointfxsales.www.repo.SucursalRecoleccionRepo;
 import com.salespointfxsales.www.repo.SucursalRepo;
 import com.salespointfxsales.www.repo.VentaDetalleRepo;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +32,8 @@ public class MovimientoCajaService {
     private final VentaDetalleRepo vdr;
     private final SucursalGastoRepo sgr;
     private final SucursalRecoleccionRepo srr;
+    private final MovimientoInventarioRepo mir;
+    private final CorteRepo cr;
 
     public MovimientoCaja findlastmovimientoCajasucursalActiva() {
         return mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
@@ -63,13 +72,44 @@ public class MovimientoCajaService {
             List<VentaDetalle> lvd = vdr.findResumenVentasPorSucursalProducto(mc.getCreatedAt(), LocalDateTime.now());
             List<SucursalGasto> lsg = sgr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
             List<SucursalRecoleccion> lsr = srr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
+            List<MovimientoInventario> lmi = mir.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
 
             float total = toatalVenta(lvd);
             float saldoanterior = mc.getSaldoAnterior();
             float gasto = totalGasto(lsg);
             float recoleccion = totalRecoleccion(lsr);
             
-            System.out.println("Venta: "+total+"\n Saldo anterior: "+saldoanterior+"\n Gasto: "+gasto+"\n Recoleccion:"+recoleccion);
+            Corte corte = new Corte(null, sr.findByEstatusSucursalTrue().get(), mc, mc.getSaldoAnterior(), total, recoleccion, gasto, total+saldoanterior-recoleccion-gasto, mc.getCreatedAt(), LocalDateTime.now(), (short) lvd.size(), lvd.getFirst().getVenta().getFolio(), lvd.getLast().getVenta().getFolio());
+            mc.setSaldoFinal(total+saldoanterior-gasto-recoleccion);
+            
+            mcr.save(mc);
+            cr.save(corte);
+            
+            System.out.println("Venta: " + total + "\n Saldo anterior: " + saldoanterior + "\n Gasto: " + gasto + "\n Recoleccion:" + recoleccion);
+            Map<String, Map<String, Float>> resumenPorFolio = new LinkedHashMap<>();
+
+            lmi.forEach(mi -> {
+                String folio = mi.getFolio().toString();
+
+                resumenPorFolio
+                        .computeIfAbsent(folio, f -> new HashMap<>());
+
+                mi.getListMovimientoInventarioDetalle().forEach(detalle -> {
+                    String producto = detalle.getSucursalProducto().getProducto().getNombreProducto();
+                    float unidades = detalle.getUnidades();
+
+                    resumenPorFolio.get(folio).merge(producto, unidades, Float::sum);
+                });
+            });
+
+// Mostrar resultados
+            resumenPorFolio.forEach((folio, productos) -> {
+                System.out.println("== Folio: " + folio + " ==");
+                productos.forEach((producto, cantidad) -> {
+                    System.out.println("Producto: " + producto + " | Unidades: " + cantidad);
+                });
+                System.out.println();
+            });
 
             return mc;
         } catch (IllegalArgumentException e) {

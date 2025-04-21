@@ -20,4 +20,11 @@ public class MovimientoInventarioService {
             throw e;
         }
     }
+     public List<MovimientoInventario> findBySucursalEstatusSucursalTrueAndCreatedAtBetween(LocalDate startTime, LocalDate endTime){
+        try {
+            return mir.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(startTime.atStartOfDay(), endTime.atTime(23, 59, 59));
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

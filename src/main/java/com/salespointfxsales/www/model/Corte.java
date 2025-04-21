@@ -49,13 +49,16 @@ public class Corte {
     private float gasto;
 
     @Column(nullable = false)
+    private float saldoFinal;
+
+    @Column(nullable = false)
     private LocalDateTime apertuta;
 
     @Column(nullable = false)
     private LocalDateTime cierre;
 
     @Column(nullable = false)
-    private LocalDateTime numFolios;
+    private short numFolios;
 
     @Column(nullable = false)
     private String folioIncial;

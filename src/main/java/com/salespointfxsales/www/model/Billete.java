@@ -47,7 +47,5 @@ public class Billete implements Serializable {
     @Override
     public String toString() {
         return  billeteValor.toString();
-    }
-        
-        
+    }  
 }

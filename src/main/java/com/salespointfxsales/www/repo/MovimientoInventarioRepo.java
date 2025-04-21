@@ -8,4 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MovimientoInventarioRepo extends JpaRepository<MovimientoInventario, Integer>{
     List<MovimientoInventario> findBySucursalEstatusSucursalTrueAndCreatedAtBetweenAndNombreFolio(LocalDateTime startDate, LocalDateTime endDate, NombreFolio nombreFolio);
+    List<MovimientoInventario> findBySucursalEstatusSucursalTrueAndCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
 }

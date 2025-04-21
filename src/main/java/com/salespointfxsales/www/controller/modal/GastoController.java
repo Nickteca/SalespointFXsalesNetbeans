@@ -90,10 +90,11 @@ public class GastoController implements Initializable {
                  showErrorDialog("Rango incorrecto", "La fecha fin no pyuede ser menor a la de inicio");
                 return;
             }
-            sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(inicio, fin);
+            olsg = FXCollections.observableArrayList(sgs.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(inicio, fin));
             tViewSucursalGastos.setItems(olsg);
 
         } catch (Exception e) {
+            showErrorDialog("Error al buscar gastos", e.getMessage()+"\n"+e.getCause());
         }
     }
 
