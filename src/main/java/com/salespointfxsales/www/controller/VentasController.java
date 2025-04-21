@@ -99,7 +99,7 @@ public class VentasController implements Initializable {
                     }
                 };
             });
-            List<VentaDetalle> lvd = vds.findResumenVentasPorSucursalProducto();
+            List<VentaDetalle> lvd = vds.ventasXsucursalXactivasXcorte();
             float granTotal = lvd.stream()
                     .map(VentaDetalle::getSubTotal)
                     .reduce(0f, Float::sum);

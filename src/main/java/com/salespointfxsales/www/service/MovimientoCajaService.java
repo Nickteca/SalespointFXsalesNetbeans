@@ -4,17 +4,22 @@ import com.salespointfxsales.www.model.Corte;
 import com.salespointfxsales.www.model.MovimientoCaja;
 import com.salespointfxsales.www.model.MovimientoInventario;
 import com.salespointfxsales.www.model.SucursalGasto;
+import com.salespointfxsales.www.model.SucursalProducto;
 import com.salespointfxsales.www.model.SucursalRecoleccion;
+import com.salespointfxsales.www.model.Venta;
 import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.model.enums.TipoMovimiento;
 import com.salespointfxsales.www.repo.CorteRepo;
 import com.salespointfxsales.www.repo.MovimientoCajaRepo;
 import com.salespointfxsales.www.repo.MovimientoInventarioRepo;
 import com.salespointfxsales.www.repo.SucursalGastoRepo;
+import com.salespointfxsales.www.repo.SucursalProductoRepo;
 import com.salespointfxsales.www.repo.SucursalRecoleccionRepo;
 import com.salespointfxsales.www.repo.SucursalRepo;
 import com.salespointfxsales.www.repo.VentaDetalleRepo;
+import com.salespointfxsales.www.repo.VentaRepo;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +39,8 @@ public class MovimientoCajaService {
     private final SucursalRecoleccionRepo srr;
     private final MovimientoInventarioRepo mir;
     private final CorteRepo cr;
+    private final SucursalProductoRepo spr;
+    private final VentaRepo vr;
 
     public MovimientoCaja findlastmovimientoCajasucursalActiva() {
         return mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
@@ -69,23 +76,81 @@ public class MovimientoCajaService {
             if (!mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
                 throw new IllegalArgumentException("la caja no esta abierta, cierre el sistema y vuelva abrirlo");
             }
-            List<VentaDetalle> lvd = vdr.findResumenVentasPorSucursalProducto(mc.getCreatedAt(), LocalDateTime.now());
+            List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mc.getCreatedAt(), LocalDateTime.now());
+            List<Venta> lv = vr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
             List<SucursalGasto> lsg = sgr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
             List<SucursalRecoleccion> lsr = srr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
             List<MovimientoInventario> lmi = mir.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
+            List<SucursalProducto> lsp = spr.findBySucursalEstatusSucursalTrueAndVendibleTrueOrInventariableTrue();
 
             float total = toatalVenta(lvd);
             float saldoanterior = mc.getSaldoAnterior();
             float gasto = totalGasto(lsg);
             float recoleccion = totalRecoleccion(lsr);
             
-            Corte corte = new Corte(null, sr.findByEstatusSucursalTrue().get(), mc, mc.getSaldoAnterior(), total, recoleccion, gasto, total+saldoanterior-recoleccion-gasto, mc.getCreatedAt(), LocalDateTime.now(), (short) lvd.size(), lvd.getFirst().getVenta().getFolio(), lvd.getLast().getVenta().getFolio());
-            mc.setSaldoFinal(total+saldoanterior-gasto-recoleccion);
-            
-            mcr.save(mc);
-            cr.save(corte);
-            
-            System.out.println("Venta: " + total + "\n Saldo anterior: " + saldoanterior + "\n Gasto: " + gasto + "\n Recoleccion:" + recoleccion);
+            lsp.forEach(sp->{
+                System.err.println("Producto: "+sp.getProducto());
+            });
+
+            //List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mc.getCreatedAt(), LocalDateTime.now());
+            Map<SucursalProducto, VentaDetalle> resumenMap = new HashMap<>();
+
+            for (VentaDetalle detalle : lvd) {
+                SucursalProducto clave = detalle.getSucursalProducto();
+
+                if (!resumenMap.containsKey(clave)) {
+                    // Creamos un nuevo VentaDetalle resumido
+                    VentaDetalle resumen = new VentaDetalle();
+                    resumen.setSucursalProducto(clave);
+                    resumen.setCantidad(detalle.getCantidad());
+                    resumen.setSubTotal(detalle.getSubTotal());
+                    resumen.setPrecio(detalle.getPrecio()); // Puedes usar promedio, primero, o recalcular
+                    resumen.setVenta(detalle.getVenta()); // o null, si no importa aquí
+
+                    resumenMap.put(clave, resumen);
+                } else {
+                    // Ya existe, sumamos
+                    VentaDetalle existente = resumenMap.get(clave);
+                    existente.setCantidad((short) (existente.getCantidad() + detalle.getCantidad()));
+                    existente.setSubTotal(existente.getSubTotal() + detalle.getSubTotal());
+                }
+            }
+            List<VentaDetalle> resumenList = new ArrayList<>(resumenMap.values());
+            System.out.println("== RESUMEN DE VENTAS DE PRODUCTOS ==");
+            for (VentaDetalle vd : resumenList) {
+                String nombre = vd.getSucursalProducto().getProducto().getNombreProducto();
+                float precio = vd.getPrecio();
+                short cantidad = vd.getCantidad();
+                float subtotal = vd.getSubTotal();
+
+                System.out.printf("%-25s | Cantidad: %2d | Precio: $%.2f | Subtotal: $%.2f%n", nombre, cantidad, precio, subtotal);
+            }
+
+            /*Map<String, Map<String, Float>> ventas = new LinkedHashMap<>();
+            lv.forEach(v->{
+                String folio = v.getFolio();
+                ventas.computeIfAbsent(folio, f-> new HashMap<>());
+                v.getListVentaDetalle().forEach(detalle -> {
+                    String producto = detalle.getSucursalProducto().getProducto().getNombreProducto();
+                    float unidades = detalle.getCantidad();
+
+                    ventas.get(folio).merge(producto, unidades, Float::sum);
+                });
+            });
+            ventas.forEach((folio, productos) -> {
+                System.out.println("== Ventas: " + folio + " ==");
+                productos.forEach((producto, cantidad) -> {
+                    System.out.println("Producto: " + producto + " | Unidades: " + cantidad);
+                });
+                System.out.println();
+            });*/
+
+ /* Corte corte = new Corte(null, sr.findByEstatusSucursalTrue().get(), mc, mc.getSaldoAnterior(), total, recoleccion, gasto, total + saldoanterior - recoleccion - gasto, mc.getCreatedAt(), LocalDateTime.now(), (short) lvd.size(), lvd.getFirst().getVenta().getFolio(), lvd.getLast().getVenta().getFolio());
+            mc.setSaldoFinal(total + saldoanterior - gasto - recoleccion);*/
+
+ /*mcr.save(mc);
+            cr.save(corte);*/
+            //System.out.println("Venta: " + total + "\n Saldo anterior: " + saldoanterior + "\n Gasto: " + gasto + "\n Recoleccion:" + recoleccion);
             Map<String, Map<String, Float>> resumenPorFolio = new LinkedHashMap<>();
 
             lmi.forEach(mi -> {

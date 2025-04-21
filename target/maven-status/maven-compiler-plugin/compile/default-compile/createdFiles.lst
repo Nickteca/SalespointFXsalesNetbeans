@@ -31,6 +31,7 @@ com\salespointfxsales\www\controller\VentaController$3.class
 com\salespointfxsales\www\model\ProductoPaquete.class
 com\salespointfxsales\www\model\Usuario.class
 com\salespointfxsales\www\controller\AbrirCajaController.class
+com\salespointfxsales\www\repo\CorteRepo.class
 com\salespointfxsales\www\repo\FolioRepo.class
 com\salespointfxsales\www\service\MovimientoInventarioDetalleService.class
 com\salespointfxsales\www\service\SucursalProductoService.class
@@ -68,6 +69,7 @@ com\salespointfxsales\www\repo\VentaRepo.class
 com\salespointfxsales\www\config\SpringFXMLLoader.class
 com\salespointfxsales\www\controller\modal\MovimientoDetalleController$1.class
 com\salespointfxsales\www\repo\SucursalRecoleccionRepo.class
+com\salespointfxsales\www\service\CorteService.class
 com\salespointfxsales\www\service\CategoriaService.class
 com\salespointfxsales\www\controller\InventarioController$2.class
 com\salespointfxsales\www\model\SucursalPedido.class
@@ -81,4 +83,5 @@ com\salespointfxsales\www\service\VentaService.class
 com\salespointfxsales\www\service\SucursalRecoleccionService.class
 com\salespointfxsales\www\controller\VentasController$2.class
 com\salespointfxsales\www\repo\ProductoPaqueteRepo.class
+com\salespointfxsales\www\model\CorteDetalle.class
 com\salespointfxsales\www\MainApp.class

@@ -57,6 +57,9 @@ public class SucursalProducto implements Serializable {
 
     @OneToMany(mappedBy = "sucursalProducto", cascade = CascadeType.ALL)
     private List<MovimientoInventarioDetalle> listMovimientoInventarioDetalle;
+    
+    @OneToMany(mappedBy = "sucursalProducto", cascade = CascadeType.ALL)
+    private List<CorteDetalle> listCorteDetalle;
 
     public SucursalProducto(float inventario, float precio, boolean vendible, Producto producto, Categoria categoria, Sucursal sucursal) {
         super();

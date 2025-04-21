@@ -21,11 +21,11 @@ public class VentaDetalleService {
     private final VentaDetalleRepo vdr;
     private final MovimientoCajaRepo mcr;
 
-    public List<VentaDetalle> findResumenVentasPorSucursalProducto() {
+    public List<VentaDetalle> ventasXsucursalXactivasXcorte() {
         try {
             MovimientoCaja mc = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
             if (mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
-                List<VentaDetalle> lvd = vdr.findResumenVentasPorSucursalProducto(mc.getCreatedAt(), LocalDateTime.now());
+                List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mc.getCreatedAt(), LocalDateTime.now());
                 Map<SucursalProducto, VentaDetalle> resumenMap = new HashMap<>();
 
                 for (VentaDetalle detalle : lvd) {

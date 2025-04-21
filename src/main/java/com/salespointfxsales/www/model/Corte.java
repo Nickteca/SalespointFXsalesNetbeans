@@ -1,5 +1,6 @@
 package com.salespointfxsales.www.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,9 +9,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,7 +40,7 @@ public class Corte {
     private MovimientoCaja movimientoCaja;
 
     @Column(nullable = false)
-    private float nicial;
+    private float inicial;
 
     @Column(nullable = false)
     private float ventas;
@@ -65,4 +68,26 @@ public class Corte {
 
     @Column(nullable = false)
     private String folioFinal;
+    
+    @OneToMany(mappedBy = "corte", cascade = CascadeType.ALL)
+    private List<CorteDetalle> listCorteDetalle;
+
+    public Corte(Integer idCorte, Sucursal sucursal, MovimientoCaja movimientoCaja, float inicial, float ventas, float recoleccion, float gasto, float saldoFinal, LocalDateTime apertuta, LocalDateTime cierre, short numFolios, String folioIncial, String folioFinal) {
+        this.idCorte = idCorte;
+        this.sucursal = sucursal;
+        this.movimientoCaja = movimientoCaja;
+        this.inicial = inicial;
+        this.ventas = ventas;
+        this.recoleccion = recoleccion;
+        this.gasto = gasto;
+        this.saldoFinal = saldoFinal;
+        this.apertuta = apertuta;
+        this.cierre = cierre;
+        this.numFolios = numFolios;
+        this.folioIncial = folioIncial;
+        this.folioFinal = folioFinal;
+    }
+    
+    
+    
 }
