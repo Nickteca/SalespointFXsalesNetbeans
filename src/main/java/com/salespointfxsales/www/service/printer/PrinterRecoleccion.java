@@ -11,6 +11,7 @@ import com.salespointfxsales.www.model.Billete;
 import com.salespointfxsales.www.model.SucursalRecoleccion;
 import com.salespointfxsales.www.model.SucursalRecoleccionDetalle;
 import java.util.List;
+import java.util.Optional;
 import javax.print.PrintService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,12 +23,16 @@ public class PrinterRecoleccion {
     private final Printer it;
 
     public void imprimirRecoleccion(SucursalRecoleccion sr) throws Exception {
+        PrinterOutputStream printerOutputStream = null;
+        EscPos escpos = null;
         try {
-            PrintService defaultPrintService = it.impresoraTermicaDefault();
-
-            // Crear el stream de la impresora
-            PrinterOutputStream printerOutputStream = new PrinterOutputStream(defaultPrintService);
-            EscPos escpos = new EscPos(printerOutputStream);
+            Optional<PrintService> optionalPrintService = it.impresoraTermicaDefault();
+            if (optionalPrintService.isEmpty()) {
+                System.out.println("⚠ Venta registrada pero no se pudo imprimir: no hay impresora.");
+                return; // No lanzamos excepción, solo salimos
+            }
+            printerOutputStream = new PrinterOutputStream(optionalPrintService.get());
+            escpos = new EscPos(printerOutputStream);
 
             // 🔹 ESTILO: Título (Nombre de la empresa)
             Style titleStyle = new Style().setBold(true).setFontSize(Style.FontSize._2, Style.FontSize._2).setJustification(EscPosConst.Justification.Center);

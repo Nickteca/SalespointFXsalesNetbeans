@@ -9,6 +9,7 @@ import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.model.dto.ResultadoCobro;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.PrintService;
@@ -26,9 +27,22 @@ public class PrinterTicketService {
         PrinterOutputStream printerOutputStream = null;
         EscPos escpos = null;
         try {
-            PrintService defaultPrintService = ps.impresoraTermicaDefault();
-            // Crear el stream de la impresora
-            printerOutputStream = new PrinterOutputStream(defaultPrintService);
+            Optional<PrintService> optionalPrintService = ps.impresoraTermicaDefault();
+            if (optionalPrintService.isEmpty() || optionalPrintService.get() == null) {
+                System.out.println("⚠ Venta registrada pero no se pudo imprimir: no hay impresora.");
+                return false; // No lanzamos excepción, solo salimos
+            }
+            // Obtenemos la impresora seleccionada
+            PrintService printService = optionalPrintService.get();
+            // Si la impresora es válida, creamos el flujo de impresión
+            printerOutputStream = new PrinterOutputStream(printService);
+
+            // Verificamos si el servicio de impresión está disponible
+            if (printerOutputStream.equals(null)) {
+                System.out.println("⚠ No se encontró una impresora válida.");
+                //registrarVentaSinImpresion(v); // Registramos en la base de datos
+                return false; // Regresamos falso ya que no podemos imprimir
+            }
             escpos = new EscPos(printerOutputStream);
 
             Style titulo = new Style().setFontName(Style.FontName.Font_A_Default).setUnderline(Style.Underline.OneDotThick).setBold(true).setJustification(EscPosConst.Justification.Center);
@@ -63,15 +77,19 @@ public class PrinterTicketService {
             // salida)
             escpos.write(abrirCaja, 0, abrirCaja.length); // 0 es el offset y abrirCaja.length es la longitud
             return true;
-        } catch (IOException ex) {
-            System.out.println("Erro al imprimir en la impresora: " + ex.getMessage());
-            return false;
+        } catch (IOException | RuntimeException ex) {
+            System.out.println("❌ Error al imprimir: " + ex.getMessage());
+            return false; // Devolvemos false en caso de error
         } finally {
             try {
-                escpos.close();
-                printerOutputStream.close();
+                if (escpos != null) {
+                    escpos.close();
+                }
+                if (printerOutputStream != null) {
+                    printerOutputStream.close();
+                }
             } catch (IOException ex) {
-                Logger.getLogger(PrinterTicketService.class.getName()).log(Level.SEVERE, null, ex + "\n" + "ocurrio un error al cerrar");
+                Logger.getLogger(PrinterTicketService.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

@@ -87,9 +87,9 @@ public class MovimientoCajaService {
             float saldoanterior = mc.getSaldoAnterior();
             float gasto = totalGasto(lsg);
             float recoleccion = totalRecoleccion(lsr);
-            
-            lsp.forEach(sp->{
-                System.err.println("Producto: "+sp.getProducto());
+
+            lsp.forEach(sp -> {
+                
             });
 
             //List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mc.getCreatedAt(), LocalDateTime.now());

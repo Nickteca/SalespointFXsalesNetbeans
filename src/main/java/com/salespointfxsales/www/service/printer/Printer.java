@@ -1,23 +1,25 @@
 package com.salespointfxsales.www.service.printer;
 
+import java.util.Optional;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import org.springframework.stereotype.Service;
 
 @Service
 public class Printer {
-    public PrintService impresoraTermicaDefault() {
-        PrintService defaultPrintService = null;
+    public Optional<PrintService> impresoraTermicaDefault() {
         try {
-            defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
-            if (defaultPrintService == null) {
-                System.out.println("No hay una impresora predeterminada configurada.");
-                throw new Exception("No hay impresora pero se registro la venta");
+            PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+            System.err.println( defaultPrintService.getName());
+            if (defaultPrintService == null || defaultPrintService.equals(null)) {
+                System.out.println("⚠ No hay impresora predeterminada configurada.");
+                return Optional.empty();
             }
-            return defaultPrintService;
+            return Optional.of(defaultPrintService);
         } catch (Exception e) {
-            return defaultPrintService;
+            e.printStackTrace();
+            System.out.println("❌ Error al buscar impresora: " + e.getMessage());
+            return Optional.empty();
         }
-
     }
 }
