@@ -12,6 +12,7 @@ com\salespointfxsales\www\repo\MovimientoInventarioRepo.class
 com\salespointfxsales\www\model\Categoria.class
 com\salespointfxsales\www\controller\modal\MovimientoDetalleController.class
 com\salespointfxsales\www\model\SucursalProducto.class
+com\salespointfxsales\www\service\ProductoPaqueteService.class
 com\salespointfxsales\www\controller\modal\GastoController$2.class
 com\salespointfxsales\www\controller\InventarioController$1.class
 com\salespointfxsales\www\service\printer\PrinterGasto.class
@@ -29,6 +30,7 @@ com\salespointfxsales\www\controller\modal\GastoController.class
 com\salespointfxsales\www\model\SucursalPedidoDetalle.class
 com\salespointfxsales\www\controller\VentaController$3.class
 com\salespointfxsales\www\model\ProductoPaquete.class
+com\salespointfxsales\www\service\MovimientoCajaService$1.class
 com\salespointfxsales\www\model\Usuario.class
 com\salespointfxsales\www\controller\AbrirCajaController.class
 com\salespointfxsales\www\repo\CorteRepo.class
@@ -61,6 +63,7 @@ com\salespointfxsales\www\repo\SucursalRecoleccionDetalleRepo.class
 com\salespointfxsales\www\repo\SucursalGastoRepo.class
 com\salespointfxsales\www\controller\VentaController$2.class
 com\salespointfxsales\www\service\MovimientoCajaService.class
+com\salespointfxsales\www\model\enums\NombreFolio.class
 com\salespointfxsales\www\service\printer\Printer.class
 com\salespointfxsales\www\controller\modal\RecoleccionController.class
 com\salespointfxsales\www\model\VentaDetalle.class
@@ -77,7 +80,6 @@ com\salespointfxsales\www\repo\MovimientoInventarioDetalleRepo.class
 com\salespointfxsales\www\model\Producto.class
 com\salespointfxsales\www\model\Venta.class
 com\salespointfxsales\www\service\BilleteService.class
-com\salespointfxadmin\www\enums\NombreFolio.class
 com\salespointfxsales\www\model\MovimientoCaja.class
 com\salespointfxsales\www\service\VentaService.class
 com\salespointfxsales\www\service\SucursalRecoleccionService.class

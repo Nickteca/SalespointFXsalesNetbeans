@@ -1,8 +1,11 @@
 package com.salespointfxsales.www.service;
 
+import com.salespointfxsales.www.model.enums.NombreFolio;
 import com.salespointfxsales.www.model.Corte;
+import com.salespointfxsales.www.model.CorteDetalle;
 import com.salespointfxsales.www.model.MovimientoCaja;
 import com.salespointfxsales.www.model.MovimientoInventario;
+import com.salespointfxsales.www.model.MovimientoInventarioDetalle;
 import com.salespointfxsales.www.model.SucursalGasto;
 import com.salespointfxsales.www.model.SucursalProducto;
 import com.salespointfxsales.www.model.SucursalRecoleccion;
@@ -83,14 +86,96 @@ public class MovimientoCajaService {
             List<MovimientoInventario> lmi = mir.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
             List<SucursalProducto> lsp = spr.findBySucursalEstatusSucursalTrueAndVendibleTrueOrInventariableTrue();
 
+            /*HACEMOS ALAGUNAS OPERACIONES*/
             float total = toatalVenta(lvd);
             float saldoanterior = mc.getSaldoAnterior();
             float gasto = totalGasto(lsg);
             float recoleccion = totalRecoleccion(lsr);
 
+            /*CREAMOS EL CORTE*/
+            Corte corte = new Corte(null, sr.findByEstatusSucursalTrue().get(), mc, mc.getSaldoAnterior(), total, recoleccion, gasto, total + saldoanterior - recoleccion - gasto, mc.getCreatedAt(), LocalDateTime.now(), (short) lvd.size(), lvd.getFirst().getVenta().getFolio(), lvd.getLast().getVenta().getFolio());
+
+            /*AQUI TRATAREMOS DE LLENAR TODO LOS PRODUCTOS DE CORTE DETALLE*/
+            List<CorteDetalle> listaCorteDetalle = new ArrayList<>();
+            Map<SucursalProducto, CorteDetalle> mapaCorte = new HashMap<>();
+
+// Inicializamos el mapa con todos los productos o paquetes
             lsp.forEach(sp -> {
-                
+                CorteDetalle cd = new CorteDetalle();
+                cd.setSucursalProducto(sp);
+                cd.setCorte(corte); // Tu objeto Corte actual
+                cd.setEntrada(0f);
+                cd.setVenta(0f);
+                cd.setSalida(0f);
+                cd.setTraspasoEntrada(0f);
+                cd.setTraspasoSalida(0f);
+                cd.setCanceladas(0f);
+                cd.setExistencia(sp.getInventario()); // o como manejes la existencia actual
+                cd.setCorte(corte);
+                mapaCorte.put(sp, cd);
             });
+
+// Sumamos las ventas
+            for (VentaDetalle vd : lvd) {
+                SucursalProducto sp = vd.getSucursalProducto();
+                CorteDetalle cd = mapaCorte.get(sp);
+                if (cd != null) {
+                    cd.setVenta(cd.getVenta() + vd.getCantidad());
+                }
+            }
+
+// Sumamos entradas desde movimientos (pero solo si **NO** es paquete)
+            for (MovimientoInventario mi : lmi) {
+                for (MovimientoInventarioDetalle mid : mi.getListMovimientoInventarioDetalle()) {
+                    SucursalProducto sp = mid.getSucursalProducto();
+                    if (sp != null && mapaCorte.containsKey(sp) && !sp.getProducto().isEsPaquete()) {
+                        CorteDetalle cd = mapaCorte.get(sp);
+                        switch (mi.getNombreFolio()) {
+                            case NombreFolio.Ajuste_Entrada:
+                                cd.setEntrada(cd.getEntrada() + mid.getUnidades());
+                                break;
+                            case NombreFolio.Ajuste_salida:
+                                cd.setSalida(cd.getSalida() + mid.getUnidades());
+                                break;
+                            case NombreFolio.Traspaso_Entrada:
+                                cd.setTraspasoEntrada(cd.getTraspasoEntrada() + mid.getUnidades());
+                                break;
+                            case NombreFolio.Trspaso_Salida:
+                                cd.setTraspasoSalida(cd.getTraspasoSalida() + mid.getUnidades());
+                                break;
+                            case NombreFolio.Cancelacion_Venta:
+                                cd.setCanceladas(cd.getCanceladas() + mid.getUnidades());
+                                break;
+                        }
+                    }
+                }
+            }
+            listaCorteDetalle.addAll(mapaCorte.values());
+            corte.setListCorteDetalle(listaCorteDetalle);
+            cr.save(corte);
+            System.out.printf(
+                    "%-30s %-8s %-8s %-8s %-8s %-8s %-10s %-10s%n",
+                    "Producto / Paquete", "Entrada", "Venta", "Salida", "T.Entra", "T.Sale", "Canceladas", "Existencia"
+            );
+            System.out.println("---------------------------------------------------------------------------------------------");
+
+            listaCorteDetalle.forEach(cd -> {
+                String nombre = cd.getSucursalProducto().getProducto().getNombreProducto(); // o como se llame el campo nombre
+                System.out.printf(
+                        "%-30s %-8.2f %-8.2f %-8.2f %-8.2f %-8.2f %-10.2f %-10.2f%n",
+                        nombre,
+                        cd.getEntrada(),
+                        cd.getVenta(),
+                        cd.getSalida(),
+                        cd.getTraspasoEntrada(),
+                        cd.getTraspasoSalida(),
+                        cd.getCanceladas(),
+                        cd.getExistencia()
+                );
+            });
+
+// Convertimos a lista final para guardar
+            listaCorteDetalle.addAll(mapaCorte.values());
 
             //List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mc.getCreatedAt(), LocalDateTime.now());
             Map<SucursalProducto, VentaDetalle> resumenMap = new HashMap<>();
@@ -120,7 +205,7 @@ public class MovimientoCajaService {
             for (VentaDetalle vd : resumenList) {
                 String nombre = vd.getSucursalProducto().getProducto().getNombreProducto();
                 float precio = vd.getPrecio();
-                short cantidad = vd.getCantidad();
+                float cantidad = vd.getCantidad();
                 float subtotal = vd.getSubTotal();
 
                 System.out.printf("%-25s | Cantidad: %2d | Precio: $%.2f | Subtotal: $%.2f%n", nombre, cantidad, precio, subtotal);

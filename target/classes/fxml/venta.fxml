@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.VentaController">
+<AnchorPane id="AnchorPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.VentaController">
     <stylesheets>
         <URL value="@/styles/venta.css" />
     </stylesheets>
@@ -33,21 +33,21 @@
                               <HBox fx:id="hBoxCategorias" alignment="CENTER" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="aPaneContenidoProducto" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                        <AnchorPane fx:id="aPaneContenidoProducto" VBox.vgrow="ALWAYS" />
+                        <AnchorPane VBox.vgrow="ALWAYS">
                            <children>
-                              <TableView fx:id="tviewVentaDetalle" prefHeight="200.0" prefWidth="824.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="tviewVentaDetalle" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn fx:id="columnId" prefWidth="75.0" text="ID" />
+                                  <TableColumn fx:id="columnId" prefWidth="75.0" style="-fx-alignment: center;" text="ID" />
                                   <TableColumn fx:id="columnProducto" prefWidth="75.0" text="PRODUCTO" />
-                                    <TableColumn fx:id="columnUnidades" prefWidth="75.0" text="UNIDADES" />
-                                    <TableColumn fx:id="columnPrecio" prefWidth="75.0" text="PRECIO" />
-                                    <TableColumn fx:id="columnSubtotal" prefWidth="75.0" text="SUBTOTAL" />
+                                    <TableColumn fx:id="columnUnidades" prefWidth="75.0" style="-fx-alignment: center;" text="UNIDADES" />
+                                    <TableColumn fx:id="columnPrecio" prefWidth="75.0" style="-fx-alignment: center;" text="PRECIO" />
+                                    <TableColumn fx:id="columnSubtotal" prefWidth="75.0" style="-fx-alignment: center;" text="SUBTOTAL" />
                                 </columns>
                               </TableView>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                        <AnchorPane VBox.vgrow="NEVER">
                            <children>
                               <VBox layoutX="244.0" layoutY="-14.0" prefHeight="200.0" prefWidth="824.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
@@ -77,6 +77,17 @@
                                                 <Font size="14.0" />
                                              </font>
                                           </Button>
+                                          <Button mnemonicParsing="false" onAction="#peso" text="PESO BASCULA">
+                                             <graphic>
+                                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
+                                                   <image>
+                                                      <Image url="@../img/Weight.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font></Button>
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_RIGHT" spacing="100.0">

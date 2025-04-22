@@ -56,15 +56,21 @@ import javafx.util.converter.ShortStringConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import com.fazecast.jSerialComm.SerialPort;
+import com.salespointfxsales.www.model.ProductoPaquete;
+import com.salespointfxsales.www.service.ProductoPaqueteService;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 @Component
 @RequiredArgsConstructor
 public class VentaController implements Initializable {
 
     private final FolioService fs;
     private final VentaService vs;
+    private final ProductoPaqueteService pps;
 
-    private static final DecimalFormat formatoMoneda = new DecimalFormat("#");
-
+    private static final DecimalFormat formatoMoneda  = new DecimalFormat("#.##");
     private final SucursalProductoService sps;
     private final CategoriaService cs;
 
@@ -96,7 +102,7 @@ public class VentaController implements Initializable {
     private TableColumn<VentaDetalle, Float> columnSubtotal;
 
     @FXML
-    private TableColumn<VentaDetalle, Short> columnUnidades;
+    private TableColumn<VentaDetalle, Float> columnUnidades;
 
     @FXML
     private HBox hBoxCategorias;
@@ -167,7 +173,7 @@ public class VentaController implements Initializable {
                 v.setListVentaDetalle(lvd);
 
                 try {
-                    Venta guardada = vs.save(v, resultado,(Folio) labelFolio.getUserData());
+                    Venta guardada = vs.save(v, resultado, (Folio) labelFolio.getUserData());
                     if (guardada != null) {
                         olvd.clear();
                         tviewVentaDetalle.refresh();
@@ -205,6 +211,90 @@ public class VentaController implements Initializable {
         }
     }
 
+    @FXML
+    void peso(ActionEvent event) {
+        VentaDetalle vd = tviewVentaDetalle.getSelectionModel().getSelectedItem();
+        if (vd != null && vd.getSucursalProducto().getProducto().isEsPaquete()) {
+            List<ProductoPaquete> lpp = pps.findByPaquete(vd.getSucursalProducto().getProducto());
+            lpp.forEach(pp -> {
+                if (pp.getProductoPaquete().getNombreProducto().equals("Costilla")) {
+                    // Establecer el puerto COM (ajusta según el puerto correcto)
+                    SerialPort puerto = SerialPort.getCommPort("COM5");
+
+                    // Configurar los parámetros del puerto serial (RS-232)
+                    puerto.setBaudRate(9600); // Ajusta según la configuración de tu báscula
+                    puerto.setNumDataBits(8);  // 8 bits de datos
+                    puerto.setNumStopBits(1);  // 1 bit de parada
+                    puerto.setParity(SerialPort.NO_PARITY);  // Sin paridad
+
+                    // Opcional: establecer timeout de lectura
+                    //puerto.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 2000, 0); // 2 segundos de espera
+                    if (puerto.openPort()) {
+                        try {
+                            try {
+                                // Si es necesario, envía un comando para solicitar el dato
+                                OutputStream outputStream = puerto.getOutputStream();
+                                outputStream.write("P".getBytes());
+                                // Espera un tiempo para recibir los datos
+                                Thread.sleep(100); // Ajusta el tiempo de espera si es necesario
+
+                                // Leer los datos del puerto serial
+                                InputStream inputStream = puerto.getInputStream();
+                                byte[] buffer = new byte[1024]; // Buffer para leer datos
+                                int bytesRead = inputStream.read(buffer);
+
+                                if (bytesRead > 0) {
+
+                                    String pesokg = new String(buffer, 0, bytesRead); // Convierte los bytes a String
+                                    float pesos = Float.parseFloat(pesokg.replace(" kg", ""));
+                                    vd.setCantidad(pesos);
+                                    vd.setSubTotal(vd.getCantidad() * vd.getPrecio());
+                                    tviewVentaDetalle.refresh();
+                                    labelTotal.setText(formatoMoneda.format(calcularTotal()));
+                                    System.err.println("El Peso formateado es:" + pesos);
+                                } else {
+                                    showErrorDialog("No regres", "No se recibio ningun dato");
+                                }
+
+                            } catch (Exception e) {
+                                //e.printStackTrace();
+                                showErrorDialog("No est aprendida o conectada la bascula", e.getMessage() + "\n" + e.getCause());
+                            } finally {
+                                puerto.closePort();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            showErrorDialog("Error en la bascual Fuera", e.getMessage() + "\n" + e.getCause());
+                        } finally {
+                            // Cerrar el puerto cuando haya terminado
+                            puerto.closePort();
+                        }
+                    } else {
+                        System.out.println("No se pudo abrir el puerto COM.");
+                    }
+                }
+            });
+        }
+
+    }
+
+// Método para extraer el peso de la respuesta
+    private String extraerPeso(String respuesta) {
+        // Imprimir la respuesta completa para ver cómo está formateada
+        System.out.println("Respuesta completa para extracción de peso: " + respuesta);
+
+        // Buscar la sección que contiene el peso (suponiendo que el peso está antes de 'kg')
+        String peso = "";
+        int indicePeso = respuesta.indexOf("CR");  // Suponiendo que el peso viene antes de "CR"
+        if (indicePeso != -1) {
+            // Extraemos la parte de la cadena que contiene el peso
+            String pesoCompleto = respuesta.substring(indicePeso + 2).trim();  // Extraemos la parte después de "CR"
+            peso = pesoCompleto.replaceAll("[^0-9.]", "");  // Eliminamos cualquier carácter no numérico
+        }
+        return peso;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarCategrias();
@@ -212,6 +302,39 @@ public class VentaController implements Initializable {
         iniciarTabla();
         olvd.clear();
         actualizarFolio();
+        //iniciarLectura();
+    }
+
+    public void iniciarLectura() {
+        SerialPort comPort = SerialPort.getCommPort("COM5"); // Nombre del puerto
+        comPort.setBaudRate(9600); // Asegúrate de que coincida con tu báscula
+
+        if (comPort.openPort()) {
+            System.out.println("Conectado a la báscula en COM5");
+        } else {
+            System.out.println("No se pudo conectar a la báscula.");
+            return;
+        }
+
+        // Lee los datos en otro hilo
+        new Thread(() -> {
+            try {
+                byte[] buffer = new byte[1024];
+                while (true) {
+                    int bytesAvailable = comPort.bytesAvailable();
+                    if (bytesAvailable > 0) {
+                        int numRead = comPort.readBytes(buffer, bytesAvailable);
+                        String datos = new String(buffer, 0, numRead);
+                        System.out.println("Peso recibido: " + datos.trim().replace(" kg", "")); // ← Aquí recibes el peso
+                    }
+                    Thread.sleep(100);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                comPort.closePort();
+            }
+        }).start();
     }
 
     public void actualizarFolio() {
@@ -247,9 +370,9 @@ public class VentaController implements Initializable {
 
         // Detectamos un clic en la celda de cantidad y abrimos el modal
         columnUnidades.setCellFactory(param -> {
-            TableCell<VentaDetalle, Short> cell = new TableCell<VentaDetalle, Short>() { // Asegúrate de usar Short aquí
+            TableCell<VentaDetalle, Float> cell = new TableCell<VentaDetalle, Float>() { // Asegúrate de usar Short aquí
                 @Override
-                public void updateItem(Short item, boolean empty) {
+                public void updateItem(Float item, boolean empty) {
                     super.updateItem(item, empty);
                     if (!empty) {
                         setText(item != null ? item.toString() : "");

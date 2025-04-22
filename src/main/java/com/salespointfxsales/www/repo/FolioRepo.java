@@ -1,6 +1,6 @@
 package com.salespointfxsales.www.repo;
 
-import com.salespointfxadmin.www.enums.NombreFolio;
+import com.salespointfxsales.www.model.enums.NombreFolio;
 import com.salespointfxsales.www.model.Folio;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

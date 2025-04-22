@@ -1,6 +1,6 @@
 package com.salespointfxsales.www.repo;
 
-import com.salespointfxadmin.www.enums.NombreFolio;
+import com.salespointfxsales.www.model.enums.NombreFolio;
 import com.salespointfxsales.www.model.MovimientoInventario;
 import java.time.LocalDateTime;
 import java.util.List;

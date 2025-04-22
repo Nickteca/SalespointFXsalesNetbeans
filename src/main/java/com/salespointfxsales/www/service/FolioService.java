@@ -1,6 +1,6 @@
 package com.salespointfxsales.www.service;
 
-import com.salespointfxadmin.www.enums.NombreFolio;
+import com.salespointfxsales.www.model.enums.NombreFolio;
 import com.salespointfxsales.www.model.Folio;
 import com.salespointfxsales.www.repo.FolioRepo;
 import java.util.List;
