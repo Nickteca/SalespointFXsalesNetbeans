@@ -58,12 +58,16 @@ public class PrinterTicketService {
             escpos.writeLF(header, "Folio: " + v.getFolio() + " Fecha: " + formatter.format(v.getCreatedAt()));
             escpos.write(header2, "________________________________________________________________");
             escpos.writeLF(header, String.format("%-27s %5s %4s %8s", "Producto", "Cant", "Pre", "Subt"));
+            float peso = 0;
             for (VentaDetalle vd : v.getListVentaDetalle()) {//36
                 String line1 = String.format("%-36s %5d %8s %10s", vd.getSucursalProducto().getProducto(), vd.getCantidad(), "$" + String.format("%,.0f", vd.getPrecio()),
                         "$" + String.format("%,.0f", vd.getSubTotal())); // Formateo de subtotal sin decimales
                 escpos.writeLF(header2, line1);
+                peso+=vd.getPeso();
             }
             escpos.write(header2, "________________________________________________________________");
+            
+            escpos.writeLF(header2, "PESO DE LA COSTILLA: "+peso+"Kg");
             escpos.writeLF(subtitulo, String.format("%30s  %16s", "Total:", "$" + String.format("%,.0f", v.getTotalVenta())));
             escpos.writeLF(header.setUnderline(Style.Underline.OneDotThick), String.format("%30s  %16s", "Efectivo:", "$" + String.format("%,.0f", rc.getPagoCon())));
             escpos.writeLF(subtitulo, String.format("%30s  %16s", "Cambio:", "$" + String.format("%,.0f", rc.getCambio())));

@@ -175,7 +175,7 @@ public class MovimientoCajaService {
             });
 
 // Convertimos a lista final para guardar
-            listaCorteDetalle.addAll(mapaCorte.values());
+            /*listaCorteDetalle.addAll(mapaCorte.values());
 
             //List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mc.getCreatedAt(), LocalDateTime.now());
             Map<SucursalProducto, VentaDetalle> resumenMap = new HashMap<>();
@@ -208,7 +208,7 @@ public class MovimientoCajaService {
                 float cantidad = vd.getCantidad();
                 float subtotal = vd.getSubTotal();
 
-                System.out.printf("%-25s | Cantidad: %2d | Precio: $%.2f | Subtotal: $%.2f%n", nombre, cantidad, precio, subtotal);
+                System.out.printf("%-25s | Cantidad: %2f | Precio: $%.2f | Subtotal: $%.2f%n", nombre, cantidad, precio, subtotal);
             }
 
             /*Map<String, Map<String, Float>> ventas = new LinkedHashMap<>();
@@ -236,7 +236,7 @@ public class MovimientoCajaService {
  /*mcr.save(mc);
             cr.save(corte);*/
             //System.out.println("Venta: " + total + "\n Saldo anterior: " + saldoanterior + "\n Gasto: " + gasto + "\n Recoleccion:" + recoleccion);
-            Map<String, Map<String, Float>> resumenPorFolio = new LinkedHashMap<>();
+            /*Map<String, Map<String, Float>> resumenPorFolio = new LinkedHashMap<>();
 
             lmi.forEach(mi -> {
                 String folio = mi.getFolio().toString();
@@ -259,7 +259,7 @@ public class MovimientoCajaService {
                     System.out.println("Producto: " + producto + " | Unidades: " + cantidad);
                 });
                 System.out.println();
-            });
+            });*/
 
             return mc;
         } catch (IllegalArgumentException e) {

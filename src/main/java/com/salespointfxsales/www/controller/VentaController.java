@@ -102,7 +102,7 @@ public class VentaController implements Initializable {
     private TableColumn<VentaDetalle, Float> columnSubtotal;
 
     @FXML
-    private TableColumn<VentaDetalle, Float> columnUnidades;
+    private TableColumn<VentaDetalle, Short> columnUnidades;
 
     @FXML
     private HBox hBoxCategorias;
@@ -165,7 +165,7 @@ public class VentaController implements Initializable {
                 List<VentaDetalle> lvd = new ArrayList<>();
                 for (VentaDetalle vd : olvd) {
                     VentaDetalle ventadetalle = new VentaDetalle(
-                            vd.getIdVentaDetalle(), vd.getCantidad(), vd.getPrecio(),
+                            vd.getIdVentaDetalle(), vd.getCantidad(),vd.getPeso(), vd.getPrecio(),
                             vd.getSubTotal(), vd.getSucursalProducto(), v
                     );
                     lvd.add(ventadetalle);
@@ -247,8 +247,8 @@ public class VentaController implements Initializable {
 
                                     String pesokg = new String(buffer, 0, bytesRead); // Convierte los bytes a String
                                     float pesos = Float.parseFloat(pesokg.replace(" kg", ""));
-                                    vd.setCantidad(pesos);
-                                    vd.setSubTotal(vd.getCantidad() * vd.getPrecio());
+                                    vd.setPeso(pesos);
+                                    //vd.setSubTotal(vd.getCantidad() * vd.getPrecio());
                                     tviewVentaDetalle.refresh();
                                     labelTotal.setText(formatoMoneda.format(calcularTotal()));
                                     System.err.println("El Peso formateado es:" + pesos);
@@ -370,9 +370,9 @@ public class VentaController implements Initializable {
 
         // Detectamos un clic en la celda de cantidad y abrimos el modal
         columnUnidades.setCellFactory(param -> {
-            TableCell<VentaDetalle, Float> cell = new TableCell<VentaDetalle, Float>() { // Asegúrate de usar Short aquí
+            TableCell<VentaDetalle, Short> cell = new TableCell<VentaDetalle, Short>() { // Asegúrate de usar Short aquí
                 @Override
-                public void updateItem(Float item, boolean empty) {
+                public void updateItem(Short item, boolean empty) {
                     super.updateItem(item, empty);
                     if (!empty) {
                         setText(item != null ? item.toString() : "");

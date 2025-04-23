@@ -22,9 +22,11 @@ public class VentaDetalle {
     private Integer idVentaDetalle;
 
     @Column(nullable = false)
-    private float cantidad;
+    private short cantidad;
     // @Max(value=?) @Min(value=?)//if you know range of your decimal fields
     // consider using these annotations to enforce field validation
+    @Column(nullable = true)
+    private float peso =0;
     
     @Column(nullable = false)
     private float precio;
