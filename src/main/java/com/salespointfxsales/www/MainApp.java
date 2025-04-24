@@ -37,11 +37,15 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         if (!isApplicationAlreadyRunning(9998)) {
             Sucursal s = ss.findByEstatusSucursalTrue();
+            System.out.println("En las condiciones");
             if (s != null) {
+                System.out.println("si hay sucursal");
                 MovimientoCaja mc = mcs.findlastmovimientoCajasucursalActiva();
                 if (mc != null) {
+                    System.out.println("Hay movimiento caja: "+ mc.getTipoMovimientoCaja());
                     if (mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource( "/fxml/starter.fxml"));
+                        System.out.println("entro cuando esta abierta");
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/starter.fxml"));
                         loader.setControllerFactory(context::getBean); // Inyectar Spring Beans
                         Parent root = loader.load();
                         Stage newStage = new Stage();
@@ -49,10 +53,24 @@ public class MainApp extends Application {
                         newStage.setScene(new Scene(root));
                         newStage.setMinHeight(768);
                         newStage.setMinWidth(1024);
+                        //newStage.setMaximized(true);
                         newStage.show();
                     }
-                    if (mc.getIdMovimientoCaja().equals(TipoMovimiento.CIERRE)) {
-                        /*ABRIR CAJA CPON EL SALDO ANTERIOR DEL CORTE*/
+                    if (mc.getTipoMovimientoCaja().equals(TipoMovimiento.CIERRE)) {
+                        System.out.println("entro cuando esta cerrada");
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/abrircaja.fxml"));
+                        loader.setControllerFactory(context::getBean); // Inyectar Spring Beans
+                        AbrirCajaController acc = context.getBean(AbrirCajaController.class);
+
+                        Parent root = loader.load();
+                        primaryStage.setTitle("NictecaSolutions");
+                        primaryStage.setScene(new Scene(root));
+                        primaryStage.setResizable(false);
+                        primaryStage.show();
+                        acc.parametros(s.getNombreSucursal());
+                        acc.setSaldoAnerior(mc.getSaldoFinal());
+                    }else{
+                        System.out.println("No entra a ninguan condicion");
                     }
                 } else {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/abrircaja.fxml"));

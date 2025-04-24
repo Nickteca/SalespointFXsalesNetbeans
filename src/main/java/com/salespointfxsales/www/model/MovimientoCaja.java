@@ -63,4 +63,13 @@ public class MovimientoCaja implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public MovimientoCaja(Integer idMovimientoCaja, TipoMovimiento tipoMovimientoCaja, float saldoAnterior, float saldoFinal, LocalDateTime createdAt, Sucursal sucursal) {
+        this.idMovimientoCaja = idMovimientoCaja;
+        this.tipoMovimientoCaja = tipoMovimientoCaja;
+        this.saldoAnterior = saldoAnterior;
+        this.saldoFinal = saldoFinal;
+        this.createdAt = createdAt;
+        this.sucursal = sucursal;
+    }
+
 }

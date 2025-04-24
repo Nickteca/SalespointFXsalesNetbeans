@@ -9,6 +9,7 @@ com\salespointfxsales\www\controller\VentaController.class
 com\salespointfxsales\www\repo\SucursalRepo.class
 com\salespointfxsales\www\controller\VentaController$1.class
 com\salespointfxsales\www\repo\MovimientoInventarioRepo.class
+com\salespointfxsales\www\service\CorteService$1.class
 com\salespointfxsales\www\model\Categoria.class
 com\salespointfxsales\www\controller\modal\MovimientoDetalleController.class
 com\salespointfxsales\www\model\SucursalProducto.class
@@ -30,7 +31,6 @@ com\salespointfxsales\www\controller\modal\GastoController.class
 com\salespointfxsales\www\model\SucursalPedidoDetalle.class
 com\salespointfxsales\www\controller\VentaController$3.class
 com\salespointfxsales\www\model\ProductoPaquete.class
-com\salespointfxsales\www\service\MovimientoCajaService$1.class
 com\salespointfxsales\www\model\Usuario.class
 com\salespointfxsales\www\controller\AbrirCajaController.class
 com\salespointfxsales\www\repo\CorteRepo.class

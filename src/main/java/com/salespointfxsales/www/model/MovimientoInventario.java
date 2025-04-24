@@ -50,8 +50,6 @@ public class MovimientoInventario implements Serializable {
 	@Column(nullable = true, length = 50)
 	private String decripcion;
 
-	@Column(nullable = false)
-	private LocalDateTime updatedAt;
 
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = false)
@@ -80,7 +78,6 @@ public class MovimientoInventario implements Serializable {
 		this.folio = folio;
 		this.sucursalDestino = sucursaldestino;
 		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
 	}
 
 	public MovimientoInventario(Integer idMovimientoInventario, String folioCompuesto, Naturaleza naturaleza, NombreFolio nombreFolio, String decripcion, Sucursal sucursal, Sucursal sucursaldestino,
@@ -94,7 +91,6 @@ public class MovimientoInventario implements Serializable {
 		this.sucursal = sucursal;
 		this.sucursalDestino = sucursaldestino;
 		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
 		this.listMovimientoInventarioDetalle = listMovimientoInventarioDetalle;
 	}
 
@@ -104,7 +100,6 @@ public class MovimientoInventario implements Serializable {
 		this.folioCompuesto = folioCompuesto;
 		this.naturaleza = naturaleza;
 		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
 	}
 
 }

@@ -22,9 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(indexes = {
-    @Index(name = "creado", columnList = "apertuta"),
-    @Index(name = "cerrado", columnList = "cierre")})
+@Table(indexes = { @Index(name = "creado", columnList = "apertuta"), @Index(name = "cerrado", columnList = "cierre") })
 public class Corte {
 
     @Id

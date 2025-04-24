@@ -44,6 +44,7 @@ public class MovimientoCajaService {
     private final CorteRepo cr;
     private final SucursalProductoRepo spr;
     private final VentaRepo vr;
+    private final CorteService cs;
 
     public MovimientoCaja findlastmovimientoCajasucursalActiva() {
         return mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
@@ -75,28 +76,35 @@ public class MovimientoCajaService {
     @Transactional
     public MovimientoCaja cerrarCaja() {
         try {
-            MovimientoCaja mc = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
-            if (!mc.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
+            MovimientoCaja mcA = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
+            if (!mcA.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
                 throw new IllegalArgumentException("la caja no esta abierta, cierre el sistema y vuelva abrirlo");
             }
-            List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mc.getCreatedAt(), LocalDateTime.now());
-            List<Venta> lv = vr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
-            List<SucursalGasto> lsg = sgr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
-            List<SucursalRecoleccion> lsr = srr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
-            List<MovimientoInventario> lmi = mir.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mc.getCreatedAt(), LocalDateTime.now());
+            List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mcA.getCreatedAt(), LocalDateTime.now());
+            List<Venta> lv = vr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mcA.getCreatedAt(), LocalDateTime.now());
+            List<SucursalGasto> lsg = sgr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mcA.getCreatedAt(), LocalDateTime.now());
+            List<SucursalRecoleccion> lsr = srr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mcA.getCreatedAt(), LocalDateTime.now());
+            List<MovimientoInventario> lmi = mir.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mcA.getCreatedAt(), LocalDateTime.now());
             List<SucursalProducto> lsp = spr.findBySucursalEstatusSucursalTrueAndVendibleTrueOrInventariableTrue();
 
             /*HACEMOS ALAGUNAS OPERACIONES*/
             float total = toatalVenta(lvd);
-            float saldoanterior = mc.getSaldoAnterior();
+            float saldoanterior = mcA.getSaldoAnterior();
             float gasto = totalGasto(lsg);
             float recoleccion = totalRecoleccion(lsr);
 
+            /*CREAMOS EL MOVIMIENTO CAJA PERO DE CIERRE*/
+            MovimientoCaja mcC = new MovimientoCaja(null, TipoMovimiento.CIERRE, mcA.getSaldoAnterior(), total + saldoanterior - gasto - recoleccion, LocalDateTime.now(), sr.findByEstatusSucursalTrue().get());
+            mcC = mcr.save(mcC);
+            Corte corte = cs.save(mcA, mcC);
+            if (corte == null) {
+                throw new IllegalArgumentException();
+            }
+            /*mcr.save(mcC);
             /*CREAMOS EL CORTE*/
-            Corte corte = new Corte(null, sr.findByEstatusSucursalTrue().get(), mc, mc.getSaldoAnterior(), total, recoleccion, gasto, total + saldoanterior - recoleccion - gasto, mc.getCreatedAt(), LocalDateTime.now(), (short) lvd.size(), lvd.getFirst().getVenta().getFolio(), lvd.getLast().getVenta().getFolio());
-
+ /* Corte corte = new Corte(null, sr.findByEstatusSucursalTrue().get(), mcC, mcA.getSaldoAnterior(), total, recoleccion, gasto, mcC.getSaldoFinal(), mcA.getCreatedAt(), LocalDateTime.now(), (short) lvd.size(), lvd.getFirst().getVenta().getFolio(), lvd.getLast().getVenta().getFolio());
             /*AQUI TRATAREMOS DE LLENAR TODO LOS PRODUCTOS DE CORTE DETALLE*/
-            List<CorteDetalle> listaCorteDetalle = new ArrayList<>();
+ /*List<CorteDetalle> listaCorteDetalle = new ArrayList<>();
             Map<SucursalProducto, CorteDetalle> mapaCorte = new HashMap<>();
 
 // Inicializamos el mapa con todos los productos o paquetes
@@ -111,16 +119,18 @@ public class MovimientoCajaService {
                 cd.setTraspasoSalida(0f);
                 cd.setCanceladas(0f);
                 cd.setExistencia(sp.getInventario()); // o como manejes la existencia actual
-                cd.setCorte(corte);
                 mapaCorte.put(sp, cd);
             });
-
-// Sumamos las ventas
+            // Sumamos las ventas
+            //sumamos e peso de las costillas
+            float peso = 0;
             for (VentaDetalle vd : lvd) {
                 SucursalProducto sp = vd.getSucursalProducto();
                 CorteDetalle cd = mapaCorte.get(sp);
                 if (cd != null) {
                     cd.setVenta(cd.getVenta() + vd.getCantidad());
+                    cd.setPeso(vd.getPeso());
+                    peso += vd.getPeso();
                 }
             }
 
@@ -154,15 +164,15 @@ public class MovimientoCajaService {
             corte.setListCorteDetalle(listaCorteDetalle);
             cr.save(corte);
             System.out.printf(
-                    "%-30s %-8s %-8s %-8s %-8s %-8s %-10s %-10s%n",
-                    "Producto / Paquete", "Entrada", "Venta", "Salida", "T.Entra", "T.Sale", "Canceladas", "Existencia"
+                    "%-30s %-8s %-8s %-8s %-8s %-8s %-10s %-10s%n %-10s%n",
+                    "Producto / Paquete", "Entrada", "Venta", "Salida", "T.Entra", "T.Sale", "Canceladas", "Existencia","Peso"
             );
             System.out.println("---------------------------------------------------------------------------------------------");
 
             listaCorteDetalle.forEach(cd -> {
                 String nombre = cd.getSucursalProducto().getProducto().getNombreProducto(); // o como se llame el campo nombre
                 System.out.printf(
-                        "%-30s %-8.2f %-8.2f %-8.2f %-8.2f %-8.2f %-10.2f %-10.2f%n",
+                        "%-30s %-8.2f %-8.2f %-8.2f %-8.2f %-8.2f %-10.2f %-10.2f%n %-10.2f%n",
                         nombre,
                         cd.getEntrada(),
                         cd.getVenta(),
@@ -170,9 +180,11 @@ public class MovimientoCajaService {
                         cd.getTraspasoEntrada(),
                         cd.getTraspasoSalida(),
                         cd.getCanceladas(),
-                        cd.getExistencia()
+                        cd.getExistencia(),
+                        cd.getPeso()
                 );
             });
+            System.out.println("El peso total es:" + peso);
 
 // Convertimos a lista final para guardar
             /*listaCorteDetalle.addAll(mapaCorte.values());
@@ -260,8 +272,7 @@ public class MovimientoCajaService {
                 });
                 System.out.println();
             });*/
-
-            return mc;
+            return mcC;
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {

@@ -49,4 +49,7 @@ public class CorteDetalle {
 
     @Column(nullable = false)
     private float existencia;
+    
+    @Column(nullable = true)
+    private float peso;
 }

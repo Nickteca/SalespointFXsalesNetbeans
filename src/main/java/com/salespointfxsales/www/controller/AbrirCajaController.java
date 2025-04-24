@@ -94,6 +94,11 @@ public class AbrirCajaController implements Initializable {
     public void parametros(String sucursal) {
         labelsucursal.setText(sucursal);
     }
+    
+    public void setSaldoAnerior(float saldoanterior){
+       this.tFieldSaldoAnteriro.setEditable(false);
+        this.tFieldSaldoAnteriro.setText(saldoanterior+"");
+    }
 
     private void mostrarError(String mensaje) {
         Alert alerta = new Alert(AlertType.ERROR);

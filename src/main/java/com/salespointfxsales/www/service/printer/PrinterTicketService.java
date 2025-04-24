@@ -67,7 +67,7 @@ public class PrinterTicketService {
             }
             escpos.write(header2, "________________________________________________________________");
             
-            escpos.writeLF(header2, "PESO DE LA COSTILLA: "+peso+"Kg");
+           if(peso>0) escpos.writeLF(header2, "PESO DE LA COSTILLA: "+peso+"Kg");
             escpos.writeLF(subtitulo, String.format("%30s  %16s", "Total:", "$" + String.format("%,.0f", v.getTotalVenta())));
             escpos.writeLF(header.setUnderline(Style.Underline.OneDotThick), String.format("%30s  %16s", "Efectivo:", "$" + String.format("%,.0f", rc.getPagoCon())));
             escpos.writeLF(subtitulo, String.format("%30s  %16s", "Cambio:", "$" + String.format("%,.0f", rc.getCambio())));
