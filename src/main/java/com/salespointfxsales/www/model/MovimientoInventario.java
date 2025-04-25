@@ -10,6 +10,8 @@ import com.salespointfxsales.www.model.enums.NombreFolio;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,9 +40,11 @@ public class MovimientoInventario implements Serializable {
 	@Column(nullable = false, length = 17, unique = true)
 	private String folioCompuesto;
 
+        @Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private Naturaleza naturaleza;
 
+        @Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private NombreFolio nombreFolio;
 
