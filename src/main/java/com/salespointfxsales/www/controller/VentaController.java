@@ -61,6 +61,9 @@ import com.salespointfxsales.www.model.ProductoPaquete;
 import com.salespointfxsales.www.service.ProductoPaqueteService;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.scene.control.ButtonType;
 
 @Component
 @RequiredArgsConstructor
@@ -70,7 +73,7 @@ public class VentaController implements Initializable {
     private final VentaService vs;
     private final ProductoPaqueteService pps;
 
-    private static final DecimalFormat formatoMoneda  = new DecimalFormat("#.##");
+    private static final DecimalFormat formatoMoneda = new DecimalFormat("#.##");
     private final SucursalProductoService sps;
     private final CategoriaService cs;
 
@@ -134,64 +137,83 @@ public class VentaController implements Initializable {
     @FXML
     void cobrar(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cobrar.fxml"));
-            Parent root = loader.load();
+            if (!olvd.isEmpty()) {
+                for (VentaDetalle vdt : olvd) {
+                    List<ProductoPaquete> lpp = pps.findByPaquete(vdt.getSucursalProducto().getProducto());
+                    lpp.forEach(pp -> {
+                        if (pp.getProductoPaquete().getNombreProducto().equals("Costilla")) {
+                            if (vdt.getPeso() <= 0) {
+                                showErrorDialog("Venta de costila sin peso", "El producto: " + vdt.getSucursalProducto() + ", no tiene peso");
+                                showErrorDialog("Venta de costila sin peso", "Seleccione el producto: " + vdt.getSucursalProducto() + ", y obtega el peso e la bascula");
+                                return;
+                            }
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cobrar.fxml"));
+                            Parent root = null;
+                            try {
+                                root = loader.load();
+                            } catch (IOException ex) {
+                                showErrorDialog("error al abrir el modal de cobrar", ex.getMessage());
+                            }
 
-            CobrarController cobrarController = loader.getController();
+                            CobrarController cobrarController = loader.getController();
 
-            Stage stage = new Stage();
-            stage.setTitle("Cobrar");
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setResizable(false);
+                            Stage stage = new Stage();
+                            stage.setTitle("Cobrar");
+                            stage.setScene(new Scene(root));
+                            stage.initModality(Modality.APPLICATION_MODAL);
+                            stage.setResizable(false);
 
-            float totalVenta;
-            try {
-                totalVenta = Float.parseFloat(labelTotal.getText().replace("$", ""));
-            } catch (NumberFormatException ex) {
-                showErrorDialog("Error al convertir total", "El total no es un número válido.");
-                return;
-            }
+                            float totalVenta;
+                            try {
+                                totalVenta = Float.parseFloat(labelTotal.getText().replace("$", ""));
+                            } catch (NumberFormatException ex) {
+                                showErrorDialog("Error al convertir total", "El total no es un número válido.");
+                                return;
+                            }
 
-            cobrarController.totalVenta(totalVenta);
-            stage.showAndWait();
+                            cobrarController.totalVenta(totalVenta);
+                            stage.showAndWait();
 
-            ResultadoCobro resultado = cobrarController.getResultadoCobro();
-            if (resultado != null && resultado.isExito()) {
-                Venta v = new Venta();
-                v.setFolio(labelFolio.getText());
-                v.setTotalVenta(totalVenta);
+                            ResultadoCobro resultado = cobrarController.getResultadoCobro();
+                            if (resultado != null && resultado.isExito()) {
+                                Venta v = new Venta();
+                                v.setFolio(labelFolio.getText());
+                                v.setTotalVenta(totalVenta);
 
-                List<VentaDetalle> lvd = new ArrayList<>();
-                for (VentaDetalle vd : olvd) {
-                    VentaDetalle ventadetalle = new VentaDetalle(
-                            vd.getIdVentaDetalle(), vd.getCantidad(),vd.getPeso(), vd.getPrecio(),
-                            vd.getSubTotal(), vd.getSucursalProducto(), v
-                    );
-                    lvd.add(ventadetalle);
-                }
-                v.setListVentaDetalle(lvd);
+                                List<VentaDetalle> lvd = new ArrayList<>();
+                                for (VentaDetalle vd : olvd) {
+                                    VentaDetalle ventadetalle = new VentaDetalle(
+                                            vd.getIdVentaDetalle(), vd.getCantidad(), vd.getPeso(), vd.getPrecio(),
+                                            vd.getSubTotal(), vd.getSucursalProducto(), v
+                                    );
+                                    lvd.add(ventadetalle);
+                                }
+                                v.setListVentaDetalle(lvd);
 
-                try {
-                    Venta guardada = vs.save(v, resultado, (Folio) labelFolio.getUserData());
-                    if (guardada != null) {
-                        olvd.clear();
-                        tviewVentaDetalle.refresh();
-                        labelTotal.setText("0");
-                        actualizarFolio();
-                    }
-                } catch (Exception ex) {
-                    ex.printStackTrace(); // útil para desarrollo
-                    showErrorDialog("Error al guardar la venta", ex.getMessage());
+                                try {
+                                    Venta guardada = vs.save(v, resultado, (Folio) labelFolio.getUserData());
+                                    if (guardada != null) {
+                                        olvd.clear();
+                                        tviewVentaDetalle.refresh();
+                                        labelTotal.setText("0");
+                                        actualizarFolio();
+                                    }
+                                } catch (Exception ex) {
+                                    ex.printStackTrace(); // útil para desarrollo
+                                    showErrorDialog("Error al guardar la venta", ex.getMessage());
+                                }
+
+                            } else {
+                                showErrorDialog("Error al cobrar", "No se completó el cobro.");
+                            }
+                        }
+                    });
                 }
 
             } else {
-                showErrorDialog("Error al cobrar", "No se completó el cobro.");
+                showErrorDialog("Error de venta", "Al parecer no hay nada que vender");
             }
 
-        } catch (IOException ex) {
-            ex.printStackTrace(); // útil para desarrollo
-            showErrorDialog("Error al abrir la ventana de cobro", ex.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
             showErrorDialog("Error inesperado", ex.getMessage());
@@ -247,11 +269,26 @@ public class VentaController implements Initializable {
 
                                     String pesokg = new String(buffer, 0, bytesRead); // Convierte los bytes a String
                                     float pesos = Float.parseFloat(pesokg.replace(" kg", ""));
-                                    vd.setPeso(pesos);
+                                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                                    alert.setTitle("Peso de la bascula");
+                                    alert.setHeaderText("Peso registrado:" + pesos + " Kg");
+                                    alert.setContentText("Elige tu opción:");
+
+                                    // Mostrar el diálogo y esperar respuesta
+                                    Optional<ButtonType> result = alert.showAndWait();
+
+                                    // Verificar qué botón presionó el usuario
+                                    if (result.isPresent() && result.get() == ButtonType.OK) {
+                                        vd.setPeso(pesos);
+                                        tviewVentaDetalle.refresh();
+                                        labelTotal.setText(formatoMoneda.format(calcularTotal()));
+                                        System.err.println("El Peso formateado es:" + pesos);
+                                    } else {
+                                        showErrorDialog("No se ingreso el peso", "Se cancela el peso: " + pesos);
+                                        return;
+                                    }
+
                                     //vd.setSubTotal(vd.getCantidad() * vd.getPrecio());
-                                    tviewVentaDetalle.refresh();
-                                    labelTotal.setText(formatoMoneda.format(calcularTotal()));
-                                    System.err.println("El Peso formateado es:" + pesos);
                                 } else {
                                     showErrorDialog("No regres", "No se recibio ningun dato");
                                 }
@@ -453,7 +490,7 @@ public class VentaController implements Initializable {
         rowConstraints.setVgrow(Priority.ALWAYS); // Permitir que las filas crezcan
         rowConstraints.setFillHeight(true); // Llenar toda la altura de la fila
 
-        int numColumns = 3; // Número de columnas en la cuadrícula
+        int numColumns = 4; // Número de columnas en la cuadrícula
 
         for (int j = 0; j < numColumns; j++) {
             gp.getColumnConstraints().add(columnConstraints);
@@ -515,7 +552,7 @@ public class VentaController implements Initializable {
         rowConstraints.setVgrow(Priority.ALWAYS);
         rowConstraints.setFillHeight(true);
 
-        int numColumns = 3;
+        int numColumns = 4;
         for (int j = 0; j < numColumns; j++) {
             gp.getColumnConstraints().add(columnConstraints);
         }
