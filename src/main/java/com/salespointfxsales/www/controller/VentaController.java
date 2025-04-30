@@ -120,8 +120,6 @@ public class VentaController implements Initializable {
     private TableView<VentaDetalle> tviewVentaDetalle;
     private ObservableList<VentaDetalle> olvd = FXCollections.observableArrayList();
 
-    ;
-
     @FXML
     void cancelar(ActionEvent event) {
         try {
@@ -145,75 +143,77 @@ public class VentaController implements Initializable {
                             if (vdt.getPeso() <= 0) {
                                 showErrorDialog("Venta de costila sin peso", "El producto: " + vdt.getSucursalProducto() + ", no tiene peso");
                                 showErrorDialog("Venta de costila sin peso", "Seleccione el producto: " + vdt.getSucursalProducto() + ", y obtega el peso e la bascula");
-                                return;
-                            }
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cobrar.fxml"));
-                            Parent root = null;
-                            try {
-                                root = loader.load();
-                            } catch (IOException ex) {
-                                showErrorDialog("error al abrir el modal de cobrar", ex.getMessage());
-                            }
-
-                            CobrarController cobrarController = loader.getController();
-
-                            Stage stage = new Stage();
-                            stage.setTitle("Cobrar");
-                            stage.setScene(new Scene(root));
-                            stage.initModality(Modality.APPLICATION_MODAL);
-                            stage.setResizable(false);
-
-                            float totalVenta;
-                            try {
-                                totalVenta = Float.parseFloat(labelTotal.getText().replace("$", ""));
-                            } catch (NumberFormatException ex) {
-                                showErrorDialog("Error al convertir total", "El total no es un número válido.");
-                                return;
-                            }
-
-                            cobrarController.totalVenta(totalVenta);
-                            stage.showAndWait();
-
-                            ResultadoCobro resultado = cobrarController.getResultadoCobro();
-                            if (resultado != null && resultado.isExito()) {
-                                Venta v = new Venta();
-                                v.setFolio(labelFolio.getText());
-                                v.setTotalVenta(totalVenta);
-
-                                List<VentaDetalle> lvd = new ArrayList<>();
-                                for (VentaDetalle vd : olvd) {
-                                    VentaDetalle ventadetalle = new VentaDetalle(
-                                            vd.getIdVentaDetalle(), vd.getCantidad(), vd.getPeso(), vd.getPrecio(),
-                                            vd.getSubTotal(), vd.getSucursalProducto(), v
-                                    );
-                                    lvd.add(ventadetalle);
-                                }
-                                v.setListVentaDetalle(lvd);
-
-                                try {
-                                    Venta guardada = vs.save(v, resultado, (Folio) labelFolio.getUserData());
-                                    if (guardada != null) {
-                                        olvd.clear();
-                                        tviewVentaDetalle.refresh();
-                                        labelTotal.setText("0");
-                                        actualizarFolio();
-                                    }
-                                } catch (Exception ex) {
-                                    ex.printStackTrace(); // útil para desarrollo
-                                    showErrorDialog("Error al guardar la venta", ex.getMessage());
-                                }
-
-                            } else {
-                                showErrorDialog("Error al cobrar", "No se completó el cobro.");
+                               throw new  IllegalArgumentException("Noi hay peso en el producto");
                             }
                         }
+
                     });
                 }
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/modal/cobrar.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException ex) {
+                    showErrorDialog("error al abrir el modal de cobrar", ex.getMessage());
+                }
 
+                CobrarController cobrarController = loader.getController();
+
+                Stage stage = new Stage();
+                stage.setTitle("Cobrar");
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.setResizable(false);
+
+                float totalVenta;
+                try {
+                    totalVenta = Float.parseFloat(labelTotal.getText().replace("$", ""));
+                } catch (NumberFormatException ex) {
+                    showErrorDialog("Error al convertir total", "El total no es un número válido.");
+                    return;
+                }
+
+                cobrarController.totalVenta(totalVenta);
+                stage.showAndWait();
+
+                ResultadoCobro resultado = cobrarController.getResultadoCobro();
+                if (resultado != null && resultado.isExito()) {
+                    Venta v = new Venta();
+                    v.setFolio(labelFolio.getText());
+                    v.setTotalVenta(totalVenta);
+
+                    List<VentaDetalle> lvd = new ArrayList<>();
+                    for (VentaDetalle vd : olvd) {
+                        VentaDetalle ventadetalle = new VentaDetalle(
+                                vd.getIdVentaDetalle(), vd.getCantidad(), vd.getPeso(), vd.getPrecio(),
+                                vd.getSubTotal(), vd.getSucursalProducto(), v
+                        );
+                        lvd.add(ventadetalle);
+                    }
+                    v.setListVentaDetalle(lvd);
+
+                    try {
+                        Venta guardada = vs.save(v, resultado, (Folio) labelFolio.getUserData());
+                        if (guardada != null) {
+                            olvd.clear();
+                            tviewVentaDetalle.refresh();
+                            labelTotal.setText("0");
+                            actualizarFolio();
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace(); // útil para desarrollo
+                        showErrorDialog("Error al guardar la venta", ex.getMessage());
+                    }
+
+                } else {
+                    showErrorDialog("Error al cobrar", "No se completó el cobro.");
+                }
             } else {
                 showErrorDialog("Error de venta", "Al parecer no hay nada que vender");
             }
 
+        } catch (IllegalArgumentException ex) {
+            showErrorDialog("Error inesperado", ex.getMessage());
         } catch (Exception ex) {
             ex.printStackTrace();
             showErrorDialog("Error inesperado", ex.getMessage());

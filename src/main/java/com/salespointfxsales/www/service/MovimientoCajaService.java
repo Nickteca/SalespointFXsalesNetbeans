@@ -21,6 +21,7 @@ import com.salespointfxsales.www.repo.SucursalRecoleccionRepo;
 import com.salespointfxsales.www.repo.SucursalRepo;
 import com.salespointfxsales.www.repo.VentaDetalleRepo;
 import com.salespointfxsales.www.repo.VentaRepo;
+import com.salespointfxsales.www.service.printer.PrinterCorteService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ public class MovimientoCajaService {
     private final SucursalProductoRepo spr;
     private final VentaRepo vr;
     private final CorteService cs;
+    private final PrinterCorteService pcs;
 
     public MovimientoCaja findlastmovimientoCajasucursalActiva() {
         return mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
@@ -99,6 +101,8 @@ public class MovimientoCajaService {
             Corte corte = cs.save(mcA, mcC);
             if (corte == null) {
                 throw new IllegalArgumentException();
+            }else{
+                pcs.imprimirCorte(corte, mcA, mcC);
             }
             /*mcr.save(mcC);
             /*CREAMOS EL CORTE*/
