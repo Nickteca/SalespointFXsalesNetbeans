@@ -82,9 +82,10 @@ public class StarterController implements Initializable {
         try {
             mcs.cerrarCaja();
         } catch (IllegalArgumentException e) {
-            showMensages("Error Cerrar Caja", "Hubo error al cerrar caja", e.getMessage()+"\n"+e.getCause());
-        } catch(Exception e){
-            showMensages("Error Cerrar Caja", "Hubo error al cerrar caja", e.getMessage()+"\n"+e.getCause());
+            showMensages("Error Cerrar Caja", "Error de operación", e.getMessage());
+        }  catch (Exception e) {
+            e.printStackTrace(); // o usa un logger
+            showMensages("Error desconocido", "Ocurrió un error", e.getMessage());
         }
 
     }

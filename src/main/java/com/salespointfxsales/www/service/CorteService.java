@@ -116,8 +116,8 @@ public class CorteService {
             }
             listaCorteDetalle.addAll(mapaCorte.values());
             corte.setListCorteDetalle(listaCorteDetalle);
-            cr.save(corte);
-            return corte;
+            return cr.save(corte);
+            //return corte;
         } catch (NumberFormatException e) {
             throw e;
         } catch (IllegalArgumentException e) {

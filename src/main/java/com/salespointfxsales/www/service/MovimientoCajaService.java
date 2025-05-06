@@ -101,8 +101,12 @@ public class MovimientoCajaService {
             Corte corte = cs.save(mcA, mcC);
             if (corte == null) {
                 throw new IllegalArgumentException();
-            }else{
-                pcs.imprimirCorte(corte, mcA, mcC);
+            } else {
+                if (pcs.imprimirCorte(corte, mcA, mcC)) {
+                    return mcC;
+                } else {
+                    return  null;
+                }
             }
             /*mcr.save(mcC);
             /*CREAMOS EL CORTE*/
@@ -276,7 +280,6 @@ public class MovimientoCajaService {
                 });
                 System.out.println();
             });*/
-            return mcC;
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {
