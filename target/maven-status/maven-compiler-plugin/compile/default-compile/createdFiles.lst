@@ -78,6 +78,7 @@ com\salespointfxsales\www\controller\InventarioController$2.class
 com\salespointfxsales\www\model\SucursalPedido.class
 com\salespointfxsales\www\repo\MovimientoInventarioDetalleRepo.class
 com\salespointfxsales\www\model\Producto.class
+com\salespointfxsales\www\service\printer\PrinterCorteService.class
 com\salespointfxsales\www\model\Venta.class
 com\salespointfxsales\www\service\BilleteService.class
 com\salespointfxsales\www\model\MovimientoCaja.class

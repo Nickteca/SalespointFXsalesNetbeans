@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 public class CorteService {
 
     private final CorteRepo cr;
-    
+
     private final SucursalRepo sr;
     private final VentaDetalleRepo vdr;
     private final SucursalGastoRepo sgr;
@@ -70,6 +70,7 @@ public class CorteService {
                 cd.setVenta(0f);
                 cd.setSalida(0f);
                 cd.setTraspasoEntrada(0f);
+                cd.setPeso(0f);
                 cd.setTraspasoSalida(0f);
                 cd.setCanceladas(0f);
                 cd.setExistencia(sp.getInventario()); // o como manejes la existencia actual
@@ -83,7 +84,7 @@ public class CorteService {
                 CorteDetalle cd = mapaCorte.get(sp);
                 if (cd != null) {
                     cd.setVenta(cd.getVenta() + vd.getCantidad());
-                    cd.setPeso(vd.getPeso());
+                    cd.setPeso(cd.getPeso() + vd.getPeso());
                     peso += vd.getPeso();
                 }
             }
@@ -114,7 +115,19 @@ public class CorteService {
                     }
                 }
             }
-            listaCorteDetalle.addAll(mapaCorte.values());
+            /*for (CorteDetalle cd : mapaCorte.values()) {
+                if (cd.getVenta() != 0f || cd.getEntrada() != 0f || cd.getSalida() != 0f
+                        || cd.getTraspasoEntrada() != 0f || cd.getTraspasoSalida() != 0f
+                        || cd.getCanceladas() != 0f || cd.getPeso() != 0f) {
+                    listaCorteDetalle.add(cd);
+                }
+            }*/
+            mapaCorte.values().stream()
+                    .filter(cd -> cd.getVenta() != 0f || cd.getEntrada() != 0f || cd.getSalida() != 0f
+                    || cd.getTraspasoEntrada() != 0f || cd.getTraspasoSalida() != 0f
+                    || cd.getCanceladas() != 0f || cd.getPeso() != 0f)
+                    .forEach(listaCorteDetalle::add);
+            //listaCorteDetalle.addAll(mapaCorte.values());
             corte.setListCorteDetalle(listaCorteDetalle);
             return cr.save(corte);
             //return corte;
@@ -124,7 +137,7 @@ public class CorteService {
             throw e;
         } catch (Exception e) {
             throw e;
-        } 
+        }
     }
 
     private float toatalVenta(List<VentaDetalle> lvd) {

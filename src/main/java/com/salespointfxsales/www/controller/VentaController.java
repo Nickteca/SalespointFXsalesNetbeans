@@ -268,6 +268,7 @@ public class VentaController implements Initializable {
                                 if (bytesRead > 0) {
 
                                     String pesokg = new String(buffer, 0, bytesRead); // Convierte los bytes a String
+                                    System.err.println("Total poeso: "+pesokg);
                                     float pesos = Float.parseFloat(pesokg.replace(" kg", ""));
                                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                                     alert.setTitle("Peso de la bascula");

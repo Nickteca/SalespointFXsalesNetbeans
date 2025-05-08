@@ -81,13 +81,14 @@ public class StarterController implements Initializable {
     void cerrarCaja(ActionEvent event) {
         try {
             mcs.cerrarCaja();
+            Stage tage = (Stage) labelSucursal.getScene().getWindow();
+            tage.close();
         } catch (IllegalArgumentException e) {
             showMensages("Error Cerrar Caja", "Error de operación", e.getMessage());
         }  catch (Exception e) {
             e.printStackTrace(); // o usa un logger
             showMensages("Error desconocido", "Ocurrió un error", e.getMessage());
         }
-
     }
 
     @FXML
