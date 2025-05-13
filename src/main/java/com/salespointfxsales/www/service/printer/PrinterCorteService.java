@@ -65,10 +65,20 @@ public class PrinterCorteService {
 
             // Utiliza un ancho fijo para columnas
             String formato = "%-30s %10s";
+            // INICIAL
+            escpos.writeLF(new Style().setJustification(EscPosConst.Justification.Center).setFontName(Style.FontName.Font_B), "=========================== INICIAL ===========================");
+            escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
+            for (CorteDetalle cd : c.getListCorteDetalle()) {
+                if (cd.getEntrada() > 0) {
+                    escpos.writeLF(header2, String.format(formato,
+                            cd.getSucursalProducto().toString(),
+                            CANTIDAD_FORMAT.format(cd.getInicial())));
+                }
+            }
 
 // ENTRADAS
-            escpos.writeLF(header2, "========== ENTRADAS ==========");
-            escpos.writeLF(header2, String.format(formato, "Producto", "Cantidad"));
+            escpos.writeLF(new Style().setJustification(EscPosConst.Justification.Center).setFontName(Style.FontName.Font_B), "=========================== ENTRADAS ===========================");
+            escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
                 if (cd.getEntrada() > 0) {
                     escpos.writeLF(header2, String.format(formato,
@@ -77,33 +87,33 @@ public class PrinterCorteService {
                 }
             }
 // SALIDAS
-            escpos.writeLF(header2, "========== SALIDAS ==========");
-            escpos.writeLF(header2, String.format(formato, "Producto", "Cantidad"));
+            escpos.writeLF(new Style().setJustification(EscPosConst.Justification.Center).setFontName(Style.FontName.Font_B), "========================== SALIDAS ===========================");
+            escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
                 if (cd.getSalida() > 0) {
                     escpos.writeLF(header2, String.format(formato, cd.getSucursalProducto().toString(), CANTIDAD_FORMAT.format(cd.getSalida())));
                 }
             }
 // TRASPASO ENTRADA
-            escpos.writeLF(header2, "========== TRASPASO ENTRADA ==========");
-            escpos.writeLF(header2, String.format(formato, "Producto", "Cantidad"));
+            escpos.writeLF(new Style().setJustification(EscPosConst.Justification.Center).setFontName(Style.FontName.Font_B), "======================= TRASPASO ENTRADA =======================");
+            escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
                 if (cd.getTraspasoEntrada() > 0) {
                     escpos.writeLF(header2, String.format(formato, cd.getSucursalProducto().toString(), CANTIDAD_FORMAT.format(cd.getTraspasoEntrada())));
                 }
             }
 // TRASPASO SALIDA
-            escpos.writeLF(header2, "=== TRASPASO SALIDA ===");
-            escpos.writeLF(header2, String.format(formato, "Producto", "Cantidad"));
+            escpos.writeLF(new Style().setJustification(EscPosConst.Justification.Center).setFontName(Style.FontName.Font_B), "======================= TRASPASO SALIDA =======================");
+            escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
                 if (cd.getTraspasoSalida() > 0) {
                     escpos.writeLF(header2, String.format(formato, cd.getSucursalProducto().toString(), CANTIDAD_FORMAT.format(cd.getTraspasoSalida())));
                 }
             }
 // VENTAS
-            escpos.writeLF(header2, "========== VENTAS ==========");
-            String formatoVenta = "%-33s %10s %10s";
-            escpos.writeLF(header2, String.format(formatoVenta, "Producto", "Cantidad", "Peso"));
+            escpos.writeLF(header2, "============================ VENTAS ============================");
+            String formatoVenta = "%-33s %12s %12s";
+            escpos.writeLF(header2, String.format(formatoVenta, "PRODUCTO", "CANTIDAD", "PESO"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
                 if (cd.getVenta() > 0) {
                     String pesoTexto = cd.getPeso() != 0 ? PESO_FORMAT.format(cd.getPeso()) + "Kg" : "";
@@ -115,16 +125,16 @@ public class PrinterCorteService {
                 }
             }
 // CANCELACIONES
-            escpos.writeLF(header2, "========== CANCELACIONES ==========");
-            escpos.writeLF(header2, String.format(formato, "Producto", "Cantidad"));
+            escpos.writeLF(header2, "========================== CANCELACIONES =======================");
+            escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
                 if (cd.getCanceladas() > 0) {
-                    escpos.writeLF(header2, String.format(formato, cd.getSucursalProducto().toString(), CANTIDAD_FORMAT.format(cd.getCanceladas())));
+                    escpos.writeLF(header2, String.format(formato, cd.getSucursalProducto().getProducto(), CANTIDAD_FORMAT.format(cd.getCanceladas())));
                 }
             }
 // EXISTENCIA FINAL
-            escpos.writeLF(header2, "========== EXISTENCIA FINAL ==========");
-            escpos.writeLF(header2, String.format(formato, "Producto", "Cantidad"));
+            escpos.writeLF(header2, "======================= EXISTENCIA FINAL =======================");
+            escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
                 if (cd.getExistencia() != 0) {
                     escpos.writeLF(header2, String.format(formato, cd.getSucursalProducto().toString(), CANTIDAD_FORMAT.format(cd.getExistencia())));

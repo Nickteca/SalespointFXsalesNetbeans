@@ -15,4 +15,10 @@ public interface VentaDetalleRepo extends JpaRepository<VentaDetalle, Integer> {
             @Param("fechaApertura") LocalDateTime fechaApertura,
             @Param("fechaVenta") LocalDateTime fechaVenta
     );
+    
+    @Query("SELECT vd FROM VentaDetalle vd WHERE vd.venta.sucursal.estatusSucursal = true AND vd.venta.createdAt BETWEEN :fechaApertura AND :fechaVenta and vd.venta.status=false")
+    List<VentaDetalle> ventasXsucursalXcanceladasXcorte(
+            @Param("fechaApertura") LocalDateTime fechaApertura,
+            @Param("fechaVenta") LocalDateTime fechaVenta
+    );
 }

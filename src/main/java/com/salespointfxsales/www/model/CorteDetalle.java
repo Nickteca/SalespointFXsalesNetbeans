@@ -30,6 +30,9 @@ public class CorteDetalle {
     private SucursalProducto sucursalProducto;
 
     @Column(nullable = false)
+    private float inicial;
+    
+    @Column(nullable = false)
     private float entrada;
 
     @Column(nullable = false)

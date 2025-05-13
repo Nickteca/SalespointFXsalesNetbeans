@@ -93,7 +93,7 @@ public class CorteService {
             for (MovimientoInventario mi : lmi) {
                 for (MovimientoInventarioDetalle mid : mi.getListMovimientoInventarioDetalle()) {
                     SucursalProducto sp = mid.getSucursalProducto();
-                    if (sp != null && mapaCorte.containsKey(sp) && !sp.getProducto().isEsPaquete()) {
+                    if (sp != null && mapaCorte.containsKey(sp) /*&& !sp.getProducto().isEsPaquete()*/) {
                         CorteDetalle cd = mapaCorte.get(sp);
                         switch (mi.getNombreFolio()) {
                             case NombreFolio.Ajuste_Entrada:
