@@ -101,13 +101,13 @@ public class MovimientoCajaService {
             Corte corte = cs.save(mcA, mcC);
             if (corte == null) {
                 throw new IllegalArgumentException();
-            } else {
-                if (pcs.imprimirCorte(corte, mcA, mcC)) {
+            } /*else {
+                if (pcs.imprimirCorte(corte, mcA, mcC)) {*/
                     return mcC;
-                } else {
+               /* } else {
                     return  null;
-                }
-            }
+                }*/
+            /*}*/
             /*mcr.save(mcC);
             /*CREAMOS EL CORTE*/
  /* Corte corte = new Corte(null, sr.findByEstatusSucursalTrue().get(), mcC, mcA.getSaldoAnterior(), total, recoleccion, gasto, mcC.getSaldoFinal(), mcA.getCreatedAt(), LocalDateTime.now(), (short) lvd.size(), lvd.getFirst().getVenta().getFolio(), lvd.getLast().getVenta().getFolio());

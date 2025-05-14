@@ -69,7 +69,7 @@ public class PrinterCorteService {
             escpos.writeLF(new Style().setJustification(EscPosConst.Justification.Center).setFontName(Style.FontName.Font_B), "=========================== INICIAL ===========================");
             escpos.writeLF(header2, String.format(formato, "PRODUCTO", "CANTIDAD"));
             for (CorteDetalle cd : c.getListCorteDetalle()) {
-                if (cd.getEntrada() > 0) {
+                if (cd.getInicial()> 0) {
                     escpos.writeLF(header2, String.format(formato,
                             cd.getSucursalProducto().toString(),
                             CANTIDAD_FORMAT.format(cd.getInicial())));

@@ -1,6 +1,7 @@
 com\salespointfxadmin\www\model\enums\Naturaleza.class
 com\salespointfxsales\www\model\MovimientoInventario.class
 com\salespointfxsales\www\repo\CategoriaRepo.class
+com\salespointfxsales\www\repo\CorteDetalleRepo.class
 com\salespointfxsales\www\controller\StarterController.class
 com\salespointfxsales\www\service\GastoService.class
 com\salespointfxsales\www\service\printer\PrinterTicketService.class

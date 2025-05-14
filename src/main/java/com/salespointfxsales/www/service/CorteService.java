@@ -11,6 +11,7 @@ import com.salespointfxsales.www.model.SucursalRecoleccion;
 import com.salespointfxsales.www.model.Venta;
 import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.model.enums.NombreFolio;
+import com.salespointfxsales.www.repo.CorteDetalleRepo;
 import com.salespointfxsales.www.repo.CorteRepo;
 import com.salespointfxsales.www.repo.MovimientoInventarioRepo;
 import com.salespointfxsales.www.repo.SucursalGastoRepo;
@@ -19,11 +20,13 @@ import com.salespointfxsales.www.repo.SucursalRecoleccionRepo;
 import com.salespointfxsales.www.repo.SucursalRepo;
 import com.salespointfxsales.www.repo.VentaDetalleRepo;
 import com.salespointfxsales.www.repo.VentaRepo;
+import com.salespointfxsales.www.service.printer.PrinterCorteService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +43,8 @@ public class CorteService {
     private final MovimientoInventarioRepo mir;
     private final SucursalProductoRepo spr;
     private final VentaRepo vr;
+    private final PrinterCorteService pcs;
+    private final CorteDetalleRepo cdr;
 
     public Corte save(MovimientoCaja mcA, MovimientoCaja mcC) {
         try {
@@ -66,6 +71,7 @@ public class CorteService {
                 CorteDetalle cd = new CorteDetalle();
                 cd.setSucursalProducto(sp);
                 cd.setCorte(corte); // Tu objeto Corte actual
+                cd.setInicial(0f);
                 cd.setEntrada(0f);
                 cd.setVenta(0f);
                 cd.setSalida(0f);
@@ -122,14 +128,44 @@ public class CorteService {
                     listaCorteDetalle.add(cd);
                 }
             }*/
-            mapaCorte.values().stream()
+ /* mapaCorte.values().stream()
                     .filter(cd -> cd.getVenta() != 0f || cd.getEntrada() != 0f || cd.getSalida() != 0f
                     || cd.getTraspasoEntrada() != 0f || cd.getTraspasoSalida() != 0f
                     || cd.getCanceladas() != 0f || cd.getPeso() != 0f)
+                    .forEach(listaCorteDetalle::add);*/
+            mapaCorte.values().stream()
+                    .filter(cd -> cd.getVenta() != 0f || cd.getEntrada() != 0f || cd.getSalida() != 0f
+                    || cd.getTraspasoEntrada() != 0f || cd.getTraspasoSalida() != 0f
+                    || cd.getCanceladas() != 0f || cd.getPeso() != 0f
+                    || cd.getSucursalProducto().isInventariable())
                     .forEach(listaCorteDetalle::add);
             //listaCorteDetalle.addAll(mapaCorte.values());
+            Optional<Corte> corteAnterior = cr.findFirstBySucursalEstatusSucursalTrueOrderByIdCorteDesc();
+            for (Map.Entry<SucursalProducto, CorteDetalle> entry : mapaCorte.entrySet()) {
+                SucursalProducto sp = entry.getKey();
+                CorteDetalle cd = entry.getValue();
+
+                // Solo buscamos inicial para productos inventariables
+                if (sp.isInventariable()) {
+                    if (corteAnterior.isPresent()) {
+                        CorteDetalle anterior = cdr.findByCorteAndSucursalProducto(corteAnterior.get(), sp);
+                        if (anterior != null) {
+                            //CorteDetalle anterior = anteriores.get(0); // el más reciente
+                            cd.setInicial(anterior.getExistencia());   // asignamos su existencia como inicial
+                        }
+                    } else {
+                        cd.setInicial(0f); // si no hay corte anterior, asumimos 0
+                    }
+                }
+            }
+
             corte.setListCorteDetalle(listaCorteDetalle);
-            return cr.save(corte);
+
+            Corte actual = cr.save(corte);
+            /*if(!corteAnterior.isEmpty()){*/
+            pcs.imprimirCorte(actual, mcA, mcC/*, corteAnterior.orElse(null)*/);
+            /*}*/
+            return actual;
             //return corte;
         } catch (NumberFormatException e) {
             throw e;
