@@ -471,6 +471,7 @@ public class VentaController implements Initializable {
             bc.getStyleClass().add("botonCategoria");
             bc.setWrapText(true);
             bc.setOnAction(e -> cargarProductosPorCategoria(c));
+            bc.getStyleClass().add("buttonCategoria");
             hBoxCategorias.getChildren().add(bc);
         }
     }
@@ -505,7 +506,7 @@ public class VentaController implements Initializable {
             Button btn = new Button(producto);
             btn.setId(lsp.get(i).getIdSucursalProducto() + "");
             btn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE); // Ajustar al tamaño máximo de la celda
-            //btn.getStyleClass().add("botonesProductos");
+            btn.getStyleClass().add("product-button");
             /* agregamos eventos a los botones com oescuchadoes */
             btn.setOnAction(event -> {
                 //cantidadSatge("/fxml/modal/cantidad.fxml", sps.findByIdSucursalProducto(Short.parseShort(btn.getId())));
@@ -568,7 +569,7 @@ public class VentaController implements Initializable {
             btn.setId(sp.getIdSucursalProducto() + "");
             btn.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
             btn.setWrapText(true);
-            btn.getStyleClass().add("botonesProductos");
+            btn.getStyleClass().add("product-button");
             btn.setOnAction(event -> {
                 //cantidadSatge("/fxml/cantidad.fxml", Integer.parseInt(btn.getId()));
                 agregarProducto(sps.findByIdSucursalProducto(Short.parseShort(btn.getId())));

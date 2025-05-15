@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -9,18 +8,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.InventarioController">
-    <stylesheets>
-        <URL value="@/styles/inventario.css" />
-    </stylesheets>
+<AnchorPane id="AnchorPane" stylesheets="@../styles/inventario.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.InventarioController">
    <children>
       <BorderPane layoutX="234.0" layoutY="121.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <AnchorPane BorderPane.alignment="CENTER">
+            <AnchorPane styleClass="panelTop" BorderPane.alignment="CENTER">
                <children>
                   <VBox alignment="TOP_CENTER" layoutX="370.0" layoutY="-14.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label text="INVENTARIO">
+                        <Label text="INVENTARIO" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="24.0" />
                            </font>

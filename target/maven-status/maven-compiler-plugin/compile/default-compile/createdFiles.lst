@@ -13,6 +13,7 @@ com\salespointfxsales\www\repo\MovimientoInventarioRepo.class
 com\salespointfxsales\www\service\CorteService$1.class
 com\salespointfxsales\www\model\Categoria.class
 com\salespointfxsales\www\controller\modal\MovimientoDetalleController.class
+com\salespointfxsales\www\controller\modal\PedidoController.class
 com\salespointfxsales\www\model\SucursalProducto.class
 com\salespointfxsales\www\service\ProductoPaqueteService.class
 com\salespointfxsales\www\controller\modal\GastoController$2.class

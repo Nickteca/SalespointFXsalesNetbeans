@@ -27,4 +27,7 @@ public class SucursalProductoService {
     public List<SucursalProducto> findByInventariable(){
         return spr.findByInventariableTrue();
     }
+    public List<SucursalProducto> findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse() {
+		return spr.findBySucursalEstatusSucursalTrueAndProductoEsPaqueteFalse();
+	}
 }

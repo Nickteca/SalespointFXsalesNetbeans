@@ -9,10 +9,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SucursalPedidoDetalle {
@@ -22,7 +25,7 @@ public class SucursalPedidoDetalle {
 	private Integer idSucursalPedidoDetalle;
 
 	@Column(nullable = false)
-	private float cantidad;
+	private int cantidad;
 
 	@JoinColumn(name = "sucursalProducto", referencedColumnName = "idSucursalProducto")
 	@ManyToOne(optional = false)
@@ -32,11 +35,16 @@ public class SucursalPedidoDetalle {
 	@ManyToOne(optional = false)
 	private SucursalPedido sucursalPedido;
 
-	public SucursalPedidoDetalle(Integer idSucursalPedidoDetalle, float cantidad, SucursalProducto sucursalProducto) {
+	public SucursalPedidoDetalle(Integer idSucursalPedidoDetalle, int cantidad, SucursalProducto sucursalProducto) {
 		super();
 		this.idSucursalPedidoDetalle = idSucursalPedidoDetalle;
 		this.cantidad = cantidad;
 		this.sucursalProducto = sucursalProducto;
 	}
 
+    @Override
+    public String toString() {
+        return sucursalProducto.toString()+":::"+cantidad;
+    }
+        
 }

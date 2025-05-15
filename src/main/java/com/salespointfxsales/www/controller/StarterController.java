@@ -50,7 +50,8 @@ public class StarterController implements Initializable {
     private Button buttonAbrirCajon;
     @FXML
     private Button buttonCerrarCaja;
-
+   @FXML
+    private Button buttonPedido;
     @FXML
     private Button buttonGastos;
 
@@ -85,7 +86,7 @@ public class StarterController implements Initializable {
             tage.close();
         } catch (IllegalArgumentException e) {
             showMensages("Error Cerrar Caja", "Error de operación", e.getMessage());
-        }  catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace(); // o usa un logger
             showMensages("Error desconocido", "Ocurrió un error", e.getMessage());
         }
@@ -109,6 +110,11 @@ public class StarterController implements Initializable {
     @FXML
     void recoleccion(ActionEvent event) {
         cargarModal("/fxml/modal/recoleccion.fxml", "recoleccion");
+    }
+
+    @FXML
+    void pedido(ActionEvent event) {
+        cargarModal("/fxml/modal/pedido.fxml", "PEDIDO");
     }
 
     @FXML

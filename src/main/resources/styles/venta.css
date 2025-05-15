@@ -1,4 +1,168 @@
-.botonCategoria{
+.mainFxmlClass {
+
+}
+/*BOTONO PARA CATEGORIAS*/
+.buttonCategoria {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Arial";
+    -fx-background-color: #f1c40f;
+    -fx-background-radius: 8;
+    /*-fx-padding: 10 20 10 20;*/
+    -fx-cursor: hand;
+}
+.buttonCategoria:hover {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+}
+.buttonCategoria:pressed {
+    -fx-background-color: #2471a3;
+}
+/*BOTON POARA COBRAR*/
+.buttonVender{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-family: "Arial";
+    -fx-background-color: #27ae60;
+    -fx-background-radius: 8;
+    /*-fx-padding: 10 20 10 20;*/
+    -fx-cursor: hand;
+}
+.buttonVender:hover {
+    -fx-background-color: #2980b9;
+}
+.buttonVender:pressed {
+    -fx-background-color: #2471a3;
+}
+/*BOTON DE LOS PRODUCTOS*/
+.product-button {
+    -fx-background-color: #ecf0f1;
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 14px;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5 5;
+    -fx-cursor: hand;
+}
+.product-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-text-fill: white;
+}
+.product-button:pressed {
+    -fx-background-color: #2471a3;
+}
+/*BOTON DE LOS cANCELAR*/
+.buttton-cancel {
+    -fx-background-color: #ffffff;         /* Fondo blanco */
+    -fx-text-fill: #e74c3c;                /* Texto rojo */
+/*    -fx-border-color: #e74c3c;              Borde rojo */
+    -fx-border-width: 2;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+.buttton-cancel:hover {
+    fx-background-color: #fcebea;  
+}
+.buttton-cancel:pressed {
+    -fx-background-color: #2471a3;
+}
+/*BOTON DE LOS PESO BASCULA*/
+.buttton-peso {
+    -fx-background-color: #2980b9;         /* Fondo blanco */
+    -fx-text-fill: #ffffff;                /* Texto rojo */
+    /*-fx-border-color: #e74c3c;              Borde rojo */
+    -fx-border-width: 2;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+.buttton-peso:hover {
+    fx-background-color: #fcebea;  
+}
+.buttton-peso:pressed {
+    -fx-background-color: #2471a3;
+}
+/* PANEL SUPERIRO Y SE AGRO AL INFERIOR */
+.panelTop {
+    -fx-background-color: #2c3e50;
+    /*-fx-border-color: #e67e22;*/
+    /*-fx-border-width: 2;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;*/
+}
+
+/* ESTILO GENERAL PARA LA TABLAa */
+.table-view {
+    -fx-background-color: #ecf0f1;
+    -fx-table-cell-border-color: #bdc3c7;
+    -fx-padding: 5;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+/*.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header {
+    -fx-background-color: #f1c40f;  Amarillo 
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}*/
+
+/* Cabecera de la tabla */
+.table-view .column-header-background {
+    -fx-background-color: transparent; /* Amarillo categoría */
+}
+.table-view .column-header {
+    -fx-background-color: #f1c40f; /* Amarillo */
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-size: 35;
+    -fx-border-color: transparent;
+    -fx-alignment: CENTER-LEFT;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Filas de la tabla */
+.table-row-cell {
+    -fx-background-color: white;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
+.table-row-cell:filled:selected,
+.table-row-cell:filled:selected:hover {
+    -fx-background-color: #2980b9;  /* Azul hover */
+    -fx-text-fill: white;
+}
+
+/* Alternancia de colores por fila (opcional) */
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+.table-view .table-row-cell:selected .text {
+    -fx-fill: white;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #2471a3; /* tu color azul oscuro */
 }

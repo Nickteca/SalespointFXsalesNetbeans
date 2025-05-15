@@ -20,7 +20,7 @@
          <children>
             <BorderPane fx:id="bPanePrincipal" layoutX="403.0" layoutY="317.0" prefHeight="768.0" prefWidth="1024.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <left>
-                  <AnchorPane styleClass="anchorPane" BorderPane.alignment="CENTER">
+                  <AnchorPane styleClass="panelLeft" BorderPane.alignment="CENTER">
                      <children>
                         <VBox alignment="CENTER" layoutX="50.0" layoutY="111.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
@@ -50,9 +50,14 @@
                                                 <Color red="1.0" />
                                              </color>
                                           </Stop>
+                                          <Stop offset="0.9966442953020134">
+                                             <color>
+                                                <Color red="1.0" green="0.6000000238418579" />
+                                             </color>
+                                          </Stop>
                                           <Stop offset="1.0">
                                              <color>
-                                                <Color />
+                                                <Color red="1.0" green="0.6000000238418579" />
                                              </color>
                                           </Stop>
                                        </stops>
@@ -131,6 +136,18 @@
                                                 <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@../img/Trolley.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="buttonPedido" alignment="TOP_LEFT" layoutX="23.0" layoutY="372.0" mnemonicParsing="false" onAction="#pedido" prefWidth="175.0" styleClass="botonesMenu" text="PEDIDO">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../img/PurchaseOrder.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
