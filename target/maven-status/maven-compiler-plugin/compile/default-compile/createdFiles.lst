@@ -80,6 +80,7 @@ com\salespointfxsales\www\config\SpringFXMLLoader.class
 com\salespointfxsales\www\controller\modal\MovimientoDetalleController$1.class
 com\salespointfxsales\www\repo\SucursalRecoleccionRepo.class
 com\salespointfxsales\www\service\CorteService.class
+com\salespointfxsales\www\service\watsapp\PedidoWatsappService.class
 com\salespointfxsales\www\service\CategoriaService.class
 com\salespointfxsales\www\controller\InventarioController$2.class
 com\salespointfxsales\www\repo\SucursalPedidoRepo.class

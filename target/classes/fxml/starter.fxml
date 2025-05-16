@@ -14,7 +14,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<StackPane minHeight="768.0" minWidth="1024.0" stylesheets="@../styles/starter.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.StarterController">
+<StackPane minHeight="690.0" minWidth="1024.0" stylesheets="@../styles/starter.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.StarterController">
    <children>
       <AnchorPane>
          <children>

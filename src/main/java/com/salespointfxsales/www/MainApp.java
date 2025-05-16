@@ -53,7 +53,7 @@ public class MainApp extends Application {
                         newStage.setScene(new Scene(root));
                         newStage.setMinHeight(768);
                         newStage.setMinWidth(1024);
-                        //newStage.setMaximized(true);
+                        newStage.setMaximized(true);
                         newStage.show();
                     }
                     if (mc.getTipoMovimientoCaja().equals(TipoMovimiento.CIERRE)) {

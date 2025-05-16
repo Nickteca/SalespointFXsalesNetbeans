@@ -158,6 +158,8 @@ public class StarterController implements Initializable {
             stage.setTitle(titulo);
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
+            stage.sizeToScene(); // Ajusta la ventana al tamaño del contenido
+stage.centerOnScreen();
             stage.setResizable(false);
             stage.show();
 

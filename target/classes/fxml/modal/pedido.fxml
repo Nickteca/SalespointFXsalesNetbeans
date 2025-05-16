@@ -12,8 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="756.0" prefWidth="493.0" stylesheets="@../../styles/pedido.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.modal.PedidoController">
+<StackPane prefHeight="690.0" prefWidth="493.0" stylesheets="@../../styles/pedido.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.modal.PedidoController">
    <children>
       <VBox spacing="5.0">
          <children>

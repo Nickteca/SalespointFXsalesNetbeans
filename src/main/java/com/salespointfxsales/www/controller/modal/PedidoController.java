@@ -1,9 +1,14 @@
 package com.salespointfxsales.www.controller.modal;
 
+import com.salespointfxsales.www.model.SucursalPedido;
 import com.salespointfxsales.www.model.SucursalPedidoDetalle;
 import com.salespointfxsales.www.model.SucursalProducto;
+import com.salespointfxsales.www.service.SucursalPedidoService;
 import com.salespointfxsales.www.service.SucursalProductoService;
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -25,6 +30,7 @@ import org.springframework.stereotype.Component;
 public class PedidoController implements Initializable {
 
     private final SucursalProductoService sps;
+    private final SucursalPedidoService spedidos;
 
     @FXML
     private Button buttonCancelar;
@@ -47,7 +53,24 @@ public class PedidoController implements Initializable {
 
     @FXML
     void enviar(ActionEvent event) {
-
+        try {
+            if (olspd.isEmpty()) {
+                showErrorDialog("Error", "Lista Vacia");
+                return;
+            }
+            SucursalPedido spedido = new SucursalPedido();
+            List<SucursalPedidoDetalle> lspedidod = new ArrayList<>();
+            for (SucursalPedidoDetalle detalle : olspd) {
+                detalle.setSucursalPedido(spedido);
+                lspedidod.add(detalle);
+            }
+            spedido.setListSucursalpedidoDetalle(lspedidod);
+            if (spedidos.save(spedido) != null) {
+                buttonCancelar.fire();
+            }
+        } catch (Exception e) {
+            showErrorDialog("Error", "Exception: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -63,9 +86,14 @@ public class PedidoController implements Initializable {
             result.ifPresentOrElse(cantidad -> {
                 try {
                     int canti = Integer.parseInt(cantidad);
+                    if(canti<=0){
+                        throw new IllegalArgumentException("La cantodad debe ser maypor a 0");
+                    }
                     agregarProductoPedido(sp, canti);
-                } catch (NumberFormatException e) {
-                    showErrorDialog("Error numerico", "erro en la cantidad: " + e.getMessage());
+                }  catch (NumberFormatException e) {
+                    showErrorDialog("Error numerico", "Error en la cantidad: " + e.getMessage());
+                } catch (IllegalArgumentException e) {
+                    showErrorDialog("Error numerico", "Error Ilegal: " + e.getMessage());
                 } catch (Exception e) {
                     showErrorDialog("Error Desconocido", e.getMessage());
                 }
@@ -78,7 +106,7 @@ public class PedidoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarProductos();
-         olspd = FXCollections.observableArrayList();
+        olspd = FXCollections.observableArrayList();
 
         // Mostrar productos de forma personalizada
         lViewProductos.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
@@ -88,7 +116,8 @@ public class PedidoController implements Initializable {
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getProducto().getNombreProducto() + " - " + item.getInventario());
+                    DecimalFormat df = new DecimalFormat("#.##");
+                    setText(item.getProducto().getNombreProducto() + " - " + df.format(item.getInventario()));
                 }
             }
         });
@@ -127,7 +156,7 @@ public class PedidoController implements Initializable {
             spd.setCantidad(cantidad);
             spd.setSucursalProducto(sp);
             spd.setIdSucursalPedidoDetalle(null);
-           
+
             olspd.add(spd);
             lViewPedido.setItems(olspd);
         } catch (Exception e) {
