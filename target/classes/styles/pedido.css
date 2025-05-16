@@ -2,3 +2,10 @@
 .mainFxmlClass {
 
 }
+.list-view {
+    -fx-font-size: 14px;
+    -fx-cell-size: 30px;
+}
+.list-cell {
+    -fx-padding: 3px;
+}

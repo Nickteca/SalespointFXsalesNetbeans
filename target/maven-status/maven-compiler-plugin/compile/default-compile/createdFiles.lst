@@ -3,6 +3,7 @@ com\salespointfxsales\www\model\MovimientoInventario.class
 com\salespointfxsales\www\repo\CategoriaRepo.class
 com\salespointfxsales\www\repo\CorteDetalleRepo.class
 com\salespointfxsales\www\controller\StarterController.class
+com\salespointfxsales\www\controller\modal\PedidoController$1.class
 com\salespointfxsales\www\service\GastoService.class
 com\salespointfxsales\www\service\printer\PrinterTicketService.class
 com\salespointfxsales\www\service\SucursalGastoService.class
@@ -18,14 +19,17 @@ com\salespointfxsales\www\model\SucursalProducto.class
 com\salespointfxsales\www\service\ProductoPaqueteService.class
 com\salespointfxsales\www\controller\modal\GastoController$2.class
 com\salespointfxsales\www\controller\InventarioController$1.class
+com\salespointfxsales\www\service\SucursalPedidoDetalleService.class
 com\salespointfxsales\www\service\printer\PrinterGasto.class
 com\salespointfxsales\www\model\UsuarioRol.class
+com\salespointfxsales\www\service\SucursalPedidoService.class
 com\salespointfxsales\www\model\MovimientoInventarioDetalle.class
 com\salespointfxsales\www\model\Sucursal.class
 com\salespointfxsales\www\service\FolioService.class
 com\salespointfxsales\www\model\Gasto.class
 com\salespointfxsales\www\controller\MovimientoController.class
 com\salespointfxsales\www\model\Corte.class
+com\salespointfxsales\www\repo\SucursalPedidoDetalleRepo.class
 com\salespointfxsales\www\repo\GastoRepo.class
 com\salespointfxsales\www\service\SucursalRecoleccionDetalleService.class
 com\salespointfxsales\www\model\SucursalGasto.class
@@ -62,6 +66,7 @@ com\salespointfxsales\www\controller\VentasController$1.class
 com\salespointfxsales\www\model\enums\BilleteValor.class
 com\salespointfxsales\www\repo\SucursalProductoRepo.class
 com\salespointfxsales\www\repo\SucursalRecoleccionDetalleRepo.class
+com\salespointfxsales\www\controller\modal\PedidoController$2.class
 com\salespointfxsales\www\repo\SucursalGastoRepo.class
 com\salespointfxsales\www\controller\VentaController$2.class
 com\salespointfxsales\www\service\MovimientoCajaService.class
@@ -77,6 +82,7 @@ com\salespointfxsales\www\repo\SucursalRecoleccionRepo.class
 com\salespointfxsales\www\service\CorteService.class
 com\salespointfxsales\www\service\CategoriaService.class
 com\salespointfxsales\www\controller\InventarioController$2.class
+com\salespointfxsales\www\repo\SucursalPedidoRepo.class
 com\salespointfxsales\www\model\SucursalPedido.class
 com\salespointfxsales\www\repo\MovimientoInventarioDetalleRepo.class
 com\salespointfxsales\www\model\Producto.class

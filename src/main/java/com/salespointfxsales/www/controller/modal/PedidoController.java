@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -36,11 +37,12 @@ public class PedidoController implements Initializable {
     private ObservableList<SucursalProducto> olsp;
     @FXML
     private ListView<SucursalPedidoDetalle> lViewPedido;
-    private ObservableList<SucursalPedidoDetalle> olspd = FXCollections.observableArrayList();
+    private ObservableList<SucursalPedidoDetalle> olspd;
 
     @FXML
     void cancelar(ActionEvent event) {
-
+        Stage stage = (Stage) buttonCancelar.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -76,6 +78,33 @@ public class PedidoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         cargarProductos();
+         olspd = FXCollections.observableArrayList();
+
+        // Mostrar productos de forma personalizada
+        lViewProductos.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(SucursalProducto item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getProducto().getNombreProducto() + " - " + item.getInventario());
+                }
+            }
+        });
+
+        // Mostrar detalles del pedido de forma personalizada
+        lViewPedido.setCellFactory(lv -> new javafx.scene.control.ListCell<>() {
+            @Override
+            protected void updateItem(SucursalPedidoDetalle item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.getCantidad() + " x " + item.getSucursalProducto().getProducto().getNombreProducto());
+                }
+            }
+        });
     }
 
     private void cargarProductos() {
@@ -98,7 +127,7 @@ public class PedidoController implements Initializable {
             spd.setCantidad(cantidad);
             spd.setSucursalProducto(sp);
             spd.setIdSucursalPedidoDetalle(null);
-
+           
             olspd.add(spd);
             lViewPedido.setItems(olspd);
         } catch (Exception e) {
