@@ -2,6 +2,7 @@ com\salespointfxadmin\www\model\enums\Naturaleza.class
 com\salespointfxsales\www\model\MovimientoInventario.class
 com\salespointfxsales\www\repo\CategoriaRepo.class
 com\salespointfxsales\www\repo\CorteDetalleRepo.class
+com\salespointfxsales\www\service\printer\PrinterPedidoService.class
 com\salespointfxsales\www\controller\StarterController.class
 com\salespointfxsales\www\controller\modal\PedidoController$1.class
 com\salespointfxsales\www\service\GastoService.class
@@ -37,6 +38,7 @@ com\salespointfxsales\www\controller\modal\GastoController.class
 com\salespointfxsales\www\model\SucursalPedidoDetalle.class
 com\salespointfxsales\www\controller\VentaController$3.class
 com\salespointfxsales\www\model\ProductoPaquete.class
+com\salespointfxsales\www\service\printer\Printer2.class
 com\salespointfxsales\www\model\Usuario.class
 com\salespointfxsales\www\controller\AbrirCajaController.class
 com\salespointfxsales\www\repo\CorteRepo.class

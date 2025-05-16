@@ -66,6 +66,7 @@ public class PedidoController implements Initializable {
             }
             spedido.setListSucursalpedidoDetalle(lspedidod);
             if (spedidos.save(spedido) != null) {
+                showsSuccessDialog("Confimracion", "Pedido Enviado Correctamente");
                 buttonCancelar.fire();
             }
         } catch (Exception e) {
@@ -166,6 +167,12 @@ public class PedidoController implements Initializable {
 
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+    private void showsSuccessDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.showAndWait();
