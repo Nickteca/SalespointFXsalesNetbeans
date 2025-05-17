@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.salespointfxsales.www.SalespointFXsalesNetbeansApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.15 s -- in com.salespointfxsales.www.SalespointFXsalesNetbeansApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.730 s -- in com.salespointfxsales.www.SalespointFXsalesNetbeansApplicationTests

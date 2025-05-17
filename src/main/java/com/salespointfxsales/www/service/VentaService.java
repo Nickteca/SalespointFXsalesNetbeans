@@ -23,10 +23,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class VentaService {
 
@@ -40,7 +42,8 @@ public class VentaService {
     private final MovimientoCajaRepo mcr;
 
     @Transactional
-    public Venta save(Venta v, ResultadoCobro rc, Folio f) {
+    public ResultadoVenta save(Venta v, ResultadoCobro rc, Folio f) {
+        ResultadoVenta resultado = new ResultadoVenta();
         try {
             if (mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc().getTipoMovimientoCaja().equals(TipoMovimiento.CIERRE)) {
                 throw new IllegalStateException("La caja no está abierta.");
@@ -55,17 +58,27 @@ public class VentaService {
 
             fr.incrementarNumeroFolio(f.getIdFolio());
             actualizarInventario(v);
-            pts.imprimirTicket(v, rc);
             v = vr.save(v);
-            System.err.println("Venta guardada con ID: " + v.getIdVenta());
-            return v;
+            resultado.setVenta(v);
+            resultado.setGuardado(true);
+
+            boolean impreso = pts.imprimirTicket(v, rc);
+            resultado.setImpreso(impreso);
+
+            if (!impreso) {
+                resultado.setMensaje("⚠️ Venta guardada pero no se pudo imprimir el ticket.");
+            } else {
+                resultado.setMensaje("✅ Venta guardada e impresa correctamente.");
+            }
+
+            return resultado;
         } catch (IllegalStateException e) {
             // Aquí capturamos el caso cuando no hay sucursal activa o la caja no está abierta
-            System.err.println("Error: " + e.getMessage());
+            log.error("Error: " + e.getMessage());
             throw e;  // Lanzamos la excepción para que el controller lo maneje
         } catch (Exception e) {
             // Captura cualquier otra excepción
-            System.err.println("Error desconocido al guardar la venta: " + e.getMessage());
+            log.error("Error desconocido al guardar la venta: " + e.getMessage());
             throw e;
         }
     }
@@ -103,8 +116,47 @@ public class VentaService {
             }
 
         } catch (Exception e) {
-            System.err.println("Error al actualizar inventario: " + e.getMessage());
+            log.error("Error al actualizar inventario: " + e.getMessage());
             throw e;
+        }
+    }
+    public static class ResultadoVenta {
+        private Venta venta;
+        private boolean guardado;
+        private boolean impreso;
+        private String mensaje;
+
+        // Getters y setters
+        public Venta getVenta() {
+            return venta;
+        }
+
+        public void setVenta(Venta venta) {
+            this.venta = venta;
+        }
+
+        public boolean isGuardado() {
+            return guardado;
+        }
+
+        public void setGuardado(boolean guardado) {
+            this.guardado = guardado;
+        }
+
+        public boolean isImpreso() {
+            return impreso;
+        }
+
+        public void setImpreso(boolean impreso) {
+            this.impreso = impreso;
+        }
+
+        public String getMensaje() {
+            return mensaje;
+        }
+
+        public void setMensaje(String mensaje) {
+            this.mensaje = mensaje;
         }
     }
 

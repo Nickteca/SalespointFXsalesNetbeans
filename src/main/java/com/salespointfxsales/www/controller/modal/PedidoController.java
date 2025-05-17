@@ -4,6 +4,7 @@ import com.salespointfxsales.www.model.SucursalPedido;
 import com.salespointfxsales.www.model.SucursalPedidoDetalle;
 import com.salespointfxsales.www.model.SucursalProducto;
 import com.salespointfxsales.www.service.SucursalPedidoService;
+import com.salespointfxsales.www.service.SucursalPedidoService.Resultado;
 import com.salespointfxsales.www.service.SucursalProductoService;
 import java.net.URL;
 import java.text.DecimalFormat;
@@ -23,9 +24,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 @RequiredArgsConstructor
 public class PedidoController implements Initializable {
 
@@ -65,9 +68,14 @@ public class PedidoController implements Initializable {
                 lspedidod.add(detalle);
             }
             spedido.setListSucursalpedidoDetalle(lspedidod);
-            if (spedidos.save(spedido) != null) {
-                showsSuccessDialog("Confimracion", "Pedido Enviado Correctamente");
-                buttonCancelar.fire();
+
+            Resultado resultado = spedidos.save(spedido);
+
+            if (resultado.guardado) {
+                buttonCancelar.fire(); // Cierra la ventana
+                showsSuccessDialog("Resultado", resultado.mensaje);
+            } else {
+                showErrorDialog("Error", "No se pudo guardar el pedido.");
             }
         } catch (Exception e) {
             showErrorDialog("Error", "Exception: " + e.getMessage());
@@ -87,11 +95,11 @@ public class PedidoController implements Initializable {
             result.ifPresentOrElse(cantidad -> {
                 try {
                     int canti = Integer.parseInt(cantidad);
-                    if(canti<=0){
+                    if (canti <= 0) {
                         throw new IllegalArgumentException("La cantodad debe ser maypor a 0");
                     }
                     agregarProductoPedido(sp, canti);
-                }  catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     showErrorDialog("Error numerico", "Error en la cantidad: " + e.getMessage());
                 } catch (IllegalArgumentException e) {
                     showErrorDialog("Error numerico", "Error Ilegal: " + e.getMessage());
@@ -171,6 +179,7 @@ public class PedidoController implements Initializable {
         alert.setHeaderText(message);
         alert.showAndWait();
     }
+
     private void showsSuccessDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);

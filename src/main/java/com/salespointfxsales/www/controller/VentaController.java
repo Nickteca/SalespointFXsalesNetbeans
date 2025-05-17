@@ -59,6 +59,7 @@ import org.springframework.stereotype.Component;
 import com.fazecast.jSerialComm.SerialPort;
 import com.salespointfxsales.www.model.ProductoPaquete;
 import com.salespointfxsales.www.service.ProductoPaqueteService;
+import com.salespointfxsales.www.service.VentaService.ResultadoVenta;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
@@ -193,8 +194,11 @@ public class VentaController implements Initializable {
                     v.setListVentaDetalle(lvd);
 
                     try {
-                        Venta guardada = vs.save(v, resultado, (Folio) labelFolio.getUserData());
-                        if (guardada != null) {
+                        ResultadoVenta result = vs.save(v, resultado, (Folio) labelFolio.getUserData());
+                        if(result.isGuardado()){
+                            if(!result.isImpreso()){
+                                showErrorDialog("Alerta!!", "Se registro pero hay error con la impresora");
+                            }
                             olvd.clear();
                             tviewVentaDetalle.refresh();
                             labelTotal.setText("0");
@@ -651,6 +655,12 @@ public class VentaController implements Initializable {
 
     private void showErrorDialog(String title, String message) {
         Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+    private void successDialog(String title, String message) {
+        Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(message);
         alert.showAndWait();

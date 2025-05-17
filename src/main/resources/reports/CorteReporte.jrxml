@@ -1,0 +1,332 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="CorteReporte" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b786cf73-2c22-415c-8932-f0fb847d2ced">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="458"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="528"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<parameter name="corteId" class="java.lang.Integer"/>
+	<query language="SQL"><![CDATA[SELECT *
+FROM salespointfx.cortedetalle
+	INNER JOIN salespointfx.corte ON 
+	 salespointfx.cortedetalle.corte = salespointfx.corte.`idCorte` 
+	INNER JOIN salespointfx.sucursalproducto ON 
+	 salespointfx.cortedetalle.`sucursalProducto` = salespointfx.sucursalproducto.`idSucursalProducto` 
+	INNER JOIN salespointfx.producto ON 
+	 salespointfx.sucursalproducto.producto = salespointfx.producto.`idProducto` 
+	INNER JOIN salespointfx.sucursal ON 
+	 salespointfx.corte.sucursal = salespointfx.sucursal.`idSucursal` 
+	 AND salespointfx.sucursalproducto.sucursal = salespointfx.sucursal.`idSucursal` 
+	INNER JOIN salespointfx.empresa ON 
+	 salespointfx.sucursal.empresa = salespointfx.empresa.`idEmpresa` 
+WHERE 
+	 salespointfx.corte.`idCorte` = $P{corteId}]]></query>
+	<field name="idCorteDetalle" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idCorteDetalle"/>
+		<property name="com.jaspersoft.studio.field.label" value="idCorteDetalle"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="canceladas" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="canceladas"/>
+		<property name="com.jaspersoft.studio.field.label" value="canceladas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="entrada" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="entrada"/>
+		<property name="com.jaspersoft.studio.field.label" value="entrada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="existencia" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="existencia"/>
+		<property name="com.jaspersoft.studio.field.label" value="existencia"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="inicial" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.label" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="peso" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="peso"/>
+		<property name="com.jaspersoft.studio.field.label" value="peso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="salida" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="salida"/>
+		<property name="com.jaspersoft.studio.field.label" value="salida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="traspasoEntrada" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="traspasoEntrada"/>
+		<property name="com.jaspersoft.studio.field.label" value="traspasoEntrada"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="traspasoSalida" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="traspasoSalida"/>
+		<property name="com.jaspersoft.studio.field.label" value="traspasoSalida"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="venta" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="venta"/>
+		<property name="com.jaspersoft.studio.field.label" value="venta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="corte" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="corte"/>
+		<property name="com.jaspersoft.studio.field.label" value="corte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="sucursalProducto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="sucursalProducto"/>
+		<property name="com.jaspersoft.studio.field.label" value="sucursalProducto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+	</field>
+	<field name="idCorte" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.label" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="apertuta" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="apertuta"/>
+		<property name="com.jaspersoft.studio.field.label" value="apertuta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="cierre" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="cierre"/>
+		<property name="com.jaspersoft.studio.field.label" value="cierre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="folioFinal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="folioFinal"/>
+		<property name="com.jaspersoft.studio.field.label" value="folioFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="folioIncial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="folioIncial"/>
+		<property name="com.jaspersoft.studio.field.label" value="folioIncial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="gasto" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="gasto"/>
+		<property name="com.jaspersoft.studio.field.label" value="gasto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="COLUMN_19" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.label" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="numFolios" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numFolios"/>
+		<property name="com.jaspersoft.studio.field.label" value="numFolios"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="recoleccion" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="recoleccion"/>
+		<property name="com.jaspersoft.studio.field.label" value="recoleccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="saldoFinal" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="saldoFinal"/>
+		<property name="com.jaspersoft.studio.field.label" value="saldoFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="ventas" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="ventas"/>
+		<property name="com.jaspersoft.studio.field.label" value="ventas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="movimientoCaja" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="movimientoCaja"/>
+		<property name="com.jaspersoft.studio.field.label" value="movimientoCaja"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="sucursal" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="idSucursalProducto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idSucursalProducto"/>
+		<property name="com.jaspersoft.studio.field.label" value="idSucursalProducto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="inventariable" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="inventariable"/>
+		<property name="com.jaspersoft.studio.field.label" value="inventariable"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="inventario" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="inventario"/>
+		<property name="com.jaspersoft.studio.field.label" value="inventario"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="precio" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="precio"/>
+		<property name="com.jaspersoft.studio.field.label" value="precio"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="vendible" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="vendible"/>
+		<property name="com.jaspersoft.studio.field.label" value="vendible"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="categoria" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="categoria"/>
+		<property name="com.jaspersoft.studio.field.label" value="categoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="producto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="producto"/>
+		<property name="com.jaspersoft.studio.field.label" value="producto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="COLUMN_33" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursalproducto"/>
+	</field>
+	<field name="idProducto" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idProducto"/>
+		<property name="com.jaspersoft.studio.field.label" value="idProducto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
+	</field>
+	<field name="createdAt" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="createdAt"/>
+		<property name="com.jaspersoft.studio.field.label" value="createdAt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
+	</field>
+	<field name="esPaquete" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="esPaquete"/>
+		<property name="com.jaspersoft.studio.field.label" value="esPaquete"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
+	</field>
+	<field name="nombreProducto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombreProducto"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombreProducto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
+	</field>
+	<field name="idSucursal" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="idSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="calleSucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="calleSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="calleSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="ciudadSucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="ciudadSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="ciudadSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="cretaedAt" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="cretaedAt"/>
+		<property name="com.jaspersoft.studio.field.label" value="cretaedAt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="estadoSucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="estadoSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="estadoSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="estatusSucursal" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.name" value="estatusSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="estatusSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="nombreSucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombreSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombreSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="telefonoSucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="telefonoSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="telefonoSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="empresa" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="empresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="empresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="idEmpresa" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idEmpresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="idEmpresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="COLUMN_48" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="createdAt"/>
+		<property name="com.jaspersoft.studio.field.label" value="createdAt"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="direccionEmpresa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="direccionEmpresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="direccionEmpresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="nombreEmpresa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombreEmpresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombreEmpresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="rfcEmpresa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rfcEmpresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="rfcEmpresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="telefonoEmpresa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="telefonoEmpresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="telefonoEmpresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch">
+		<element kind="textField" uuid="206caaac-3f6c-45dc-a885-e16ec746e955" x="10" y="20" width="100" height="30">
+			<expression><![CDATA[$F{nombreEmpresa}]]></expression>
+		</element>
+	</title>
+	<pageHeader height="35" splitType="Stretch"/>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="ddb65056-a8f1-4971-9a2e-327c382a0f3f" x="0" y="0" width="100" height="30">
+			<text><![CDATA[idProducto]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d2393a07-9822-48eb-b674-42c2797addb8"/>
+		</element>
+		<element kind="staticText" uuid="812e7c01-791d-4799-9f5e-079037628750" x="100" y="0" width="100" height="30">
+			<text><![CDATA[nombreProducto]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ebac352d-e282-4a32-a6d5-df47a38e8580"/>
+		</element>
+		<element kind="staticText" uuid="4c915b49-af26-4297-a824-db38e2cf346d" x="200" y="0" width="100" height="30">
+			<text><![CDATA[inventario]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a4fdb722-5e9d-4f93-8667-bef0f8b15c10"/>
+		</element>
+		<element kind="staticText" uuid="ec302913-94a6-47ea-a367-987e8bc61cca" x="300" y="0" width="100" height="30">
+			<text><![CDATA[entrada]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44cb26b5-4f21-4096-8922-47d154a10680"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="e7252c8c-95ec-4bba-9802-ec3df1438f34" x="0" y="0" width="100" height="30">
+				<expression><![CDATA[$F{idProducto}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d2393a07-9822-48eb-b674-42c2797addb8"/>
+			</element>
+			<element kind="textField" uuid="3da03f78-a3b2-457c-a884-6cf6a6aa5ddd" x="100" y="0" width="100" height="30">
+				<expression><![CDATA[$F{nombreProducto}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ebac352d-e282-4a32-a6d5-df47a38e8580"/>
+			</element>
+			<element kind="textField" uuid="0bbc41cd-2b28-459c-9341-7a81d1956f0b" x="200" y="0" width="100" height="30">
+				<expression><![CDATA[$F{inventario}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a4fdb722-5e9d-4f93-8667-bef0f8b15c10"/>
+			</element>
+			<element kind="textField" uuid="3ac504c4-fe1a-42d0-b3aa-18ee841a8a3b" x="300" y="0" width="100" height="30">
+				<expression><![CDATA[$F{entrada}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="44cb26b5-4f21-4096-8922-47d154a10680"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
