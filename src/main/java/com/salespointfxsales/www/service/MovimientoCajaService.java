@@ -76,7 +76,7 @@ public class MovimientoCajaService {
     }
 
     @Transactional
-    public MovimientoCaja cerrarCaja() {
+    public MovimientoCaja cerrarCaja() throws Exception {
         try {
             MovimientoCaja mcA = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
             if (!mcA.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {

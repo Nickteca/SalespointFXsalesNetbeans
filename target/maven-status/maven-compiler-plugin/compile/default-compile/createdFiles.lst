@@ -13,6 +13,7 @@ com\salespointfxsales\www\repo\SucursalRepo.class
 com\salespointfxsales\www\controller\VentaController$1.class
 com\salespointfxsales\www\repo\MovimientoInventarioRepo.class
 com\salespointfxsales\www\service\CorteService$1.class
+com\salespointfxsales\www\service\reports\ReportGenerator.class
 com\salespointfxsales\www\model\Categoria.class
 com\salespointfxsales\www\controller\modal\MovimientoDetalleController.class
 com\salespointfxsales\www\controller\modal\PedidoController.class
@@ -59,6 +60,7 @@ com\salespointfxsales\www\controller\modal\CobrarController.class
 com\salespointfxsales\www\controller\modal\GastoController$1.class
 com\salespointfxsales\www\controller\InventarioController.class
 com\salespointfxsales\www\controller\modal\CantidadController.class
+com\salespointfxsales\www\service\email\EmailSender.class
 com\salespointfxsales\www\service\MovimientoInventarioService.class
 com\salespointfxsales\www\service\VentaDetalleService.class
 com\salespointfxsales\www\SalespointFXsalesNetbeansApplication.class

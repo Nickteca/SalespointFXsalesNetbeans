@@ -20,7 +20,11 @@ import com.salespointfxsales.www.repo.SucursalRecoleccionRepo;
 import com.salespointfxsales.www.repo.SucursalRepo;
 import com.salespointfxsales.www.repo.VentaDetalleRepo;
 import com.salespointfxsales.www.repo.VentaRepo;
+import com.salespointfxsales.www.service.email.EmailSender;
 import com.salespointfxsales.www.service.printer.PrinterCorteService;
+import com.salespointfxsales.www.service.reports.ReportGenerator;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +39,8 @@ import org.springframework.stereotype.Service;
 public class CorteService {
 
     private final CorteRepo cr;
+    private final EmailSender es;
+    private final ReportGenerator rg;
 
     private final SucursalRepo sr;
     private final VentaDetalleRepo vdr;
@@ -46,7 +52,7 @@ public class CorteService {
     private final PrinterCorteService pcs;
     private final CorteDetalleRepo cdr;
 
-    public Corte save(MovimientoCaja mcA, MovimientoCaja mcC) {
+    public Corte save(MovimientoCaja mcA, MovimientoCaja mcC) throws Exception {
         try {
             List<VentaDetalle> lvd = vdr.ventasXsucursalXactivasXcorte(mcA.getCreatedAt(), LocalDateTime.now());
             List<Venta> lv = vr.findBySucursalEstatusSucursalTrueAndCreatedAtBetween(mcA.getCreatedAt(), LocalDateTime.now());
@@ -162,6 +168,25 @@ public class CorteService {
             corte.setListCorteDetalle(listaCorteDetalle);
 
             Corte actual = cr.save(corte);
+            try {
+                byte[] pdf = rg.generateReport(actual.getIdCorte());
+                File file = new File("corte_" + actual.getIdCorte()+ ".pdf");
+                try (FileOutputStream fos = new FileOutputStream(file)) {
+                    fos.write(pdf);
+                }
+                // System.out.println(file.getName());
+                // System.out.println(file.getAbsolutePath());
+                String mensage = "Corte de la sucursal: "+actual.getSucursal().getNombreSucursal();
+                
+                try {
+                    es.enviarCorreoConAdjunto("isaaclunaavila@gmail.com", "Corte", mensage, file);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             /*if(!corteAnterior.isEmpty()){*/
             pcs.imprimirCorte(actual, mcA, mcC/*, corteAnterior.orElse(null)*/);
             /*}*/
