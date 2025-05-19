@@ -32,9 +32,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CorteService {
 
@@ -169,6 +171,7 @@ public class CorteService {
 
             Corte actual = cr.save(corte);
             try {
+                log.info("El id del corte ingresado es: "+actual.getIdCorte());
                 byte[] pdf = rg.generateReport(actual.getIdCorte());
                 File file = new File("corte_" + actual.getIdCorte()+ ".pdf");
                 try (FileOutputStream fos = new FileOutputStream(file)) {
@@ -179,7 +182,7 @@ public class CorteService {
                 String mensage = "Corte de la sucursal: "+actual.getSucursal().getNombreSucursal();
                 
                 try {
-                    es.enviarCorreoConAdjunto("isaaclunaavila@gmail.com", "Corte", mensage, file);
+                    es.enviarCorreoConAdjunto("isaaclunaavila@gmail.com", "Corte:"+actual.getIdCorte(), mensage, file);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

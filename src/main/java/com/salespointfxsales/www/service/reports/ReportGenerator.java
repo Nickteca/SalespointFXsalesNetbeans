@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.sql.DataSource;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -19,29 +20,37 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ReportGenerator {
 
     private final DataSource dataSource;
     private final ResourceLoader resourceLoader;
 
-    public byte[] generateReport(Integer idPedido) throws Exception {
+    public byte[] generateReport(int idPedido) throws Exception {
         // Cargar el archivo .jasper
         InputStream reportStream = new ClassPathResource("/reports/CorteReporte.jasper").getInputStream();
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
 
         // Configurar parámetros
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("corteId", idPedido); // Pasar el parámetro
-        parameters.put("REPORT_CONNECTION", dataSource.getConnection());
+        try (Connection conn = dataSource.getConnection()) {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("corteId", idPedido);
 
-        // Llenar el reporte con datos
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
+            log.info("Parámetros pasados:");
+            parameters.forEach((k, v) ->log.info(k + " = " + v));
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+            System.out.println("Páginas generadas: " + jasperPrint.getPages().size());
+            if (jasperPrint.getPages().isEmpty()) {
+                System.out.println("⚠️ El reporte no tiene páginas. Revisa los parámetros o la conexión.");
+            }
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+        }
         // JasperViewer.viewReport(jasperPrint, false);
-        System.out.println("Conexión a la base de datos: " + dataSource.getConnection());
+        //System.out.println("Conexión a la base de datos: " + dataSource.getConnection());
 
         // Exportar a PDF
         // JasperPrintManager.printReport(jasperPrint, false);
-        return JasperExportManager.exportReportToPdf(jasperPrint);
+        //return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 }

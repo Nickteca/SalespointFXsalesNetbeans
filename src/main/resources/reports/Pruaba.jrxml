@@ -1,0 +1,103 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="Pruaba" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bf268452-da13-4b20-bc9e-cb80a6dd77a3">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<parameter name="idC" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<query language="SQL"><![CDATA[SELECT *
+FROM salespointfx.corte where  salespointfx.corte.`idCorte` = $P{idC} ]]></query>
+	<field name="idCorte" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.label" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="apertuta" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="apertuta"/>
+		<property name="com.jaspersoft.studio.field.label" value="apertuta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="cierre" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="cierre"/>
+		<property name="com.jaspersoft.studio.field.label" value="cierre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="folioFinal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="folioFinal"/>
+		<property name="com.jaspersoft.studio.field.label" value="folioFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="folioIncial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="folioIncial"/>
+		<property name="com.jaspersoft.studio.field.label" value="folioIncial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="gasto" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="gasto"/>
+		<property name="com.jaspersoft.studio.field.label" value="gasto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="inicial" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.label" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="numFolios" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numFolios"/>
+		<property name="com.jaspersoft.studio.field.label" value="numFolios"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="recoleccion" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="recoleccion"/>
+		<property name="com.jaspersoft.studio.field.label" value="recoleccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="saldoFinal" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="saldoFinal"/>
+		<property name="com.jaspersoft.studio.field.label" value="saldoFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="ventas" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="ventas"/>
+		<property name="com.jaspersoft.studio.field.label" value="ventas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="movimientoCaja" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="movimientoCaja"/>
+		<property name="com.jaspersoft.studio.field.label" value="movimientoCaja"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="sucursal" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="79" splitType="Stretch"/>
+	<pageHeader height="35" splitType="Stretch"/>
+	<columnHeader height="61" splitType="Stretch">
+		<element kind="staticText" uuid="6a08d563-dce5-47a0-b030-074840afb017" x="180" y="10" width="100" height="30">
+			<text><![CDATA[ventas]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9f7ead50-07c4-45b7-afdf-c93bd9b6b877"/>
+		</element>
+		<element kind="staticText" uuid="fd78f3ff-1fff-4eef-9178-3c9b3582b477" x="69" y="0" width="100" height="30">
+			<text><![CDATA[idCorte]]></text>
+			<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d166e571-e571-4009-9553-fc4f974138ec"/>
+		</element>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<element kind="textField" uuid="6f6acb3f-1abf-47f8-8aa7-b7839a236210" x="190" y="30" width="100" height="30">
+				<expression><![CDATA[$F{ventas}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9f7ead50-07c4-45b7-afdf-c93bd9b6b877"/>
+			</element>
+			<element kind="textField" uuid="3e2e1839-af1b-4b90-b96e-d42e06bda47c" x="69" y="37" width="100" height="30">
+				<expression><![CDATA[$F{idCorte}]]></expression>
+				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d166e571-e571-4009-9553-fc4f974138ec"/>
+			</element>
+		</band>
+	</detail>
+	<columnFooter height="45" splitType="Stretch"/>
+	<pageFooter height="54" splitType="Stretch"/>
+	<summary height="42" splitType="Stretch"/>
+</jasperReport>
