@@ -4,7 +4,7 @@
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="496"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="490"/>
 	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SalespointfxConection"/>
 	<parameter name="corteId" class="java.lang.Integer"/>
 	<query language="SQL"><![CDATA[SELECT salespointfx.corte.`idCorte`,
 	salespointfx.corte.apertuta,
@@ -42,7 +42,7 @@ FROM salespointfx.cortedetalle
 	 salespointfx.sucursal.empresa = salespointfx.empresa.`idEmpresa` 
 WHERE 
 	 salespointfx.corte.`idCorte` = $P{corteId} 
-ORDER BY salespointfx.sucursalproducto.`idSucursalProducto` DESC]]></query>
+ORDER BY salespointfx.sucursalproducto.`idSucursalProducto` ASC]]></query>
 	<field name="idCorte" class="java.lang.Integer">
 		<property name="com.jaspersoft.studio.field.name" value="idCorte"/>
 		<property name="com.jaspersoft.studio.field.label" value="idCorte"/>
@@ -154,12 +154,15 @@ ORDER BY salespointfx.sucursalproducto.`idSucursalProducto` DESC]]></query>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
 	</field>
 	<background splitType="Stretch"/>
-	<title height="80" splitType="Stretch">
-		<element kind="textField" uuid="1ecf90c4-61a3-462b-a710-1ec449f2cfeb" x="0" y="0" width="100" height="30">
-			<expression><![CDATA[$F{nombreEmpresa}]]></expression>
-		</element>
-		<element kind="textField" uuid="2c20e2a4-e001-42bb-bd10-e128cd454b5a" x="450" y="50" width="100" height="30">
-			<expression><![CDATA[$F{nombreSucursal}]]></expression>
+	<title height="70" splitType="Stretch">
+		<element kind="frame" uuid="7a6e0209-a515-47b8-8868-fad1a7e2513c" mode="Opaque" x="-20" y="-20" width="595" height="90" backcolor="#850B09">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<element kind="textField" uuid="30eff8e9-4b3b-4077-a57e-f29838c1ed20" x="0" y="0" width="595" height="50" forecolor="#FFFFFF" fontSize="28.0" hTextAlign="Center">
+				<expression><![CDATA[$F{nombreEmpresa}]]></expression>
+			</element>
+			<element kind="textField" uuid="f3828d16-a28d-4009-8b5b-716f353be914" x="0" y="50" width="590" height="40" forecolor="#FFFFFF" fontSize="26.0" hTextAlign="Center">
+				<expression><![CDATA[$F{nombreSucursal}]]></expression>
+			</element>
 		</element>
 		<property name="com.jaspersoft.studio.unit.height" value="px"/>
 	</title>
@@ -209,19 +212,19 @@ ORDER BY salespointfx.sucursalproducto.`idSucursalProducto` DESC]]></query>
 		<element kind="staticText" uuid="bf4cd6c9-ded2-4e25-b775-befdb0898886" x="0" y="100" width="110" height="20" fontSize="12.0">
 			<text><![CDATA[VENTAS:]]></text>
 		</element>
-		<element kind="textField" uuid="26124808-c0ef-4bdd-8aaf-b7b01eff66d3" x="130" y="100" width="100" height="20" fontSize="12.0">
+		<element kind="textField" uuid="26124808-c0ef-4bdd-8aaf-b7b01eff66d3" x="130" y="100" width="100" height="20" fontSize="12.0" pattern="$#0.#" bold="true">
 			<expression><![CDATA[$F{ventas}]]></expression>
 		</element>
 		<element kind="staticText" uuid="1fd3a70f-f6be-47c7-b2c9-256428fda7f6" x="310" y="78" width="110" height="20" fontSize="12.0">
 			<text><![CDATA[GASTOS:]]></text>
 		</element>
-		<element kind="textField" uuid="3b215e1a-a728-4997-88ff-046ead11f475" x="420" y="78" width="140" height="20" fontSize="12.0">
+		<element kind="textField" uuid="3b215e1a-a728-4997-88ff-046ead11f475" x="420" y="78" width="140" height="20" fontSize="12.0" pattern="$#0.#" bold="true">
 			<expression><![CDATA[$F{gasto}]]></expression>
 		</element>
 		<element kind="staticText" uuid="38009b7b-edbb-4e39-b204-57a198f68945" x="310" y="100" width="110" height="20" fontSize="12.0">
 			<text><![CDATA[RECOLECCION:]]></text>
 		</element>
-		<element kind="textField" uuid="7b42cb0a-8503-456b-9ab9-a3ac9f6ccb83" x="420" y="100" width="140" height="20" fontSize="12.0">
+		<element kind="textField" uuid="7b42cb0a-8503-456b-9ab9-a3ac9f6ccb83" x="420" y="100" width="140" height="20" fontSize="12.0" pattern="$#0.#" bold="true">
 			<expression><![CDATA[$F{recoleccion}]]></expression>
 		</element>
 		<element kind="staticText" uuid="a7001ec1-2a10-446e-a5e9-b817d620ce72" x="0" y="130" width="560" height="15">
@@ -231,14 +234,14 @@ ORDER BY salespointfx.sucursalproducto.`idSucursalProducto` DESC]]></query>
 		<element kind="staticText" uuid="2a53bab5-a622-4e29-9ef1-b950a4d8f9f6" x="0" y="120" width="110" height="20" fontSize="12.0">
 			<text><![CDATA[SALDO FINAL:]]></text>
 		</element>
-		<element kind="textField" uuid="4c7d6d3b-b18c-4009-be83-cf5c5b1f6fc6" x="130" y="120" width="100" height="20" fontSize="12.0">
+		<element kind="textField" uuid="4c7d6d3b-b18c-4009-be83-cf5c5b1f6fc6" x="130" y="120" width="100" height="20" fontSize="12.0" pattern="$#0.#" bold="true">
 			<expression><![CDATA[$F{saldoFinal}]]></expression>
 		</element>
 		<element kind="staticText" uuid="517c042b-2eba-4ebf-8b74-f50529788d51" x="-3" y="140" width="560" height="18" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
 			<text><![CDATA[DETALLE DE LOS PRODUCTO]]></text>
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 		</element>
-		<element kind="textField" uuid="c2f9a7e9-49d5-4cd2-88c9-33e7957c03e8" x="130" y="80" width="100" height="20">
+		<element kind="textField" uuid="c2f9a7e9-49d5-4cd2-88c9-33e7957c03e8" x="130" y="80" width="100" height="20" fontSize="12.0" pattern="$#0.#" bold="true">
 			<expression><![CDATA[$F{inicial}]]></expression>
 		</element>
 	</pageHeader>
@@ -330,7 +333,7 @@ ORDER BY salespointfx.sucursalproducto.`idSucursalProducto` DESC]]></query>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ea31a604-37d0-48cf-99eb-36714883eb0e"/>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
 			</element>
-			<element kind="textField" uuid="2ad1fabd-60fc-42f6-82fa-437d138a296c" x="460" y="0" width="40" height="17" fontSize="12.0" pattern="#0.#" hTextAlign="Center">
+			<element kind="textField" uuid="2ad1fabd-60fc-42f6-82fa-437d138a296c" x="460" y="0" width="40" height="17" fontSize="12.0" pattern="#0.#" linkType="None" linkTarget="Self" hTextAlign="Center">
 				<expression><![CDATA[$F{venta}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="588f9f7e-f419-4acd-b7e5-8ab19b4d63d2"/>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
@@ -340,7 +343,7 @@ ORDER BY salespointfx.sucursalproducto.`idSucursalProducto` DESC]]></query>
 				<expression><![CDATA[$F{existencia}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf4ac6c0-2d53-4b82-ab49-4c9b688ec570"/>
 			</element>
-			<element kind="textField" uuid="91425f2c-b5d5-4120-9cdb-05fd42572652" x="170" y="0" width="50" height="17" hTextAlign="Center">
+			<element kind="textField" uuid="91425f2c-b5d5-4120-9cdb-05fd42572652" x="170" y="0" width="50" height="17" pattern="#0.#" hTextAlign="Center">
 				<expression><![CDATA[$F{invinicial}]]></expression>
 				<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="2424891f-4e1c-471b-80ef-970f6a01fd58"/>
 				<property name="com.jaspersoft.studio.unit.y" value="px"/>
