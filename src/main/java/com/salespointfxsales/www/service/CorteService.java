@@ -170,26 +170,7 @@ public class CorteService {
             corte.setListCorteDetalle(listaCorteDetalle);
 
             Corte actual = cr.save(corte);
-            try {
-                log.info("El id del corte ingresado es: "+actual.getIdCorte());
-                byte[] pdf = rg.generateReport(actual.getIdCorte());
-                File file = new File("corte_" + actual.getIdCorte()+ ".pdf");
-                try (FileOutputStream fos = new FileOutputStream(file)) {
-                    fos.write(pdf);
-                }
-                // System.out.println(file.getName());
-                // System.out.println(file.getAbsolutePath());
-                String mensage = "Corte de la sucursal: "+actual.getSucursal().getNombreSucursal();
-                
-                try {
-                    es.enviarCorreoConAdjunto("isaaclunaavila@gmail.com", "Corte:"+actual.getIdCorte(), mensage, file);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
             /*if(!corteAnterior.isEmpty()){*/
             pcs.imprimirCorte(actual, mcA, mcC/*, corteAnterior.orElse(null)*/);
             /*}*/
@@ -201,6 +182,30 @@ public class CorteService {
             throw e;
         } catch (Exception e) {
             throw e;
+        }
+    }
+
+    public boolean imprimirEnciarCorteCorreo(Corte actual) {
+        try {
+            log.info("El id del corte ingresado es: " + actual.getIdCorte());
+            byte[] pdf = rg.generateReport(actual.getIdCorte());
+            File file = new File("corte_" + actual.getIdCorte() + ".pdf");
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                fos.write(pdf);
+            }
+            // System.out.println(file.getName());
+            // System.out.println(file.getAbsolutePath());
+            String mensage = "Corte de la sucursal: " + actual.getSucursal().getNombreSucursal();
+
+            try {
+                es.enviarCorreoConAdjunto("isaaclunaavila@gmail.com", "Corte:" + actual.getIdCorte(), mensage, file);
+            } catch (Exception e) {
+                throw new Exception();
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

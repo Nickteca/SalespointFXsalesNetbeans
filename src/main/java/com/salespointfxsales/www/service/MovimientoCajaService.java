@@ -76,7 +76,7 @@ public class MovimientoCajaService {
     }
 
     @Transactional
-    public MovimientoCaja cerrarCaja() throws Exception {
+    public Corte cerrarCaja() throws Exception {
         try {
             MovimientoCaja mcA = mcr.findFirstBySucursalEstatusSucursalTrueOrderByIdMovimientoCajaDesc();
             if (!mcA.getTipoMovimientoCaja().equals(TipoMovimiento.APERTURA)) {
@@ -103,7 +103,7 @@ public class MovimientoCajaService {
                 throw new IllegalArgumentException();
             } /*else {
                 if (pcs.imprimirCorte(corte, mcA, mcC)) {*/
-                    return mcC;
+                    return corte;
                
         } catch (IllegalArgumentException e) {
             throw e;

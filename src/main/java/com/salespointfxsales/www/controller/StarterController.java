@@ -2,6 +2,8 @@ package com.salespointfxsales.www.controller;
 
 import com.salespointfxsales.www.config.SpringFXMLLoader;
 import com.salespointfxsales.www.controller.modal.CobrarController;
+import com.salespointfxsales.www.model.Corte;
+import com.salespointfxsales.www.service.CorteService;
 import com.salespointfxsales.www.service.MovimientoCajaService;
 import com.salespointfxsales.www.service.SucursalService;
 import java.io.IOException;
@@ -31,6 +33,7 @@ public class StarterController implements Initializable {
 
     private final SucursalService ss;
     private final MovimientoCajaService mcs;
+    private final CorteService cs;
 
     private final SpringFXMLLoader springFXMLLoader;
 
@@ -81,7 +84,8 @@ public class StarterController implements Initializable {
     @FXML
     void cerrarCaja(ActionEvent event) {
         try {
-            mcs.cerrarCaja();
+            Corte corte = mcs.cerrarCaja();
+            cs.imprimirEnciarCorteCorreo(corte);
             Stage tage = (Stage) labelSucursal.getScene().getWindow();
             tage.close();
         } catch (IllegalArgumentException e) {

@@ -27,7 +27,7 @@ public class ReportGenerator {
     private final DataSource dataSource;
     private final ResourceLoader resourceLoader;
 
-    public byte[] generateReport(int idPedido) throws Exception {
+    public byte[] generateReport(int idCorte) throws Exception {
         // Cargar el archivo .jasper
         InputStream reportStream = new ClassPathResource("/reports/CorteReporte.jasper").getInputStream();
         JasperReport jasperReport = (JasperReport) JRLoader.loadObject(reportStream);
@@ -35,22 +35,17 @@ public class ReportGenerator {
         // Configurar parámetros
         try (Connection conn = dataSource.getConnection()) {
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("corteId", idPedido);
+            parameters.put("corteId", idCorte);
+            parameters.put("REPORT_CONNECTION", dataSource.getConnection());
 
             log.info("Parámetros pasados:");
             parameters.forEach((k, v) ->log.info(k + " = " + v));
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
             System.out.println("Páginas generadas: " + jasperPrint.getPages().size());
             if (jasperPrint.getPages().isEmpty()) {
                 System.out.println("⚠️ El reporte no tiene páginas. Revisa los parámetros o la conexión.");
             }
             return JasperExportManager.exportReportToPdf(jasperPrint);
         }
-        // JasperViewer.viewReport(jasperPrint, false);
-        //System.out.println("Conexión a la base de datos: " + dataSource.getConnection());
-
-        // Exportar a PDF
-        // JasperPrintManager.printReport(jasperPrint, false);
-        //return JasperExportManager.exportReportToPdf(jasperPrint);
     }
 }
