@@ -48,4 +48,30 @@ public class ReportGenerator {
             return JasperExportManager.exportReportToPdf(jasperPrint);
         }
     }
+    public File exportCortePDF(int idCorte) throws Exception {
+        // Ruta al archivo .jasper dentro de src/main/resources/reportes
+        Resource resource = resourceLoader.getResource("classpath:reports/CorteReporte.jasper");
+
+        // Parámetros
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("corteId", idCorte); // Debe coincidir con el nombre del parámetro en el reporte
+
+        try (Connection connection = dataSource.getConnection();
+             InputStream inputStream = resource.getInputStream()) {
+
+            // Cargar el archivo jasper
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
+
+            // Llenar reporte
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, connection);
+
+            // Crear PDF temporal
+            File pdfFile = File.createTempFile("corte_", ".pdf");
+            JasperExportManager.exportReportToPdfStream(jasperPrint, new FileOutputStream(pdfFile));
+
+            return pdfFile;
+        }catch(Exception e){
+            throw e;
+        }
+    }
 }

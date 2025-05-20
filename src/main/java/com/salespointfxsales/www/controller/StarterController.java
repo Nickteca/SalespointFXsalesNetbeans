@@ -85,7 +85,8 @@ public class StarterController implements Initializable {
     void cerrarCaja(ActionEvent event) {
         try {
             Corte corte = mcs.cerrarCaja();
-            cs.imprimirEnciarCorteCorreo(corte);
+            //cs.imprimirEnciarCorteCorreo(corte);
+            cs.generarReporteYEnviarCorreo(corte, "isaaclunaavila@gmail.com");
             Stage tage = (Stage) labelSucursal.getScene().getWindow();
             tage.close();
         } catch (IllegalArgumentException e) {

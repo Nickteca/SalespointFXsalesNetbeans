@@ -200,6 +200,7 @@ public class CorteService {
             try {
                 es.enviarCorreoConAdjunto("isaaclunaavila@gmail.com", "Corte:" + actual.getIdCorte(), mensage, file);
             } catch (Exception e) {
+                log.error("No se encio me parece");
                 throw new Exception();
             }
             return true;
@@ -208,6 +209,21 @@ public class CorteService {
             return false;
         }
     }
+    public void generarReporteYEnviarCorreo(Corte corte, String emailDestino) throws Exception {
+    try {
+        File pdf = rg.exportCortePDF(corte.getIdCorte());
+        es.enviarCorreoConAdjunto(
+            emailDestino,
+            "Reporte de la Sucursal:"+corte.getSucursal().getNombreSucursal()+" #" + corte.getIdCorte(),
+            "Adjunto encontrarás el reporte en PDF del corte.",
+            pdf
+        );
+    } catch (Exception e) {
+        throw e;
+       // e.printStackTrace();
+        // Manejar errores (log o mostrar en UI)
+    }
+}
 
     private float toatalVenta(List<VentaDetalle> lvd) {
         try {

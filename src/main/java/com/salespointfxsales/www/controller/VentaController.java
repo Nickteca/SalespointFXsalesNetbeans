@@ -65,6 +65,7 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.ButtonType;
+import org.springframework.beans.factory.annotation.Value;
 
 @Component
 @RequiredArgsConstructor
@@ -77,6 +78,9 @@ public class VentaController implements Initializable {
     private static final DecimalFormat formatoMoneda = new DecimalFormat("#.##");
     private final SucursalProductoService sps;
     private final CategoriaService cs;
+    
+    @Value("${puerto.com}")
+    private String puuerto;
 
     @FXML
     private AnchorPane aPaneCategorias;
@@ -245,7 +249,7 @@ public class VentaController implements Initializable {
             lpp.forEach(pp -> {
                 if (pp.getProductoPaquete().getNombreProducto().equals("Costilla")) {
                     // Establecer el puerto COM (ajusta según el puerto correcto)
-                    SerialPort puerto = SerialPort.getCommPort("COM5");
+                    SerialPort puerto = SerialPort.getCommPort(puuerto);
 
                     // Configurar los parámetros del puerto serial (RS-232)
                     puerto.setBaudRate(9600); // Ajusta según la configuración de tu báscula
