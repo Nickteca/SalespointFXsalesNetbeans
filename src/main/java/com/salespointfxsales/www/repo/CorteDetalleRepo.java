@@ -15,4 +15,5 @@ public interface CorteDetalleRepo extends JpaRepository<CorteDetalle, Integer> {
     
     //List<CorteDetalle> findBySucursalProductoAndCorteSucursalEstatusSucursalTrueOrderBycorteDesc(SucursalProducto sp);
    CorteDetalle findByCorteAndSucursalProducto(Corte corte, SucursalProducto sp);
+   
 }

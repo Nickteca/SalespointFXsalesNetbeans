@@ -126,7 +126,7 @@ public class PedidoController implements Initializable {
                     setText(null);
                 } else {
                     DecimalFormat df = new DecimalFormat("#.##");
-                    setText(item.getProducto().getNombreProducto() + " - " + df.format(item.getInventario()));
+                    setText(item.getProducto().getNombreProducto() + " :: " + df.format(item.getInventario()));
                 }
             }
         });

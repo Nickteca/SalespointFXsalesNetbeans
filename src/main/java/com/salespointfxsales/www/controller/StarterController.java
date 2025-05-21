@@ -53,7 +53,10 @@ public class StarterController implements Initializable {
     private Button buttonAbrirCajon;
     @FXML
     private Button buttonCerrarCaja;
-   @FXML
+
+    @FXML
+    private Button buttonConfiguracion;
+    @FXML
     private Button buttonPedido;
     @FXML
     private Button buttonGastos;
@@ -95,6 +98,11 @@ public class StarterController implements Initializable {
             e.printStackTrace(); // o usa un logger
             showMensages("Error desconocido", "Ocurrió un error", e.getMessage());
         }
+    }
+
+    @FXML
+    void configuracion(ActionEvent event) {
+        cargarModal("/fxml/modal/configuracion.fxml", "Configuracion");
     }
 
     @FXML
@@ -164,7 +172,7 @@ public class StarterController implements Initializable {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.sizeToScene(); // Ajusta la ventana al tamaño del contenido
-stage.centerOnScreen();
+            stage.centerOnScreen();
             stage.setResizable(false);
             stage.show();
 

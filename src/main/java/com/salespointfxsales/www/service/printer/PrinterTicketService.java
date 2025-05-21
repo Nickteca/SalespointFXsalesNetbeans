@@ -78,7 +78,7 @@ public class PrinterTicketService {
                 return true;
             } else {
                 log.error("❌ No existe la impresora");
-                return false;
+                throw new IOException("No existe la impresora o cambio");
             }
         } catch (IOException | RuntimeException ex) {
             System.out.println("❌ Error al imprimir: " + ex.getMessage());

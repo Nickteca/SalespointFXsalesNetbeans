@@ -16,6 +16,7 @@ com\salespointfxsales\www\service\CorteService$1.class
 com\salespointfxsales\www\service\reports\ReportGenerator.class
 com\salespointfxsales\www\model\Categoria.class
 com\salespointfxsales\www\controller\modal\MovimientoDetalleController.class
+com\salespointfxsales\www\controller\ConfiguracionController.class
 com\salespointfxsales\www\controller\modal\PedidoController.class
 com\salespointfxsales\www\model\SucursalProducto.class
 com\salespointfxsales\www\service\ProductoPaqueteService.class
@@ -36,10 +37,12 @@ com\salespointfxsales\www\repo\SucursalPedidoDetalleRepo.class
 com\salespointfxsales\www\repo\GastoRepo.class
 com\salespointfxsales\www\service\SucursalRecoleccionDetalleService.class
 com\salespointfxsales\www\model\SucursalGasto.class
+com\salespointfxsales\www\service\ConfiguracionService.class
 com\salespointfxsales\www\controller\modal\GastoController.class
 com\salespointfxsales\www\model\SucursalPedidoDetalle.class
 com\salespointfxsales\www\controller\VentaController$3.class
 com\salespointfxsales\www\model\ProductoPaquete.class
+com\salespointfxsales\www\model\Configuracion.class
 com\salespointfxsales\www\service\printer\Printer2.class
 com\salespointfxsales\www\model\Usuario.class
 com\salespointfxsales\www\controller\AbrirCajaController.class
@@ -58,6 +61,7 @@ com\salespointfxsales\www\model\Folio.class
 com\salespointfxsales\www\repo\MovimientoCajaRepo.class
 com\salespointfxsales\www\controller\modal\CobrarController.class
 com\salespointfxsales\www\controller\modal\GastoController$1.class
+com\salespointfxsales\www\repo\ConfiguracionRepo.class
 com\salespointfxsales\www\controller\InventarioController.class
 com\salespointfxsales\www\controller\modal\CantidadController.class
 com\salespointfxsales\www\service\email\EmailSender.class

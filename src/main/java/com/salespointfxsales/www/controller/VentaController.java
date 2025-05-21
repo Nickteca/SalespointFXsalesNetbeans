@@ -58,6 +58,7 @@ import org.springframework.stereotype.Component;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.salespointfxsales.www.model.ProductoPaquete;
+import com.salespointfxsales.www.service.ConfiguracionService;
 import com.salespointfxsales.www.service.ProductoPaqueteService;
 import com.salespointfxsales.www.service.VentaService.ResultadoVenta;
 import java.io.InputStream;
@@ -74,13 +75,14 @@ public class VentaController implements Initializable {
     private final FolioService fs;
     private final VentaService vs;
     private final ProductoPaqueteService pps;
+    private final ConfiguracionService configs;
 
     private static final DecimalFormat formatoMoneda = new DecimalFormat("#.##");
     private final SucursalProductoService sps;
     private final CategoriaService cs;
     
-    @Value("${puerto.com}")
-    private String puuerto;
+    /*@Value("${puerto.com}")
+    private String puuerto;*/
 
     @FXML
     private AnchorPane aPaneCategorias;
@@ -249,7 +251,7 @@ public class VentaController implements Initializable {
             lpp.forEach(pp -> {
                 if (pp.getProductoPaquete().getNombreProducto().equals("Costilla")) {
                     // Establecer el puerto COM (ajusta según el puerto correcto)
-                    SerialPort puerto = SerialPort.getCommPort(puuerto);
+                    SerialPort puerto = SerialPort.getCommPort(configs.getValor("puerto_bascula"));
 
                     // Configurar los parámetros del puerto serial (RS-232)
                     puerto.setBaudRate(9600); // Ajusta según la configuración de tu báscula
