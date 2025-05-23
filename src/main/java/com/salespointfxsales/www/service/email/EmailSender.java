@@ -1,5 +1,6 @@
 package com.salespointfxsales.www.service.email;
 
+import com.salespointfxsales.www.repo.ConfiguracionRepo;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.io.File;
@@ -16,12 +17,13 @@ public class EmailSender {
     
     
     private final JavaMailSender mailSender;
+    private final ConfiguracionRepo cr;
 
-    public void enviarCorreoConAdjunto(String toEmail, String asunto, String cuerpo, File archivoAdjunto) throws MessagingException {
+    public void enviarCorreoConAdjunto( String asunto, String cuerpo, File archivoAdjunto) throws MessagingException {
         MimeMessage mensaje = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mensaje, true);
 
-        helper.setTo(toEmail);
+        helper.setTo(cr.findByClave("correo_corte").getValor());
         helper.setSubject(asunto);
         helper.setText(cuerpo);
 

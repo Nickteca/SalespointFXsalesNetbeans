@@ -1,7 +1,9 @@
 package com.salespointfxsales.www.service.watsapp;
 
+import com.salespointfxsales.www.repo.ConfiguracionRepo;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -14,7 +16,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PedidoWatsappService {
+    
+    private final ConfiguracionRepo cr;
 
     @Value("${ultramsg.instance-id}")
     private String instanceId;
@@ -36,7 +41,7 @@ public class PedidoWatsappService {
 
         RequestBody body = new FormBody.Builder()
                 .add("token", token)
-                .add("to", numero)
+                .add("to", cr.findByClave("numero_pedidos").getValor())
                 .add("body", mensaje)
                 .build();
 

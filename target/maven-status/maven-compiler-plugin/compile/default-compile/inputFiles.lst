@@ -33,6 +33,7 @@ C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\service\ProductoPaqueteService.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\model\Gasto.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\repo\MovimientoInventarioDetalleRepo.java
+C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\controller\ConfiguracionController.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\model\SucursalRecoleccionDetalle.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\repo\SucursalRecoleccionRepo.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\service\SucursalPedidoService.java
@@ -40,6 +41,7 @@ C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\repo\SucursalProductoRepo.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\model\SucursalPedidoDetalle.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\repo\VentaDetalleRepo.java
+C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\model\Configuracion.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\repo\VentaRepo.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\service\SucursalRecoleccionDetalleService.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\controller\AbrirCajaController.java
@@ -67,7 +69,9 @@ C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\service\CorteService.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\model\Producto.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\model\SucursalPedido.java
+C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\repo\ConfiguracionRepo.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\service\BilleteService.java
+C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\service\ConfiguracionService.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\service\printer\PrinterPedidoService.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\model\enums\NombreFolio.java
 C:\Users\Sistemas\Documents\NetbeansProjects\SalespointFXsalesNetbeans\src\main\java\com\salespointfxsales\www\repo\ProductoPaqueteRepo.java

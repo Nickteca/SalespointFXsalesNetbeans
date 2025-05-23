@@ -112,10 +112,10 @@ public class ConfiguracionController implements Initializable {
     private void iiciarTablaConfiguracion() {
         try {
             columnId.setCellValueFactory(new PropertyValueFactory<>("idConfiguracion"));
-            columnId.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.1));
+            columnId.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.05));
 
             columnValor.setCellValueFactory(new PropertyValueFactory<>("valor"));
-            columnValor.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.1));
+            columnValor.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.25));
             columnValor.setCellFactory(TextFieldTableCell.forTableColumn());
             columnValor.setOnEditCommit(event -> {
                 Configuracion config = event.getRowValue();
@@ -124,11 +124,22 @@ public class ConfiguracionController implements Initializable {
             });
 
             columnClave.setCellValueFactory(new PropertyValueFactory<>("clave"));
-            columnClave.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.3));
-            //columnClave.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.1));
+            columnClave.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.25));
+            columnClave.setCellFactory(TextFieldTableCell.forTableColumn());
+            columnClave.setOnEditCommit(event -> {
+                Configuracion config = event.getRowValue();
+                config.setValor(event.getNewValue());
+                cs.save(config);
+            });
 
             columnDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-            columnDescripcion.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.3));
+            columnDescripcion.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.25));
+            columnDescripcion.setCellFactory(TextFieldTableCell.forTableColumn());
+            columnDescripcion.setOnEditCommit(event -> {
+                Configuracion config = event.getRowValue();
+                config.setValor(event.getNewValue());
+                cs.save(config);
+            });
 
             columnSucursal.setCellValueFactory(new PropertyValueFactory<>("sucursal"));
             columnSucursal.prefWidthProperty().bind(tViewConfiguracion.widthProperty().multiply(0.2));

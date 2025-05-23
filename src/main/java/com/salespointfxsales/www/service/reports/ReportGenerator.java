@@ -1,5 +1,6 @@
 package com.salespointfxsales.www.service.reports;
 
+import com.salespointfxsales.www.repo.ConfiguracionRepo;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;

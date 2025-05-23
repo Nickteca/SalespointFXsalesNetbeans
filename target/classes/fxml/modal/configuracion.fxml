@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="455.0" styleClass="panelTop" stylesheets="@../../styles/configuracion.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.ConfiguracionController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="472.0" prefWidth="824.0" styleClass="panelTop" stylesheets="@../../styles/configuracion.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.salespointfxsales.www.controller.ConfiguracionController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
@@ -31,7 +31,7 @@
                 <TableColumn fx:id="columnClave" prefWidth="75.0" text="CLAVE" />
                   <TableColumn fx:id="columnValor" prefWidth="75.0" text="VALOR" />
                   <TableColumn fx:id="columnDescripcion" prefWidth="110.0" text="DESCRIPCION" />
-                  <TableColumn fx:id="columnSucursal" prefWidth="75.0" text="SUCURSAL" />
+                  <TableColumn fx:id="columnSucursal" editable="false" prefWidth="75.0" text="SUCURSAL" />
               </columns>
             </TableView>
          </center>

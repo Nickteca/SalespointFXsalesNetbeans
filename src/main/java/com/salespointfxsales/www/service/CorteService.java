@@ -198,7 +198,7 @@ public class CorteService {
             String mensage = "Corte de la sucursal: " + actual.getSucursal().getNombreSucursal();
 
             try {
-                es.enviarCorreoConAdjunto("isaaclunaavila@gmail.com", "Corte:" + actual.getIdCorte(), mensage, file);
+                es.enviarCorreoConAdjunto( "Corte:" + actual.getIdCorte(), mensage, file);
             } catch (Exception e) {
                 log.error("No se encio me parece");
                 throw new Exception();
@@ -209,11 +209,10 @@ public class CorteService {
             return false;
         }
     }
-    public void generarReporteYEnviarCorreo(Corte corte, String emailDestino) throws Exception {
+    public void generarReporteYEnviarCorreo(Corte corte) throws Exception {
     try {
         File pdf = rg.exportCortePDF(corte.getIdCorte());
         es.enviarCorreoConAdjunto(
-            emailDestino,
             "Reporte de la Sucursal:"+corte.getSucursal().getNombreSucursal()+" #" + corte.getIdCorte(),
             "Adjunto encontrarás el reporte en PDF del corte.",
             pdf
