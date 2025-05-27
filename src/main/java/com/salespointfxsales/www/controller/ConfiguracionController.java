@@ -97,7 +97,8 @@ public class ConfiguracionController implements Initializable {
     @FXML
     void nuevo(ActionEvent event) {
         try {
-            Configuracion nueva = new Configuracion(null, "nueva_clave", "nuevo_valor", "nueva_descripción", ss.findByEstatusSucursalTrue());
+            Configuracion ultima = olc.getLast();
+            Configuracion nueva = new Configuracion(ultima.getIdConfiguracion()+1, "nueva_clave", "nuevo_valor", "nueva_descripción", ss.findByEstatusSucursalTrue());
             tViewConfiguracion.getItems().add(nueva);
         } catch (Exception e) {
             mostrarAlertaError("Error", e.getMessage());

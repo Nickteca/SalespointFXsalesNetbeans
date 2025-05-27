@@ -1,0 +1,120 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="detalleInicial" language="java" columnCount="1" pageWidth="200" pageHeight="842" columnWidth="160" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2857ccf7-9383-4843-8865-523b3edd61b7">
+	<property name="com.jaspersoft.studio.data.sql.tables" value="c2FsZXNwb2ludGZ4LmNvcnRlIEFTICwxNDMsNzgsMGVlODEyNzctY2ZiNC00NWVkLWI2ZjItNmM1&#xa;NzlmM2RhMzZlOw=="/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<dataset name="detalleinicial" uuid="a843752c-d74e-4594-9e0f-ef25136970e3">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<parameter name="idCorteDetalle" class="java.lang.Integer"/>
+		<query language="sql"><![CDATA[SELECT salespointfx.cortedetalle.inicial,
+	salespointfx.producto.`nombreProducto`
+FROM salespointfx.cortedetalle
+	INNER JOIN salespointfx.sucursalproducto ON 
+	 salespointfx.cortedetalle.`sucursalProducto` = salespointfx.sucursalproducto.`idSucursalProducto` 
+	INNER JOIN salespointfx.producto ON 
+	 salespointfx.sucursalproducto.producto = salespointfx.producto.`idProducto` 
+WHERE 
+	 salespointfx.cortedetalle.corte = $P{idCorteDetalle} 
+	 AND salespointfx.producto.`esPaquete` <> TRUE]]></query>
+		<field name="inicial" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.name" value="inicial"/>
+			<property name="com.jaspersoft.studio.field.label" value="inicial"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+		</field>
+		<field name="nombreProducto" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.name" value="nombreProducto"/>
+			<property name="com.jaspersoft.studio.field.label" value="nombreProducto"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
+		</field>
+	</dataset>
+	<parameter name="idCorte" class="java.lang.Integer"/>
+	<query language="SQL"><![CDATA[SELECT `idCorte`
+FROM salespointfx.corte
+WHERE 
+	 salespointfx.corte.`idCorte` =  $P{idCorte} ]]></query>
+	<field name="idCorte" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.label" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<background splitType="Stretch"/>
+	<detail>
+		<band height="91" splitType="Stretch">
+			<element kind="component" uuid="552c7916-7ff8-4424-8b7d-469d7a945b53" x="0" y="0" width="160" height="60" style="Table_TD">
+				<component kind="table">
+					<datasetRun uuid="87cffe88-9595-4123-875e-ef32ddf2c887" subDataset="detalleinicial">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						<parameter name="idCorteDetalle">
+							<expression><![CDATA[$P{idCorte}]]></expression>
+						</parameter>
+					</datasetRun>
+					<column kind="group" uuid="0bd3e999-a1d6-422c-bacf-f0016814c996" width="160">
+						<tableHeader height="20" rowSpan="1" style="Table_TH">
+							<element kind="staticText" uuid="ed439d1f-28fc-4d21-b4f3-f49590b5ba67" x="0" y="0" width="160" height="20">
+								<text><![CDATA[INVENTARIO]]></text>
+							</element>
+						</tableHeader>
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [2]"/>
+						<column kind="single" uuid="28392bdd-0fd6-4b24-9aaf-336a07c11a95" width="100">
+							<columnHeader height="20" rowSpan="1" style="Table_CH">
+								<element kind="staticText" uuid="4f8f2066-47bf-48b9-a768-74481d49702f" x="0" y="0" width="100" height="20">
+									<text><![CDATA[PRODUCTO]]></text>
+								</element>
+							</columnHeader>
+							<detailCell height="20" style="Table_TD">
+								<element kind="textField" uuid="91cf8b14-0d85-4f05-8610-c89518feb82a" x="0" y="0" width="100" height="20">
+									<expression><![CDATA[$F{nombreProducto}]]></expression>
+								</element>
+							</detailCell>
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						</column>
+						<column kind="single" uuid="f883ac59-e9f6-4121-8e1e-56b991e1b4f9" width="60">
+							<columnHeader height="20" rowSpan="1" style="Table_CH">
+								<element kind="staticText" uuid="bec2edef-b750-45f0-b389-c90339813724" x="0" y="0" width="60" height="20" hTextAlign="Center">
+									<text><![CDATA[UNIDADES]]></text>
+								</element>
+							</columnHeader>
+							<detailCell height="20" style="Table_TD">
+								<element kind="textField" uuid="d3a035ed-b200-4936-ba27-6bbbead93d4d" x="0" y="0" width="60" height="20" hTextAlign="Center">
+									<expression><![CDATA[$F{inicial}]]></expression>
+								</element>
+							</detailCell>
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						</column>
+					</column>
+				</component>
+				<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+				<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+				<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+			</element>
+		</band>
+	</detail>
+</jasperReport>
