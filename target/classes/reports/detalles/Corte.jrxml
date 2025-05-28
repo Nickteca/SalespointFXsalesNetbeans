@@ -1,0 +1,162 @@
+<!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
+<jasperReport name="Corte" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5cacb14d-effe-4688-9497-ce6aedfb0521">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<parameter name="idCorte" class="java.lang.Integer"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+	<query language="SQL"><![CDATA[SELECT salespointfx.corte.`idCorte`,
+	salespointfx.corte.apertuta,
+	salespointfx.corte.cierre,
+	salespointfx.corte.`folioFinal`,
+	salespointfx.corte.`folioIncial`,
+	salespointfx.corte.gasto,
+	salespointfx.corte.inicial,
+	salespointfx.corte.`numFolios`,
+	salespointfx.corte.recoleccion,
+	salespointfx.corte.`saldoFinal`,
+	salespointfx.corte.ventas,
+	salespointfx.sucursal.`nombreSucursal`,
+	salespointfx.empresa.`nombreEmpresa`,
+	salespointfx.empresa.`rfcEmpresa`
+FROM salespointfx.corte
+	INNER JOIN salespointfx.sucursal ON 
+	 salespointfx.corte.sucursal = salespointfx.sucursal.`idSucursal` 
+	INNER JOIN salespointfx.empresa ON 
+	 salespointfx.sucursal.empresa = salespointfx.empresa.`idEmpresa` 
+WHERE 
+	 salespointfx.corte.`idCorte` =  $P{idCorte} ]]></query>
+	<field name="idCorte" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.label" value="idCorte"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="apertuta" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="apertuta"/>
+		<property name="com.jaspersoft.studio.field.label" value="apertuta"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="cierre" class="java.time.LocalDateTime">
+		<property name="com.jaspersoft.studio.field.name" value="cierre"/>
+		<property name="com.jaspersoft.studio.field.label" value="cierre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="folioFinal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="folioFinal"/>
+		<property name="com.jaspersoft.studio.field.label" value="folioFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="folioIncial" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="folioIncial"/>
+		<property name="com.jaspersoft.studio.field.label" value="folioIncial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="gasto" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="gasto"/>
+		<property name="com.jaspersoft.studio.field.label" value="gasto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="inicial" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.label" value="inicial"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="numFolios" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="numFolios"/>
+		<property name="com.jaspersoft.studio.field.label" value="numFolios"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="recoleccion" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="recoleccion"/>
+		<property name="com.jaspersoft.studio.field.label" value="recoleccion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="saldoFinal" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="saldoFinal"/>
+		<property name="com.jaspersoft.studio.field.label" value="saldoFinal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="ventas" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.name" value="ventas"/>
+		<property name="com.jaspersoft.studio.field.label" value="ventas"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="corte"/>
+	</field>
+	<field name="nombreSucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombreSucursal"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombreSucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sucursal"/>
+	</field>
+	<field name="nombreEmpresa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="nombreEmpresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="nombreEmpresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<field name="rfcEmpresa" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="rfcEmpresa"/>
+		<property name="com.jaspersoft.studio.field.label" value="rfcEmpresa"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="empresa"/>
+	</field>
+	<background splitType="Stretch"/>
+	<title height="60" splitType="Stretch">
+		<element kind="textField" uuid="131dc0c0-851a-458e-9052-c68daf3f937f" x="0" y="30" width="560" height="30" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$F{nombreSucursal}]]></expression>
+		</element>
+		<element kind="textField" uuid="76ea560c-a50a-4f3b-a213-7d556c93dddb" x="0" y="0" width="560" height="30" fontSize="14.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+			<expression><![CDATA[$F{nombreEmpresa}]]></expression>
+		</element>
+	</title>
+	<pageHeader height="80" splitType="Stretch">
+		<element kind="staticText" uuid="5c2ede62-62f8-4e86-a0bc-eb7d23863ac8" x="0" y="0" width="560" height="20" fontSize="12.0" bold="true" hTextAlign="Center">
+			<text><![CDATA[DETALES DE LA VENTAS]]></text>
+		</element>
+		<element kind="textField" uuid="5ed525e9-f7fd-4a53-9a2a-a0ea640fefa9" x="100" y="20" width="100" height="20" forecolor="#038703" bold="true">
+			<expression><![CDATA[$F{inicial}]]></expression>
+		</element>
+		<element kind="textField" uuid="58e18e58-cf79-4d7b-ab82-c2251da10489" x="380" y="20" width="100" height="20" forecolor="#B80E0B" fontSize="12.0" bold="true">
+			<expression><![CDATA[$F{gasto}]]></expression>
+		</element>
+		<element kind="textField" uuid="48eaab86-feb0-48c8-b34e-1066b8f8fae0" x="380" y="40" width="100" height="20" forecolor="#B80E0B" fontSize="12.0" bold="true">
+			<expression><![CDATA[$F{recoleccion}]]></expression>
+		</element>
+		<element kind="textField" uuid="66bac9e7-6325-4f7c-bb4f-2884f3dc6ff5" x="100" y="40" width="100" height="20" forecolor="#038703" bold="true">
+			<expression><![CDATA[$F{ventas}]]></expression>
+		</element>
+		<element kind="textField" uuid="8e385bbd-2344-446d-ab61-41f94ef43259" x="100" y="60" width="100" height="20" forecolor="#038703" bold="true">
+			<expression><![CDATA[$F{saldoFinal}]]></expression>
+		</element>
+		<element kind="staticText" uuid="2442e825-536b-4a66-b9e1-7e0b852b00f7" x="0" y="20" width="100" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Saldo Inicial:]]></text>
+		</element>
+		<element kind="staticText" uuid="d21fabf8-5fc3-46b0-9ba3-64e2f0b94c09" x="0" y="40" width="100" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Ventas:]]></text>
+		</element>
+		<element kind="staticText" uuid="63e90a83-3e3d-41f7-b738-adc2cb1b3697" x="0" y="60" width="100" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Saldo Final:]]></text>
+		</element>
+		<element kind="staticText" uuid="7893cfc9-6548-4bfc-a60b-c148d4b26306" x="280" y="20" width="100" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Gastos:]]></text>
+		</element>
+		<element kind="staticText" uuid="c1391f96-5eb6-43e9-99f9-667e67eb58f0" x="280" y="40" width="100" height="20" fontSize="12.0" bold="true">
+			<text><![CDATA[Recoleccion:]]></text>
+		</element>
+	</pageHeader>
+	<detail>
+		<band height="122" splitType="Stretch">
+			<element kind="subreport" uuid="b886483c-41d5-4d5e-8965-5fcfbdbf1714" x="0" y="0" width="560" height="120">
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<expression><![CDATA[$P{SUBREPORT_DIR}+ "detaleMovimientos.jasper"]]></expression>
+				<parameter name="idCorte">
+					<expression><![CDATA[$P{idCorte}]]></expression>
+				</parameter>
+			</element>
+		</band>
+		<band height="130">
+			<element kind="subreport" uuid="43b2bc70-4c19-4f50-b9cd-3d47d8b4887d" x="0" y="0" width="560" height="130">
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<expression><![CDATA[$P{SUBREPORT_DIR} +"detalleVentas.jasper"]]></expression>
+				<parameter name="idCorte">
+					<expression><![CDATA[$P{idCorte}]]></expression>
+				</parameter>
+			</element>
+		</band>
+	</detail>
+</jasperReport>

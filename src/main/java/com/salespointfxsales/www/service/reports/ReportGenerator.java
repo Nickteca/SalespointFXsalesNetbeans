@@ -40,7 +40,7 @@ public class ReportGenerator {
             parameters.put("REPORT_CONNECTION", dataSource.getConnection());
 
             log.info("Parámetros pasados:");
-            parameters.forEach((k, v) ->log.info(k + " = " + v));
+            parameters.forEach((k, v) -> log.info(k + " = " + v));
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource.getConnection());
             System.out.println("Páginas generadas: " + jasperPrint.getPages().size());
             if (jasperPrint.getPages().isEmpty()) {
@@ -49,16 +49,21 @@ public class ReportGenerator {
             return JasperExportManager.exportReportToPdf(jasperPrint);
         }
     }
+
     public File exportCortePDF(int idCorte) throws Exception {
         // Ruta al archivo .jasper dentro de src/main/resources/reportes
-        Resource resource = resourceLoader.getResource("classpath:reports/CorteReporte.jasper");
+        Resource resource = resourceLoader.getResource("classpath:reports/detalles/Corte.jasper");
+
+        // Obtener la ruta del subreporte desde el classpath
+        Resource rutaSubreporte = resourceLoader.getResource("classpath:reports/detalles/");
 
         // Parámetros
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("corteId", idCorte); // Debe coincidir con el nombre del parámetro en el reporte
+        parameters.put("SUBREPORT_DIR", rutaSubreporte.getFile().getAbsolutePath() + File.separator);
+        parameters.put("idCorte", idCorte); // Debe coincidir con el nombre del parámetro en el reporte
+       log.info("Ruta subreporte: " + rutaSubreporte.getFile().getAbsolutePath());
 
-        try (Connection connection = dataSource.getConnection();
-             InputStream inputStream = resource.getInputStream()) {
+        try (Connection connection = dataSource.getConnection(); InputStream inputStream = resource.getInputStream()) {
 
             // Cargar el archivo jasper
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
@@ -71,7 +76,7 @@ public class ReportGenerator {
             JasperExportManager.exportReportToPdfStream(jasperPrint, new FileOutputStream(pdfFile));
 
             return pdfFile;
-        }catch(Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }

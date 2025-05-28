@@ -1,7 +1,7 @@
 <!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
 <jasperReport name="detaleMovimientos" language="java" columnCount="1" pageWidth="540" pageHeight="842" orientation="Landscape" columnWidth="540" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="27c3f670-2139-410b-8131-e17490bbc0d9">
-	<property name="com.jaspersoft.studio.data.sql.tables" value="c2FsZXNwb2ludGZ4LmNvcnRlIEFTICw0MSwyNSxlZTkxMGY4OC02OTE5LTRkNTItOTdlMC1jYTU4&#xa;MWFkMzZjOWI7"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -39,22 +39,24 @@
 		</box>
 	</style>
 	<dataset name="detallesMovimientos" uuid="00f90e7f-3521-401d-8a09-07da72b6f486">
-		<property name="com.jaspersoft.studio.data.sql.tables" value="c2FsZXNwb2ludGZ4LmNvcnRlZGV0YWxsZSAsMTUsMTUsMmI2M2I5NTQtNDliNi00ZjMwLWI2MzQt&#xa;NmJhY2FhMjlmMDBkO3NhbGVzcG9pbnRmeC5zdWN1cnNhbHByb2R1Y3RvICwxOTIsNjcsNDUzYzBm&#xa;NTItMjUxZS00YjAzLWJjZmQtMGMwYWMyZWU0N2NmO3NhbGVzcG9pbnRmeC5wcm9kdWN0byAsMzgw&#xa;LDEyMCxiYzUzMTgxZS1mYmRkLTRhZWMtOTNkMy0yMDUxZGY4MDA1NjA7"/>
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
 		<parameter name="idCorteMovimientos" class="java.lang.Integer"/>
 		<query language="SQL"><![CDATA[SELECT salespointfx.cortedetalle.entrada,
 	salespointfx.cortedetalle.inicial,
 	salespointfx.cortedetalle.salida,
 	salespointfx.cortedetalle.`traspasoEntrada`,
 	salespointfx.cortedetalle.`traspasoSalida`,
-	salespointfx.producto.`nombreProducto`
+	salespointfx.producto.`nombreProducto`,
+	salespointfx.cortedetalle.existencia
 FROM salespointfx.cortedetalle
 	INNER JOIN salespointfx.sucursalproducto ON 
 	 salespointfx.cortedetalle.`sucursalProducto` = salespointfx.sucursalproducto.`idSucursalProducto` 
 	INNER JOIN salespointfx.producto ON 
 	 salespointfx.sucursalproducto.producto = salespointfx.producto.`idProducto` 
 WHERE 
-	 salespointfx.cortedetalle.corte = 1]]></query>
+	 salespointfx.cortedetalle.corte = $P{idCorteMovimientos} 
+	 AND salespointfx.producto.`esPaquete` <> TRUE]]></query>
 		<field name="entrada" class="java.lang.Float">
 			<property name="com.jaspersoft.studio.field.name" value="entrada"/>
 			<property name="com.jaspersoft.studio.field.label" value="entrada"/>
@@ -85,6 +87,11 @@ WHERE
 			<property name="com.jaspersoft.studio.field.label" value="nombreProducto"/>
 			<property name="com.jaspersoft.studio.field.tree.path" value="producto"/>
 		</field>
+		<field name="existencia" class="java.lang.Float">
+			<property name="com.jaspersoft.studio.field.name" value="existencia"/>
+			<property name="com.jaspersoft.studio.field.label" value="existencia"/>
+			<property name="com.jaspersoft.studio.field.tree.path" value="cortedetalle"/>
+		</field>
 	</dataset>
 	<parameter name="idCorte" class="java.lang.Integer"/>
 	<query language="SQL"><![CDATA[SELECT `idCorte`
@@ -98,99 +105,112 @@ WHERE
 	</field>
 	<background splitType="Stretch"/>
 	<detail>
-		<band height="62" splitType="Stretch">
-			<element kind="component" uuid="7d8734a0-f80f-46a5-a9b0-883d9679a4b8" x="0" y="0" width="540" height="60">
+		<band height="218" splitType="Stretch">
+			<element kind="component" uuid="95c15ddd-8617-4b6a-ad30-003dfc8f0735" x="0" y="0" width="540" height="60">
 				<component kind="table">
-					<datasetRun uuid="3a8a163b-8c47-4c4f-b6ec-e5b2c7ea07f6" subDataset="detallesMovimientos">
+					<datasetRun uuid="2ebef70c-bd17-4231-b12c-41b8ec02803d" subDataset="detallesMovimientos">
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						<parameter name="idCorteMovimientos">
 							<expression><![CDATA[$P{idCorte}]]></expression>
 						</parameter>
 					</datasetRun>
-					<column kind="group" uuid="54b16fa0-0053-4397-9bf8-596ed930f647" width="540">
+					<column kind="group" uuid="e6ac2152-4fb9-49ea-bbb9-d3f08e96300d" width="540">
 						<tableHeader height="20" rowSpan="1" style="Table_TH">
-							<element kind="staticText" uuid="771dbbd2-adcb-45fc-8efb-1db09f8d2670" x="0" y="0" width="540" height="20" fontSize="12.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
-								<text><![CDATA[DETALLES MOVIMIENTOS]]></text>
+							<element kind="staticText" uuid="0832a1bb-386a-48c7-b894-1c906189e247" x="0" y="0" width="540" height="20" fontSize="12.0" bold="true" hTextAlign="Center">
+								<text><![CDATA[DETALLE MOVIMIENTOS]]></text>
 							</element>
 						</tableHeader>
-						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [6]"/>
-						<column kind="single" uuid="4fa5df0c-8704-4fc6-b006-76b794d9ca62" width="100">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Columns [7]"/>
+						<column kind="single" uuid="77d6bd59-84ea-47d0-ac71-185fbdb6a3b1" width="112">
 							<columnHeader height="20" rowSpan="1" style="Table_CH">
-								<element kind="staticText" uuid="9580bf46-c5a4-42fe-ae52-7a6fe7197313" x="0" y="0" width="100" height="20" bold="true" hTextAlign="Center" vTextAlign="Middle">
+								<element kind="staticText" uuid="2eb72a8d-2c06-4f68-90ad-7fab014dbd7f" x="0" y="0" width="112" height="20" bold="true" hTextAlign="Center">
 									<text><![CDATA[PRODUCTO]]></text>
 								</element>
 							</columnHeader>
 							<detailCell height="20" style="Table_TD">
-								<element kind="textField" uuid="d2e5b3d8-db32-496f-a3c5-506358da2261" x="0" y="0" width="100" height="20" hTextAlign="Left" vTextAlign="Top">
+								<element kind="textField" uuid="062ecb66-45b9-4b8e-b0f4-762e03c20254" x="0" y="0" width="112" height="20" fontSize="12.0">
 									<expression><![CDATA[$F{nombreProducto}]]></expression>
 								</element>
 							</detailCell>
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
 						</column>
-						<column kind="single" uuid="de159557-fa9d-44c1-a14f-81dcb4b335a4" width="80">
+						<column kind="single" uuid="82d4c68e-d095-4361-a154-7edc4e0c6633" width="84">
 							<columnHeader height="20" rowSpan="1" style="Table_CH">
-								<element kind="staticText" uuid="a4bf9432-6322-4aa8-bbd8-32074bc250ea" x="0" y="0" width="80" height="20" bold="true" hTextAlign="Center" vTextAlign="Middle">
-									<text><![CDATA[INICIAL]]></text>
+								<element kind="staticText" uuid="dee933f1-a391-4ec9-8ae2-b777065bd39c" x="0" y="0" width="84" height="20" bold="true" hTextAlign="Center">
+									<text><![CDATA[INCIAL]]></text>
 								</element>
 							</columnHeader>
 							<detailCell height="20" style="Table_TD">
-								<element kind="textField" uuid="6682025c-ed65-4a25-a222-0ec40aab7008" x="0" y="0" width="80" height="20" hTextAlign="Center" vTextAlign="Top">
+								<element kind="textField" uuid="431f622c-969f-41a8-9c35-d67788bcdb9f" x="0" y="0" width="84" height="20" fontSize="12.0" pattern="#0.#" bold="false" hTextAlign="Center">
 									<expression><![CDATA[$F{inicial}]]></expression>
 								</element>
 							</detailCell>
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
 						</column>
-						<column kind="single" uuid="058e95c6-3839-4e8a-92ec-8af502875d55" width="110">
+						<column kind="single" uuid="c111c2d1-a45f-4bd4-bb20-b9637692dfcf" width="84">
 							<columnHeader height="20" rowSpan="1" style="Table_CH">
-								<element kind="staticText" uuid="334b1196-4e3d-499f-8fd8-57966782de1d" x="0" y="0" width="110" height="20" bold="true" hTextAlign="Center" vTextAlign="Middle">
-									<text><![CDATA[TRASPASO ENTRADA]]></text>
+								<element kind="staticText" uuid="13f3b60a-d83e-4421-8fc9-d94d049e6259" x="0" y="0" width="84" height="20" bold="true" hTextAlign="Center">
+									<text><![CDATA[T/ENTRADA]]></text>
 								</element>
 							</columnHeader>
 							<detailCell height="20" style="Table_TD">
-								<element kind="textField" uuid="4520e0fa-8141-4c9e-97f2-1818a357595b" x="0" y="0" width="110" height="20" hTextAlign="Center" vTextAlign="Top">
+								<element kind="textField" uuid="1c5d6ce7-0fcc-47bc-a2c5-e379fef7e2bd" x="0" y="0" width="84" height="20" fontSize="12.0" pattern="#0.#" bold="false" hTextAlign="Center">
 									<expression><![CDATA[$F{traspasoEntrada}]]></expression>
 								</element>
 							</detailCell>
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
 						</column>
-						<column kind="single" uuid="eda2bf19-79af-4c75-98cc-db394d246e23" width="100">
+						<column kind="single" uuid="c81ca2c1-af5a-42d4-8c70-241e138568ca" width="80">
 							<columnHeader height="20" rowSpan="1" style="Table_CH">
-								<element kind="staticText" uuid="b4f37297-2c3a-4226-9667-041b23b524fc" x="0" y="0" width="100" height="20" bold="true" hTextAlign="Center" vTextAlign="Middle">
-									<text><![CDATA[TRASPASO SALIDA]]></text>
+								<element kind="staticText" uuid="13dfcc62-fe79-4681-bf9e-03df06b92f12" x="0" y="0" width="80" height="20" bold="true" hTextAlign="Center">
+									<text><![CDATA[T/SALIDA]]></text>
 								</element>
 							</columnHeader>
 							<detailCell height="20" style="Table_TD">
-								<element kind="textField" uuid="44b52841-3e3c-47cb-90b0-e02171849e04" x="0" y="0" width="100" height="20" hTextAlign="Center" vTextAlign="Top">
+								<element kind="textField" uuid="b8997322-9878-4d71-a992-458b232d3ef1" x="0" y="0" width="80" height="20" fontSize="12.0" pattern="#0.#" bold="false" hTextAlign="Center">
 									<expression><![CDATA[$F{traspasoSalida}]]></expression>
 								</element>
 							</detailCell>
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
 						</column>
-						<column kind="single" uuid="1c5c2177-eebb-45ad-9254-c45da1549e9b" width="80">
+						<column kind="single" uuid="c8456cee-6563-4938-a2ef-26af9a66cb47" width="50">
 							<columnHeader height="20" rowSpan="1" style="Table_CH">
-								<element kind="staticText" uuid="754934f8-39f3-4b05-884a-93c78064946b" x="0" y="0" width="80" height="20" bold="true" hTextAlign="Center" vTextAlign="Middle">
+								<element kind="staticText" uuid="599ac12f-0771-4d8e-a1d8-6d38b98b0834" x="0" y="0" width="50" height="20" bold="true" hTextAlign="Center">
 									<text><![CDATA[SALIDA]]></text>
 								</element>
 							</columnHeader>
 							<detailCell height="20" style="Table_TD">
-								<element kind="textField" uuid="400030f7-16b0-4681-8615-6753c8ae58a7" x="0" y="0" width="80" height="20" hTextAlign="Center" vTextAlign="Top">
+								<element kind="textField" uuid="2e31db76-0b70-4df3-9509-60d749444e18" x="0" y="0" width="50" height="20" fontSize="12.0" pattern="#0.#" bold="false" hTextAlign="Center">
 									<expression><![CDATA[$F{salida}]]></expression>
 								</element>
 							</detailCell>
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
 						</column>
-						<column kind="single" uuid="0a4145f7-25b8-4b5c-8f08-9598663ef115" width="70">
+						<column kind="single" uuid="dad5eb19-25f4-4e6b-afd7-f485fcd4c368" width="50">
 							<columnHeader height="20" rowSpan="1" style="Table_CH">
-								<element kind="staticText" uuid="e4d67c1b-be02-426b-a567-97bceec9d6c1" x="0" y="0" width="70" height="20" bold="true" hTextAlign="Center" vTextAlign="Middle">
+								<element kind="staticText" uuid="9f39ac21-94f6-48ee-b5ce-6a5095c465c8" x="0" y="0" width="50" height="20" bold="true" hTextAlign="Center">
 									<text><![CDATA[ENTRADA]]></text>
 								</element>
 							</columnHeader>
 							<detailCell height="20" style="Table_TD">
-								<element kind="textField" uuid="4214a922-ed83-452a-9367-5a83f2ac52b9" x="0" y="0" width="70" height="20" hTextAlign="Center" vTextAlign="Top">
+								<element kind="textField" uuid="1ec5eb74-03d9-4499-a375-c7afbb675a9e" x="0" y="0" width="50" height="20" fontSize="12.0" pattern="#0.#" bold="false" hTextAlign="Center">
 									<expression><![CDATA[$F{entrada}]]></expression>
 								</element>
 							</detailCell>
 							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						</column>
+						<column kind="single" uuid="8b05cedf-0bc7-4b8c-ae03-a7e87f3cfee2" width="80">
+							<columnHeader height="20" rowSpan="1" style="Table_CH">
+								<element kind="staticText" uuid="21a7af89-ce8c-4d72-aab5-1178606cb120" x="0" y="0" width="80" height="20" bold="true" hTextAlign="Center">
+									<text><![CDATA[EXISTENCIA]]></text>
+								</element>
+							</columnHeader>
+							<detailCell height="20" style="Table_TD">
+								<element kind="textField" uuid="4099602b-efe5-4972-af78-f68ff1dd798f" x="0" y="0" width="80" height="20" fontSize="12.0" pattern="#0.#" bold="false" hTextAlign="Center">
+									<expression><![CDATA[$F{existencia}]]></expression>
+								</element>
+							</detailCell>
+							<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
 						</column>
 					</column>
 				</component>
@@ -198,6 +218,8 @@ WHERE
 				<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 				<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 				<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			</element>
 		</band>
 	</detail>
