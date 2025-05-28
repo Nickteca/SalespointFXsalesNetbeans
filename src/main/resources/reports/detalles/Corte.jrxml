@@ -1,7 +1,7 @@
 <!-- Created with Jaspersoft Studio version 7.0.2.final using JasperReports Library version 7.0.2-31532122640f516c6d17238ae0e41a08113d5ac0  -->
 <jasperReport name="Corte" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5cacb14d-effe-4688-9497-ce6aedfb0521">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MysqlAdapter"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Sample DB"/>
 	<parameter name="idCorte" class="java.lang.Integer"/>
 	<query language="SQL"><![CDATA[SELECT salespointfx.corte.`idCorte`,
 	salespointfx.corte.apertuta,
@@ -103,11 +103,11 @@ WHERE
 			<expression><![CDATA[$F{nombreEmpresa}]]></expression>
 		</element>
 	</title>
-	<pageHeader height="82" splitType="Stretch">
-		<element kind="staticText" uuid="5c2ede62-62f8-4e86-a0bc-eb7d23863ac8" x="0" y="0" width="560" height="20">
+	<pageHeader height="80" splitType="Stretch">
+		<element kind="staticText" uuid="5c2ede62-62f8-4e86-a0bc-eb7d23863ac8" x="0" y="0" width="560" height="20" hTextAlign="Center">
 			<text><![CDATA[DETALES DE LA VENTAS]]></text>
 		</element>
-		<element kind="textField" uuid="5ed525e9-f7fd-4a53-9a2a-a0ea640fefa9" x="0" y="20" width="100" height="20">
+		<element kind="textField" uuid="5ed525e9-f7fd-4a53-9a2a-a0ea640fefa9" x="100" y="20" width="100" height="20">
 			<expression><![CDATA[$F{inicial}]]></expression>
 		</element>
 		<element kind="textField" uuid="58e18e58-cf79-4d7b-ab82-c2251da10489" x="380" y="20" width="100" height="20">
@@ -116,19 +116,33 @@ WHERE
 		<element kind="textField" uuid="48eaab86-feb0-48c8-b34e-1066b8f8fae0" x="380" y="40" width="100" height="20">
 			<expression><![CDATA[$F{recoleccion}]]></expression>
 		</element>
-		<element kind="textField" uuid="66bac9e7-6325-4f7c-bb4f-2884f3dc6ff5" x="0" y="40" width="100" height="20">
+		<element kind="textField" uuid="66bac9e7-6325-4f7c-bb4f-2884f3dc6ff5" x="100" y="40" width="100" height="20">
 			<expression><![CDATA[$F{ventas}]]></expression>
 		</element>
-		<element kind="textField" uuid="8e385bbd-2344-446d-ab61-41f94ef43259" x="0" y="60" width="100" height="20">
+		<element kind="textField" uuid="8e385bbd-2344-446d-ab61-41f94ef43259" x="100" y="60" width="100" height="20">
 			<expression><![CDATA[$F{saldoFinal}]]></expression>
+		</element>
+		<element kind="staticText" uuid="2442e825-536b-4a66-b9e1-7e0b852b00f7" x="0" y="20" width="100" height="20">
+			<text><![CDATA[Saldo Inicial:]]></text>
+		</element>
+		<element kind="staticText" uuid="d21fabf8-5fc3-46b0-9ba3-64e2f0b94c09" x="0" y="40" width="100" height="20">
+			<text><![CDATA[Ventas:]]></text>
+		</element>
+		<element kind="staticText" uuid="63e90a83-3e3d-41f7-b738-adc2cb1b3697" x="0" y="60" width="100" height="20">
+			<text><![CDATA[Saldo Final:]]></text>
+		</element>
+		<element kind="staticText" uuid="7893cfc9-6548-4bfc-a60b-c148d4b26306" x="280" y="20" width="100" height="20">
+			<text><![CDATA[Gastos:]]></text>
+		</element>
+		<element kind="staticText" uuid="c1391f96-5eb6-43e9-99f9-667e67eb58f0" x="280" y="40" width="100" height="20">
+			<text><![CDATA[Recoleccion:]]></text>
 		</element>
 	</pageHeader>
 	<detail>
-		<band height="180" splitType="Stretch">
-			<element kind="subreport" uuid="109ad254-11c8-4b81-bd05-b3f79a730af8" x="0" y="0" width="160" height="20">
+		<band height="246" splitType="Stretch">
+			<element kind="subreport" uuid="b886483c-41d5-4d5e-8965-5fcfbdbf1714" x="0" y="0" width="560" height="240">
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<expression><![CDATA["Salespointfx/detalleInicial.jasper"]]></expression>
-				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<expression><![CDATA["detaleMovimientos.jasper"]]></expression>
 				<parameter name="idCorte">
 					<expression><![CDATA[$P{idCorte}]]></expression>
 				</parameter>
