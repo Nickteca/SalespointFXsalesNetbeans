@@ -22,7 +22,7 @@ public class Configuracion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idConfiguracion;
     
-    @Column(length = 50, nullable = false, unique = true)
+    @Column(length = 50, nullable = false)
     private String clave;
     
     @Column(length = 50, nullable = false)

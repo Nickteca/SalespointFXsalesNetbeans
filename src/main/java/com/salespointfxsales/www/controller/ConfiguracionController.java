@@ -83,7 +83,7 @@ public class ConfiguracionController implements Initializable {
             for (int i = 0; i < olc.size(); i++) {
                 Configuracion original = olc.get(i);
                 Configuracion guardada = cs.save(original);
-                cs.save(guardada);
+                actualizados.add(guardada);
             }
 
             // Refresca la tabla con los IDs actualizados
@@ -97,9 +97,10 @@ public class ConfiguracionController implements Initializable {
     @FXML
     void nuevo(ActionEvent event) {
         try {
-            Configuracion ultima = olc.getLast();
-            Configuracion nueva = new Configuracion(ultima.getIdConfiguracion()+1, "nueva_clave", "nuevo_valor", "nueva_descripción", ss.findByEstatusSucursalTrue());
-            tViewConfiguracion.getItems().add(nueva);
+            Configuracion nueva = new Configuracion(null, "nueva_clave", "nuevo_valor", "nueva_descripción", ss.findByEstatusSucursalTrue());
+            cs.save(nueva);
+            olc.add(nueva);
+            tViewConfiguracion.refresh();
         } catch (Exception e) {
             mostrarAlertaError("Error", e.getMessage());
         }
@@ -129,7 +130,7 @@ public class ConfiguracionController implements Initializable {
             columnClave.setCellFactory(TextFieldTableCell.forTableColumn());
             columnClave.setOnEditCommit(event -> {
                 Configuracion config = event.getRowValue();
-                config.setValor(event.getNewValue());
+                config.setClave(event.getNewValue());
                 cs.save(config);
             });
 
@@ -138,7 +139,7 @@ public class ConfiguracionController implements Initializable {
             columnDescripcion.setCellFactory(TextFieldTableCell.forTableColumn());
             columnDescripcion.setOnEditCommit(event -> {
                 Configuracion config = event.getRowValue();
-                config.setValor(event.getNewValue());
+                config.setDescripcion(event.getNewValue());
                 cs.save(config);
             });
 

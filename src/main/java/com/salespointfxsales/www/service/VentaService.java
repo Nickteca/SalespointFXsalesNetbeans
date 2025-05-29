@@ -24,6 +24,12 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,6 +67,7 @@ public class VentaService {
             v = vr.save(v);
             resultado.setVenta(v);
             resultado.setGuardado(true);
+            final Venta ventaFinal = v;  // Copia final para usar en lambda
 
             boolean impreso = pts.imprimirTicket(v, rc);
             resultado.setImpreso(impreso);
@@ -70,7 +77,37 @@ public class VentaService {
             } else {
                 resultado.setMensaje("✅ Venta guardada e impresa correctamente.");
             }
+            // Lanzar el POST a productos en otro hilo (fuera de la transacción)
+            new Thread(() -> {
+                try {
+                    OkHttpClient client = new OkHttpClient();
 
+                    JSONObject json = new JSONObject();
+                    json.put("idVenta", ventaFinal.getIdVenta());
+                    json.put("producto", ventaFinal.getIdVenta() + 1); // o el valor correcto
+                    json.put("precio", ventaFinal.getTotalVenta());
+
+                    RequestBody body = RequestBody.create(
+                            json.toString(), MediaType.parse("application/json")
+                    );
+
+                    Request request = new Request.Builder()
+                            .url("http://localhost:8080/api/productos")
+                            .post(body)
+                            .build();
+
+                    try (Response response = client.newCall(request).execute()) {
+                        if (response.isSuccessful()) {
+                            String respuesta = response.body().string();
+                            log.info("Producto creado: " + respuesta);
+                        } else {
+                            log.error("Error al crear producto: HTTP " + response.code());
+                        }
+                    }
+                } catch (Exception e) {
+                    log.error("Error al hacer POST a productos", e);
+                }
+            }).start();
             return resultado;
         } catch (IllegalStateException e) {
             // Aquí capturamos el caso cuando no hay sucursal activa o la caja no está abierta
@@ -98,13 +135,13 @@ public class VentaService {
                                 .orElseThrow(() -> new RuntimeException("No se encontró producto en sucursal"));
 
                         short idSp = spa.getIdSucursalProducto();
-                        float cantidadADescontar =  (pp.getCantidad() * vd.getCantidad());
+                        float cantidadADescontar = (pp.getCantidad() * vd.getCantidad());
 
                         descuentos.merge(idSp, cantidadADescontar, Float::sum);
                     }
                 } else {
                     short idSp = sp.getIdSucursalProducto();
-                    descuentos.merge(idSp, (float)vd.getCantidad(), Float::sum);
+                    descuentos.merge(idSp, (float) vd.getCantidad(), Float::sum);
                 }
             }
 
@@ -120,7 +157,9 @@ public class VentaService {
             throw e;
         }
     }
+
     public static class ResultadoVenta {
+
         private Venta venta;
         private boolean guardado;
         private boolean impreso;
