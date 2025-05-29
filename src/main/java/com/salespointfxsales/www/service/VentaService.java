@@ -17,6 +17,7 @@ import com.salespointfxsales.www.repo.SucursalProductoRepo;
 import com.salespointfxsales.www.repo.SucursalRepo;
 import com.salespointfxsales.www.repo.VentaDetalleRepo;
 import com.salespointfxsales.www.repo.VentaRepo;
+import com.salespointfxsales.www.service.notificador.NotificadorVentaServiceImpl;
 import com.salespointfxsales.www.service.printer.PrinterTicketService;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -46,6 +47,7 @@ public class VentaService {
     private final SucursalProductoRepo spr;
     private final PrinterTicketService pts;
     private final MovimientoCajaRepo mcr;
+    private final NotificadorVentaServiceImpl nis;
 
     @Transactional
     public ResultadoVenta save(Venta v, ResultadoCobro rc, Folio f) {
@@ -57,6 +59,7 @@ public class VentaService {
             v.setStatus(true);
             v.setCreatedAt(LocalDateTime.now());
             v.setNaturalezaVenta(Naturaleza.Salida);
+            v.setEnviado(false);
             Sucursal sucursal = sr.findByEstatusSucursalTrue()
                     .orElseThrow(() -> new IllegalStateException("No hay sucursal activa"));
 
@@ -78,36 +81,7 @@ public class VentaService {
                 resultado.setMensaje("✅ Venta guardada e impresa correctamente.");
             }
             // Lanzar el POST a productos en otro hilo (fuera de la transacción)
-            new Thread(() -> {
-                try {
-                    OkHttpClient client = new OkHttpClient();
-
-                    JSONObject json = new JSONObject();
-                    json.put("idVenta", ventaFinal.getIdVenta());
-                    json.put("producto", ventaFinal.getIdVenta() + 1); // o el valor correcto
-                    json.put("precio", ventaFinal.getTotalVenta());
-
-                    RequestBody body = RequestBody.create(
-                            json.toString(), MediaType.parse("application/json")
-                    );
-
-                    Request request = new Request.Builder()
-                            .url("http://localhost:8080/api/productos")
-                            .post(body)
-                            .build();
-
-                    try (Response response = client.newCall(request).execute()) {
-                        if (response.isSuccessful()) {
-                            String respuesta = response.body().string();
-                            log.info("Producto creado: " + respuesta);
-                        } else {
-                            log.error("Error al crear producto: HTTP " + response.code());
-                        }
-                    }
-                } catch (Exception e) {
-                    log.error("Error al hacer POST a productos", e);
-                }
-            }).start();
+            new Thread(() -> nis.notificarVenta(ventaFinal)).start();
             return resultado;
         } catch (IllegalStateException e) {
             // Aquí capturamos el caso cuando no hay sucursal activa o la caja no está abierta

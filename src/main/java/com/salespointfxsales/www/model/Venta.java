@@ -50,6 +50,9 @@ public class Venta{
 
 	@Column(nullable = true)
 	private LocalDateTime updatedAt;
+        
+        @Column(nullable = false)
+        private boolean enviado;
 
 	@JoinColumn(name = "sucursal", referencedColumnName = "idSucursal")
 	@ManyToOne(optional = false)
