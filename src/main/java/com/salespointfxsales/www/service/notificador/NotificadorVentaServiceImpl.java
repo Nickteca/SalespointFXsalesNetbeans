@@ -6,6 +6,7 @@ import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.repo.VentaRepo;
 import jakarta.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
@@ -25,7 +26,11 @@ public class NotificadorVentaServiceImpl implements NotificadorVentaService {
 
     private final VentaRepo vr;
 
-    private final OkHttpClient client = new OkHttpClient();
+    private final OkHttpClient client = new OkHttpClient.Builder()
+    .connectTimeout(30, TimeUnit.SECONDS)
+    .writeTimeout(30, TimeUnit.SECONDS)
+    .readTimeout(30, TimeUnit.SECONDS)
+    .build();
 
     @Value("${app.notify.username}")      // p. ej. admin
     private String apiUser;
