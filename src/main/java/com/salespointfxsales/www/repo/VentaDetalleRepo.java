@@ -21,4 +21,6 @@ public interface VentaDetalleRepo extends JpaRepository<VentaDetalle, Integer> {
             @Param("fechaApertura") LocalDateTime fechaApertura,
             @Param("fechaVenta") LocalDateTime fechaVenta
     );
+    
+    List<VentaDetalle> findByVenta(Venta venta);
 }

@@ -9,5 +9,5 @@ import org.springframework.data.repository.query.Param;
 
 public interface VentaRepo extends JpaRepository<Venta, Integer>{
     List<Venta> findBySucursalEstatusSucursalTrueAndCreatedAtBetween(LocalDateTime fechaapertura, LocalDateTime fechaVenta);
-    
+    List<Venta> findByEnviadoFalse();
 }
