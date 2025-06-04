@@ -30,7 +30,7 @@ public class Venta{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idVenta;
     
-	@Column(nullable = false, length = 17)
+	@Column(nullable = false, length = 17, unique = true)
 	private String folio;
 
 	@Column(nullable = false)
