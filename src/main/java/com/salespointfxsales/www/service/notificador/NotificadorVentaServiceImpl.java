@@ -54,7 +54,7 @@ public class NotificadorVentaServiceImpl implements NotificadorVentaService {
     public void init() {
         // Wake-up request
         Request wakeUp = new Request.Builder()
-                .url(baseUrl + "/api/ventas") // alguna ruta pública sin auth
+                .url(baseUrl + "/api/venta") // alguna ruta pública sin auth
                 .get()
                 .build();
 
@@ -152,7 +152,7 @@ public class NotificadorVentaServiceImpl implements NotificadorVentaService {
             detJson.put("idSucursalProducto", det.getSucursalProducto().getIdSucursalProducto());
             detallesArr.put(detJson);
         }
-        ventaJson.put("lvd", detallesArr);
+        ventaJson.put("listVentaDetalle", detallesArr);
 
         RequestBody body = RequestBody.create(
                 ventaJson.toString(),
@@ -160,7 +160,7 @@ public class NotificadorVentaServiceImpl implements NotificadorVentaService {
         );
 
         Request req = new Request.Builder()
-                .url(baseUrl + "/api/ventas") // o donde recibas la notificación
+                .url(baseUrl + "/api/venta") // o donde recibas la notificación
                 .post(body)
                 .addHeader("Authorization", "Bearer " + jwtToken)
                 .build();
