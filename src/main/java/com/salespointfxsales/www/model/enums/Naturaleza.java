@@ -1,4 +1,4 @@
-package com.salespointfxadmin.www.model.enums;
+package com.salespointfxsales.www.model.enums;
 
 public enum Naturaleza {
 	Entrada,Salida

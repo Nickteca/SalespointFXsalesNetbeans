@@ -1,6 +1,5 @@
 package com.salespointfxsales.www.service;
 
-import com.salespointfxadmin.www.model.enums.Naturaleza;
 import com.salespointfxsales.www.model.Folio;
 import com.salespointfxsales.www.model.MovimientoCaja;
 import com.salespointfxsales.www.model.ProductoPaquete;
@@ -9,6 +8,7 @@ import com.salespointfxsales.www.model.SucursalProducto;
 import com.salespointfxsales.www.model.Venta;
 import com.salespointfxsales.www.model.VentaDetalle;
 import com.salespointfxsales.www.model.dto.ResultadoCobro;
+import com.salespointfxsales.www.model.enums.Naturaleza;
 import com.salespointfxsales.www.model.enums.TipoMovimiento;
 import com.salespointfxsales.www.repo.FolioRepo;
 import com.salespointfxsales.www.repo.MovimientoCajaRepo;

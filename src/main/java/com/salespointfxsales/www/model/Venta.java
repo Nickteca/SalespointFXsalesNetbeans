@@ -1,6 +1,7 @@
 package com.salespointfxsales.www.model;
 
-import com.salespointfxadmin.www.model.enums.Naturaleza;
+
+import com.salespointfxsales.www.model.enums.Naturaleza;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

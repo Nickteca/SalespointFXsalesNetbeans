@@ -1,11 +1,11 @@
 package com.salespointfxsales.www.controller;
 
-import com.salespointfxadmin.www.model.enums.Naturaleza;
 import com.salespointfxsales.www.config.SpringFXMLLoader;
 import com.salespointfxsales.www.controller.modal.MovimientoDetalleController;
 import com.salespointfxsales.www.model.Folio;
 import com.salespointfxsales.www.model.MovimientoInventario;
 import com.salespointfxsales.www.model.Sucursal;
+import com.salespointfxsales.www.model.enums.Naturaleza;
 import com.salespointfxsales.www.service.FolioService;
 import com.salespointfxsales.www.service.MovimientoInventarioService;
 import java.io.IOException;

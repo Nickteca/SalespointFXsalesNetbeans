@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.salespointfxadmin.www.model.enums.Naturaleza;
+import com.salespointfxsales.www.model.enums.Naturaleza;
 import com.salespointfxsales.www.model.enums.NombreFolio;
 
 import jakarta.persistence.CascadeType;
