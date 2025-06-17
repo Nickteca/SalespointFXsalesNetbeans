@@ -1,4 +1,3 @@
-com\salespointfxadmin\www\model\enums\Naturaleza.class
 com\salespointfxsales\www\model\MovimientoInventario.class
 com\salespointfxsales\www\repo\CategoriaRepo.class
 com\salespointfxsales\www\repo\CorteDetalleRepo.class
@@ -9,6 +8,7 @@ com\salespointfxsales\www\service\GastoService.class
 com\salespointfxsales\www\service\printer\PrinterTicketService.class
 com\salespointfxsales\www\service\SucursalGastoService.class
 com\salespointfxsales\www\controller\VentaController.class
+com\salespointfxsales\www\model\enums\Naturaleza.class
 com\salespointfxsales\www\repo\SucursalRepo.class
 com\salespointfxsales\www\controller\VentaController$1.class
 com\salespointfxsales\www\repo\MovimientoInventarioRepo.class
